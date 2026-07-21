@@ -113,11 +113,8 @@ function MainContent() {
       {/* Main Container (Büyütüldü) */}
       <main className="relative z-10 max-w-7xl lg:max-w-[1360px] mx-auto px-4 sm:px-6 py-10 sm:py-12 space-y-10">
         
-        {/* Main Content Card Frame */}
-        <div className="relative p-3 sm:p-6 rounded-3xl bg-gray-950/5 border border-gray-200/80 shadow-2xl backdrop-blur-md">
-          
-          {/* Card Body Container */}
-          <div className="bg-white/95 backdrop-blur-lg p-6 sm:p-12 rounded-2xl shadow-xl space-y-10 border border-gray-100">
+        {/* Card Body Container (Yayılmış & Çerçevesiz) */}
+        <div className="bg-white/95 backdrop-blur-lg p-6 sm:p-12 rounded-3xl shadow-xl space-y-10 border border-gray-200">
 
             {!user.isLoggedIn ? (
               /* =========================================================
@@ -731,12 +728,9 @@ function MainContent() {
                 {/* Tab 4: Pul Albümü */}
                 {activeTab === 'stamps' && <StampAlbum />}
 
-              </div>
             )}
 
           </div>
-
-        </div>
       </main>
 
       {/* Global Modals */}
