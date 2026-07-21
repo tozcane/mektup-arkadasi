@@ -728,6 +728,7 @@ function MainContent() {
                 {/* Tab 4: Pul Albümü */}
                 {activeTab === 'stamps' && <StampAlbum />}
 
+              </div>
             )}
 
           </div>
