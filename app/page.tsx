@@ -572,20 +572,109 @@ function MainContent() {
               /* =========================================================
                  NORMAL ÜYE GİRİŞİ YAPILDIKTAN SONRAKİ DASHBOARD (BÜYÜTÜLMÜŞ FONT)
                  ========================================================= */
-              <div className="space-y-8">
+              <div className="space-y-8 animate-fadeIn">
                 
-                {/* User Welcome Header */}
-                <div className="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start gap-3.5">
-                  <ShieldCheck className="w-7 h-7 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <div className="space-y-1">
-                    <span className="font-serif font-bold text-emerald-900 text-lg sm:text-xl block">
-                      Hoş Geldin {user.pseudonym}! 🔐 %100 Özel Sandığın Aktif
-                    </span>
-                    <p className="text-emerald-800 text-sm sm:text-base leading-relaxed font-sans">
-                      Sandığındaki tüm mektuplar tamamen sana özeldir. Başka kimse göremez.
-                    </p>
+                {/* Kişiselleştirilmiş Üye Dashboard Paneli */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  
+                  {/* Sol Kolon: Özel Üye Kartı (Mektup Arkadaşı Resmi Üyelik Belgesi) */}
+                  <div className="relative p-6 rounded-3xl bg-gradient-to-br from-amber-50 to-white border-2 border-amber-200 shadow-xl overflow-hidden flex flex-col justify-between space-y-4">
+                    {/* Retro Pul Çerçeve Dekoru */}
+                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-700 via-amber-400 to-rose-700" />
+                    
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between border-b border-amber-200 pb-2">
+                        <span className="text-xs font-extrabold text-amber-900 tracking-wider font-typewriter">
+                          OFFICIAL PENPAL CARD
+                        </span>
+                        <span className="text-xs px-2.5 py-0.5 rounded bg-amber-100 text-amber-955 border border-amber-300 font-bold">
+                          ÜYE
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-14 h-14 rounded-full border-2 border-amber-400 flex items-center justify-center font-serif text-2xl font-bold text-white shadow-md"
+                          style={{ backgroundColor: user.avatarColor }}
+                        >
+                          {user.pseudonym[0]}
+                        </div>
+                        <div>
+                          <h3 className="font-serif text-xl font-bold text-gray-900">
+                            {user.pseudonym}
+                          </h3>
+                          <p className="text-xs text-gray-500 font-typewriter">Rumuz ile Güvenli İletişim</p>
+                        </div>
+                      </div>
+
+                      <div className="border-t border-amber-100 pt-3 space-y-2 text-sm text-gray-800 font-medium">
+                        <div className="flex justify-between">
+                          <span className="text-gray-500 font-bold">Ad Soyad:</span>
+                          <span className="font-bold text-gray-955">{user.fullName || 'Belirtilmedi'}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500 font-bold">Cinsiyet:</span>
+                          <span className="font-bold text-gray-955">{user.gender || 'Belirtilmedi'}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500 font-bold">Yaş / Şehir:</span>
+                          <span className="font-bold text-gray-955">{user.age} • {user.city}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500 font-bold">Kayıt Tarihi:</span>
+                          <span className="font-bold text-gray-955 font-mono text-xs">
+                            {user.registeredAt ? new Date(user.registeredAt).toLocaleDateString('tr-TR') : 'Şimdi'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-amber-200 pt-3 flex items-center justify-between text-xs text-amber-900 font-bold">
+                      <span>🎫 No: #{user.id.substring(user.id.indexOf('-') + 1, user.id.indexOf('-') + 9) || '2026'}</span>
+                      <span>📬 {user.stampsCollected.length} Pul Koleksiyonu</span>
+                    </div>
                   </div>
+
+                  {/* Sağ Kolon (2 Sütun genişliğinde): Kişiselleştirilmiş Karşılama ve Harekete Geçirici Buton */}
+                  <div className="lg:col-span-2 p-8 rounded-3xl bg-gradient-to-br from-rose-900 via-rose-950 to-amber-950 text-white flex flex-col justify-between shadow-xl space-y-6">
+                    <div className="space-y-4">
+                      <h2 className="font-serif text-3xl font-bold tracking-wide text-amber-100">
+                        Merhaba Sevgili {user.pseudonym}, Sakin Limana Hoş Geldin! 🕯️
+                      </h2>
+                      <p className="text-base sm:text-lg leading-relaxed font-sans text-gray-200 font-semibold">
+                        Burası görselliğin gürültüsünden uzak, kelimelerin ve samimi düşüncelerin değer bulduğu yavaş bir dünyadır. 
+                        Profilin tamamen sana özel ve güvenlidir. Mektup arkadaşların senin gerçek ismini asla göremez, yalnızca rumuzunla ({user.pseudonym}) iletişim kurarsın.
+                      </p>
+                      <p className="text-xs sm:text-sm text-amber-200/90 font-typewriter italic leading-relaxed font-bold">
+                        İlk adımı atmak için hemen bir mektup arkadaşı arayabilir ve ilk nostaljik mektubunu yazıp pulunu yapıştırarak yola çıkarabilirsin.
+                      </p>
+                    </div>
+
+                    <div className="pt-2 flex flex-col sm:flex-row items-center gap-4">
+                      {/* MEKTUP ARKADAŞI ARA & KEŞFET BUTONU */}
+                      <button
+                        onClick={() => setActiveTab('penpals')}
+                        className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold text-base sm:text-lg shadow-lg hover:shadow-2xl hover:-translate-y-0.5 transition-all cursor-pointer"
+                      >
+                        <Search className="w-5 h-5" />
+                        <span>🔍 Mektup Arkadaşı Ara & Keşfet</span>
+                      </button>
+
+                      {/* Mektup Sandığına Git Butonu (Eğer Inbox'ta değilse) */}
+                      {activeTab !== 'inbox' && (
+                        <button
+                          onClick={() => setActiveTab('inbox')}
+                          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-base transition cursor-pointer"
+                        >
+                          <span>📩 Sandığıma Git</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
                 </div>
+                
+
 
                 {/* 1. Mektup Sandığı (Gelen Kutusu) */}
                 {activeTab === 'inbox' && (
