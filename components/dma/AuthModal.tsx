@@ -28,7 +28,7 @@ export const AuthModal: React.FC = () => {
 
   if (!isAuthModalOpen) return null;
 
-  const handleSendCode = () => {
+  const handleSendCode = async () => {
     if (!email.trim() || !email.includes('@')) {
       setError('Lütfen geçerli bir e-posta adresi girin.');
       return;
@@ -37,6 +37,21 @@ export const AuthModal: React.FC = () => {
     setGeneratedCode(code);
     setIsCodeSent(true);
     setError('');
+
+    try {
+      const res = await fetch('/api/send-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Doğrulama kodu gönderilemedi.');
+      }
+    } catch (err) {
+      console.error('Fetch error:', err);
+      setError('E-posta sunucusu bağlantı hatası.');
+    }
   };
 
   const initiateRegistration = (e: React.FormEvent) => {
@@ -285,8 +300,7 @@ export const AuthModal: React.FC = () => {
                 
                 {isCodeSent && (
                   <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-955 text-sm sm:text-base leading-relaxed mt-2 animate-fadeIn font-semibold">
-                    📬 <strong>{email}</strong> adresinize doğrulama kodu gönderildi! <br/>
-                    Simüle Edilen Kod: <span className="font-extrabold text-rose-700 text-base">{generatedCode}</span>
+                    📬 <strong>{email}</strong> adresinize doğrulama kodu gönderildi! Lütfen gelen kutunuzu (veya gereksiz klasörünü) kontrol edip kodu giriniz.
                   </div>
                 )}
               </div>
