@@ -293,16 +293,35 @@ export const AuthModal: React.FC = () => {
 
               {/* Onay Kodu Giriş Kutusu (Sadece Kod Gönderildiğinde Görünür) */}
               {isCodeSent && (
-                <div className="animate-fadeIn">
+                <div className="animate-fadeIn space-y-2">
                   <label className="block text-gray-955 font-extrabold mb-1.5 text-base">E-posta Doğrulama Kodu *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="6 Haneli Doğrulama Kodu"
-                    value={codeInput}
-                    onChange={e => setCodeInput(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold tracking-widest text-center"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      required
+                      maxLength={6}
+                      placeholder="6 Haneli Doğrulama Kodu"
+                      value={codeInput}
+                      onChange={e => setCodeInput(e.target.value)}
+                      className={`w-full bg-gray-50 border-2 rounded-xl px-4 py-3.5 text-gray-955 focus:outline-none text-lg font-bold tracking-widest text-center transition-all ${
+                        codeInput.trim() === generatedCode
+                          ? 'border-emerald-500 bg-emerald-50/30'
+                          : codeInput.length === 6
+                          ? 'border-rose-500 bg-rose-50/30'
+                          : 'border-gray-200 focus:border-rose-700'
+                      }`}
+                    />
+                    {codeInput.trim() === generatedCode && (
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-emerald-600 font-extrabold text-sm flex items-center gap-1 bg-emerald-100/90 px-3 py-1 rounded-full border border-emerald-300">
+                        <Check className="w-4.5 h-4.5" /> Doğrulandı
+                      </span>
+                    )}
+                  </div>
+                  {codeInput.trim() === generatedCode ? (
+                    <p className="text-emerald-700 text-sm font-bold text-center">✅ Kod eşleşti! Artık kaydolabilirsiniz.</p>
+                  ) : codeInput.length === 6 ? (
+                    <p className="text-rose-750 text-sm font-bold text-center">❌ Kod hatalı. Lütfen tekrar kontrol edin.</p>
+                  ) : null}
                 </div>
               )}
 
