@@ -110,8 +110,8 @@ function MainContent() {
       {/* Navigation Header */}
       <Navbar onAutoAssignPenPal={() => openWriterModal(penpals[0])} />
 
-      {/* Main Container */}
-      <main className="relative z-10 max-w-6xl mx-auto px-4 py-10 sm:py-12 space-y-10">
+      {/* Main Container (Büyütüldü) */}
+      <main className="relative z-10 max-w-7xl lg:max-w-[1360px] mx-auto px-4 sm:px-6 py-10 sm:py-12 space-y-10">
         
         {/* Main Content Card Frame */}
         <div className="relative p-3 sm:p-6 rounded-3xl bg-gray-950/5 border border-gray-200/80 shadow-2xl backdrop-blur-md">
