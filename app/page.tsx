@@ -141,22 +141,22 @@ function MainContent() {
                   Hızlı dünyanın gürültüsünden uzaklaşın. Fotoğraf yok, anlık telaş yok. Dünyanın dertlerinden uzak samimi mektuplar yazışın, beklemenin heyecanını yaşayın.
                 </p>
 
-                {/* 4. Action Buttons */}
-                <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-5">
+                {/* 4. Action Buttons (Geliştirildi) */}
+                <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-6 max-w-2xl mx-auto">
                   <button
                     onClick={() => setIsAuthModalOpen(true)}
-                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-4.5 rounded-2xl bg-gradient-to-r from-rose-700 to-red-800 hover:from-rose-800 hover:to-red-900 text-white font-bold text-base sm:text-lg shadow-xl transition transform active:scale-95 cursor-pointer"
+                    className="w-full sm:flex-1 flex items-center justify-center gap-3 px-12 py-5 rounded-2xl bg-gradient-to-r from-rose-700 via-rose-850 to-red-800 hover:from-rose-850 hover:to-red-900 text-white font-extrabold text-lg sm:text-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200 transform active:scale-95 cursor-pointer"
                   >
-                    <Feather className="w-6 h-6" />
-                    <span>✨ Üye Ol & Mektup Sandığını Aç</span>
+                    <Feather className="w-6 h-6 animate-pulse" />
+                    <span>Üye Ol</span>
                   </button>
 
                   <button
                     onClick={() => setIsAuthModalOpen(true)}
-                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-4.5 rounded-2xl bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-800 font-bold text-base sm:text-lg transition cursor-pointer"
+                    className="w-full sm:flex-1 flex items-center justify-center gap-3 px-12 py-5 rounded-2xl bg-white hover:bg-gray-50 border-3 border-gray-900 text-gray-900 font-extrabold text-lg sm:text-xl shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 transform active:scale-95 cursor-pointer"
                   >
-                    <LogIn className="w-6 h-6 text-gray-700" />
-                    <span>🔑 Zaten Üyeyim, Giriş Yap</span>
+                    <LogIn className="w-6 h-6 text-gray-900" />
+                    <span>Üye Girişi</span>
                   </button>
                 </div>
 
