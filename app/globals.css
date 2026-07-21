@@ -64,11 +64,11 @@ body {
 }
 
 .font-handwriting {
-  font-family: 'Caveat', 'Brush Script MT', cursive;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .font-serif {
-  font-family: 'Playfair Display', 'Lora', Georgia, serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 /* Paper Textures for Letters */
