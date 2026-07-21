@@ -15,12 +15,12 @@ export const EnRouteSection: React.FC<EnRouteSectionProps> = ({ letters }) => {
 
   if (enRouteLetters.length === 0) {
     return (
-      <div className="rounded-2xl bg-[#1e130f] border border-[#3b2a22] p-8 sm:p-12 text-center space-y-4">
-        <div className="w-16 h-16 rounded-full bg-[#2a1b15] border border-[#4a3429] flex items-center justify-center text-[#d4a373] mx-auto">
-          <Send className="w-8 h-8 opacity-60" />
+      <div className="rounded-3xl bg-gray-50 border border-gray-200 p-12 text-center space-y-4">
+        <div className="w-16 h-16 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-700 mx-auto shadow-sm">
+          <Send className="w-8 h-8 opacity-75" />
         </div>
-        <h3 className="font-serif text-xl font-bold text-[#f4ebd9]">Şu Anda Yolda Olan Mektup Yok</h3>
-        <p className="text-xs text-[#a89078] max-w-md mx-auto font-typewriter leading-relaxed">
+        <h3 className="font-serif text-2xl font-bold text-gray-900">Şu Anda Yolda Olan Mektup Yok</h3>
+        <p className="text-base text-gray-600 max-w-md mx-auto leading-relaxed">
           Mektup arkadaşlarına kaleme aldığın mektuplar veya sana gelenler burada yolculuk eder. Yavaş teslimat heyecanını yaşamak için bir mektup kaleme alabilirsin!
         </p>
       </div>
@@ -29,21 +29,21 @@ export const EnRouteSection: React.FC<EnRouteSectionProps> = ({ letters }) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between border-b border-gray-100 pb-3">
         <div>
-          <h2 className="font-serif text-xl font-bold text-[#f4ebd9] flex items-center gap-2">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2.5">
             <span>🕊️ Yoldaki Mektuplar</span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#8b261a]/30 text-[#e07a5f] border border-[#8b261a]/50 font-typewriter">
+            <span className="text-xs px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 font-bold font-typewriter">
               {enRouteLetters.length} Mektup Süzülüyor
             </span>
           </h2>
-          <p className="text-xs text-[#a89078] font-typewriter mt-1">
-            DMA yolculuk simülasyonu: Mektuplar anında gitmez, mesafe kat eder.
+          <p className="text-sm text-gray-500 font-typewriter mt-1">
+            Yavaş teslimat simülasyonu: Mektuplar anında gitmez, mesafe kat eder.
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {enRouteLetters.map(letter => (
           <EnRouteCard key={letter.id} letter={letter} />
         ))}
@@ -85,34 +85,34 @@ const EnRouteCard: React.FC<{ letter: Letter }> = ({ letter }) => {
   }, [letter]);
 
   return (
-    <div className="rounded-xl bg-gradient-to-b from-[#231713] to-[#1a110e] border border-[#3b2a22] p-5 shadow-lg relative overflow-hidden space-y-4">
+    <div className="rounded-2xl bg-white border border-gray-200 p-6 shadow-md relative overflow-hidden space-y-4">
       {/* Flight / Pigeon Trail Background Effect */}
-      <div className="flex items-center justify-between text-xs text-[#d4a373] font-typewriter">
+      <div className="flex items-center justify-between text-xs sm:text-sm text-gray-600 font-typewriter font-bold">
         <div className="flex items-center gap-1.5">
-          <MapPin className="w-4 h-4 text-[#8b261a]" />
+          <MapPin className="w-4 h-4 text-rose-700" />
           <span>{letter.senderName} ({letter.senderFlag})</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span>{letter.recipientName}</span>
-          <MapPin className="w-4 h-4 text-[#d4a373]" />
+          <MapPin className="w-4 h-4 text-rose-700" />
         </div>
       </div>
 
       {/* Subject Line */}
       <div>
-        <h4 className="font-serif text-base font-bold text-[#f4ebd9] truncate">
+        <h4 className="font-serif text-lg font-bold text-gray-900 truncate">
           {letter.subject}
         </h4>
-        <p className="text-[11px] text-[#a89078] font-typewriter mt-0.5">
+        <p className="text-xs sm:text-sm text-gray-500 mt-1">
           Pul: {letter.stampFlag} {letter.stampName}
         </p>
       </div>
 
       {/* Progress Travel Bar */}
-      <div className="relative py-2">
-        <div className="h-2 w-full rounded-full bg-[#140e0c] border border-[#3b2a22] overflow-hidden">
+      <div className="relative py-2.5">
+        <div className="h-2.5 w-full rounded-full bg-gray-100 border border-gray-200 overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-[#8b261a] via-[#e07a5f] to-[#d4a373] transition-all duration-500"
+            className="h-full bg-gradient-to-r from-rose-700 via-rose-500 to-amber-500 transition-all duration-500"
             style={{ width: `${timeLeft.progress}%` }}
           />
         </div>
@@ -122,22 +122,22 @@ const EnRouteCard: React.FC<{ letter: Letter }> = ({ letter }) => {
           className="absolute top-[3px] transition-all duration-500 transform -translate-x-1/2"
           style={{ left: `${Math.max(5, Math.min(95, timeLeft.progress))}%` }}
         >
-          <div className="w-6 h-6 rounded-full bg-[#8b261a] text-white flex items-center justify-center shadow-lg animate-bounce">
-            <Plane className="w-3.5 h-3.5 transform rotate-45" />
+          <div className="w-7 h-7 rounded-full bg-rose-700 text-white flex items-center justify-center shadow-lg animate-bounce">
+            <Plane className="w-4 h-4 transform rotate-45" />
           </div>
         </div>
       </div>
 
       {/* Countdown Timer */}
-      <div className="pt-2 border-t border-[#33231a] flex items-center justify-between text-xs">
-        <div className="flex items-center gap-1.5 text-[#e07a5f] font-typewriter font-bold">
-          <Clock className="w-4 h-4 animate-spin" />
+      <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs sm:text-sm font-bold">
+        <div className="flex items-center gap-1.5 text-rose-700 font-typewriter">
+          <Clock className="w-4.5 h-4.5 animate-spin text-rose-600" />
           <span>
             {timeLeft.hours}s {timeLeft.minutes}d {timeLeft.seconds}sn varışa kaldı
           </span>
         </div>
 
-        <span className="text-[10px] text-[#8e7865] font-typewriter">
+        <span className="text-xs text-gray-500 font-typewriter">
           %{Math.round(timeLeft.progress)} Yol tamamlandı
         </span>
       </div>

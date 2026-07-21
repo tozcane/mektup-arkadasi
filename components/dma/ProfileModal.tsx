@@ -40,115 +40,121 @@ export const ProfileModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      <div className="relative w-full max-w-lg rounded-2xl bg-[#1a110e] border border-[#3b2a22] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+      <div className="relative w-full max-w-lg rounded-3xl bg-white border border-gray-200 shadow-2xl overflow-hidden flex flex-col my-8">
+        
         {/* Header Bar */}
-        <div className="px-6 py-4 bg-[#231713] border-b border-[#3b2a22] flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <User className="w-5 h-5 text-[#d4a373]" />
-            <h2 className="font-serif text-lg font-bold text-[#f4ebd9]">
-              Anonim Profilimi Düzenle
-            </h2>
+        <div className="px-8 py-6 bg-gradient-to-r from-rose-950 via-rose-900 to-amber-950 text-white flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-amber-300">
+              <User className="w-6 h-6" />
+            </div>
+            <div>
+              <h2 className="font-serif text-2xl font-bold tracking-wide">
+                Anonim Profilimi Düzenle
+              </h2>
+              <p className="text-sm text-amber-200/90 font-medium">Kimliğini ve İlgi Alanlarını Güncelle</p>
+            </div>
           </div>
 
           <button
             onClick={() => setIsProfileModalOpen(false)}
-            className="p-2 rounded-lg bg-[#2e1f18] text-[#a89078] hover:text-white transition"
+            className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-gray-200 transition cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
-        {/* Form Body */}
-        <div className="p-6 space-y-4 overflow-y-auto flex-1 font-sans text-xs">
+        {/* Form Body (Büyük ve Rahat Okunabilir) */}
+        <div className="p-8 space-y-6 overflow-y-auto flex-1 text-base text-gray-900">
           <div>
-            <label className="block text-[#d4a373] font-typewriter mb-1">Rumuz (Takma Ad)</label>
+            <label className="block text-gray-900 font-bold mb-2 text-base">Rumuz (Takma Ad)</label>
             <input
               type="text"
               value={pseudonym}
               onChange={e => setPseudonym(e.target.value)}
-              className="w-full bg-[#231713] border border-[#3b2a22] rounded-lg px-3 py-2 text-[#f4ebd9] font-typewriter focus:outline-none focus:border-[#8b261a]"
+              className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-rose-700 text-base font-medium"
             />
-            <p className="text-[10px] text-[#a89078] mt-1 font-serif italic">
-              Gerçek adın gizli tutulur. Mektup arkadaşlarının göreceği tek isim budur.
+            <p className="text-xs sm:text-sm text-gray-500 mt-2 font-serif italic">
+              Gerçek adın tamamen gizlidir. Mektup arkadaşının göreceği tek isim budur.
             </p>
           </div>
 
           <div>
-            <label className="block text-[#d4a373] font-typewriter mb-1">Başlık / Mottan</label>
+            <label className="block text-gray-900 font-bold mb-2 text-base">Başlık / Mottan</label>
             <input
               type="text"
               value={title}
               onChange={e => setTitle(e.target.value)}
-              className="w-full bg-[#231713] border border-[#3b2a22] rounded-lg px-3 py-2 text-[#f4ebd9] focus:outline-none focus:border-[#8b261a]"
+              className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-rose-700 text-base font-medium"
             />
           </div>
 
           <div>
-            <label className="block text-[#d4a373] font-typewriter mb-1">Biyografi & Mektup Beklentilerin</label>
+            <label className="block text-gray-900 font-bold mb-2 text-base">Biyografi & Mektup Beklentilerin</label>
             <textarea
-              rows={3}
+              rows={4}
               value={bio}
               onChange={e => setBio(e.target.value)}
-              className="w-full bg-[#231713] border border-[#3b2a22] rounded-lg px-3 py-2 text-[#f4ebd9] focus:outline-none focus:border-[#8b261a] resize-none"
+              className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-rose-700 text-base font-medium resize-none"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-[#d4a373] font-typewriter mb-1">Yaşın</label>
+              <label className="block text-gray-900 font-bold mb-2 text-base">Yaşın</label>
               <input
                 type="number"
                 value={age}
                 onChange={e => setAge(Number(e.target.value))}
-                className="w-full bg-[#231713] border border-[#3b2a22] rounded-lg px-3 py-2 text-[#f4ebd9] focus:outline-none focus:border-[#8b261a]"
+                className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-rose-700 text-base font-medium"
               />
             </div>
             <div>
-              <label className="block text-[#d4a373] font-typewriter mb-1">Şehir / Ülke</label>
+              <label className="block text-gray-900 font-bold mb-2 text-base">Şehir / Ülke</label>
               <input
                 type="text"
                 value={city}
                 onChange={e => setCity(e.target.value)}
-                className="w-full bg-[#231713] border border-[#3b2a22] rounded-lg px-3 py-2 text-[#f4ebd9] focus:outline-none focus:border-[#8b261a]"
+                className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-rose-700 text-base font-medium"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-[#d4a373] font-typewriter mb-1">
-              İlgi Alanların (Virgülle ayırarak yaz)
+            <label className="block text-gray-900 font-bold mb-2 text-base">
+              İlgi Alanların (Virgülle Ayırın)
             </label>
             <input
               type="text"
               value={interestsText}
               onChange={e => setInterestsText(e.target.value)}
-              className="w-full bg-[#231713] border border-[#3b2a22] rounded-lg px-3 py-2 text-[#f4ebd9] focus:outline-none focus:border-[#8b261a]"
+              className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-rose-700 text-base font-medium"
             />
           </div>
         </div>
 
         {/* Footer Actions */}
-        <div className="px-6 py-4 bg-[#231713] border-t border-[#3b2a22] flex items-center justify-between">
+        <div className="px-8 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between text-base font-bold">
           <button
             onClick={() => setIsProfileModalOpen(false)}
-            className="px-4 py-2 rounded-lg bg-[#2e1f18] text-[#a89078] hover:text-white transition text-xs"
+            className="px-6 py-2.5 rounded-xl bg-gray-200 hover:bg-gray-300 text-gray-700 transition cursor-pointer"
           >
             Vazgeç
           </button>
 
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 px-5 py-2 rounded-lg bg-[#8b261a] hover:bg-[#a83222] text-white font-bold text-xs shadow transition"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-rose-700 hover:bg-rose-800 text-white font-bold transition shadow-lg cursor-pointer"
           >
             {savedSuccess ? (
               <>
-                <Check className="w-4 h-4" />
+                <Check className="w-5 h-5" />
                 <span>Kaydedildi</span>
               </>
             ) : (
               <>
-                <Save className="w-4 h-4" />
+                <Save className="w-5 h-5" />
                 <span>Kaydet</span>
               </>
             )}

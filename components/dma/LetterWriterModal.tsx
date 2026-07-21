@@ -29,7 +29,7 @@ export const LetterWriterModal: React.FC = () => {
       return;
     }
     if (wordCount < 30) {
-      setErrorMsg('Mektup çok kısa! DMA ruhuna uygun olarak en az 30 kelimelik samimi bir mektup kaleme almanı öneririz.');
+      setErrorMsg('Mektup çok kısa! En az 30 kelimelik samimi bir mektup yazmanı öneririz.');
       return;
     }
 
@@ -39,7 +39,7 @@ export const LetterWriterModal: React.FC = () => {
     // Trigger nostalgia sealing effect
     setTimeout(() => {
       confetti({
-        particleCount: 50,
+        particleCount: 55,
         spread: 60,
         origin: { y: 0.7 },
         colors: ['#8b261a', '#d4a373', '#f4ebd9'],
@@ -59,22 +59,23 @@ export const LetterWriterModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      <div className="relative w-full max-w-3xl rounded-2xl bg-[#1a110e] border border-[#3b2a22] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+      <div className="relative w-full max-w-3xl rounded-3xl bg-white border border-gray-200 shadow-2xl overflow-hidden flex flex-col my-8">
+        
         {/* Header Bar */}
-        <div className="px-6 py-4 bg-[#231713] border-b border-[#3b2a22] flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="px-8 py-6 bg-gradient-to-r from-rose-950 via-rose-900 to-amber-950 text-white flex items-center justify-between">
+          <div className="flex items-center gap-3.5">
             <div
-              className="w-10 h-10 rounded-full flex items-center justify-center font-serif text-lg font-bold text-white shadow"
+              className="w-12 h-12 rounded-full flex items-center justify-center font-serif text-xl font-bold text-white shadow-md"
               style={{ backgroundColor: writingRecipient.avatarStyle }}
             >
               {writingRecipient.pseudonym[0]}
             </div>
             <div>
-              <h2 className="font-serif text-lg font-bold text-[#f4ebd9]">
+              <h2 className="font-serif text-2xl font-bold tracking-wide">
                 {writingRecipient.pseudonym} için Mektup Yaz
               </h2>
-              <p className="text-xs text-[#a89078] font-typewriter">
+              <p className="text-sm text-amber-200/90 font-medium">
                 {writingRecipient.flag} {writingRecipient.country} • ~{writingRecipient.estimatedDeliveryHours} saat teslimat süresi
               </p>
             </div>
@@ -82,34 +83,35 @@ export const LetterWriterModal: React.FC = () => {
 
           <button
             onClick={closeWriterModal}
-            className="p-2 rounded-lg bg-[#2e1f18] text-[#a89078] hover:text-white transition"
+            className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-gray-200 transition cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
-        {/* Modal Body Scrollable */}
-        <div className="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1">
+        {/* Modal Body Scrollable (Büyük Fontlar) */}
+        <div className="p-8 overflow-y-auto space-y-6 flex-1 text-base text-gray-900">
+          
           {/* Controls: Theme & Stamp Selector */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Paper Theme Picker */}
             <div>
-              <label className="block text-xs font-serif text-[#d4a373] mb-1.5">
+              <label className="block text-base font-bold text-gray-900 mb-2">
                 Kağıt Dokusu & Teması
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 {PAPER_THEMES.map(theme => (
                   <button
                     key={theme.id}
                     onClick={() => setPaperTheme(theme.id)}
-                    className={`px-3 py-2 rounded-lg text-xs font-typewriter text-left border transition flex items-center justify-between ${
+                    className={`px-4 py-3 rounded-xl text-sm font-bold text-left border-2 transition flex items-center justify-between cursor-pointer ${
                       paperTheme === theme.id
-                        ? 'border-[#8b261a] bg-[#3b271d] text-[#f4ebd9] shadow'
-                        : 'border-[#33231a] bg-[#1a110e] text-[#a89078] hover:bg-[#251a15]'
+                        ? 'border-rose-700 bg-rose-50/50 text-rose-900 shadow-sm'
+                        : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'
                     }`}
                   >
                     <span>{theme.name}</span>
-                    {paperTheme === theme.id && <CheckCircle2 className="w-3.5 h-3.5 text-[#e07a5f]" />}
+                    {paperTheme === theme.id && <CheckCircle2 className="w-4 h-4 text-rose-700" />}
                   </button>
                 ))}
               </div>
@@ -117,23 +119,23 @@ export const LetterWriterModal: React.FC = () => {
 
             {/* Stamp Selector */}
             <div>
-              <label className="block text-xs font-serif text-[#d4a373] mb-1.5">
+              <label className="block text-base font-bold text-gray-900 mb-2">
                 Dijital Pul Seçimi
               </label>
-              <div className="flex gap-2 overflow-x-auto pb-1">
+              <div className="flex gap-2.5 overflow-x-auto pb-1.5">
                 {stamps.map(stamp => (
                   <button
                     key={stamp.id}
                     onClick={() => setSelectedStampId(stamp.id)}
-                    className={`relative flex-shrink-0 p-1.5 rounded-lg border transition ${
+                    className={`relative flex-shrink-0 p-2 rounded-xl border-2 transition cursor-pointer ${
                       selectedStampId === stamp.id
-                        ? 'border-[#8b261a] bg-[#3b271d] ring-2 ring-[#8b261a]/50'
-                        : 'border-[#3b2a22] bg-[#231713] opacity-70 hover:opacity-100'
+                        ? 'border-rose-700 bg-rose-50/50 ring-2 ring-rose-200'
+                        : 'border-gray-200 bg-white opacity-70 hover:opacity-100'
                     }`}
                   >
                     <div className="text-center">
-                      <span className="text-lg block">{stamp.flag}</span>
-                      <span className="text-[10px] text-[#d4a373] font-typewriter block truncate max-w-[65px]">
+                      <span className="text-xl block">{stamp.flag}</span>
+                      <span className="text-xs font-bold text-gray-800 block truncate max-w-[70px] mt-0.5">
                         {stamp.name}
                       </span>
                     </div>
@@ -143,14 +145,14 @@ export const LetterWriterModal: React.FC = () => {
             </div>
           </div>
 
-          {/* Letter Envelope / Stationery Paper Sheet */}
+          {/* Letter Stationery Paper Sheet */}
           <div
-            className={`rounded-xl p-6 transition-all duration-300 ${selectedTheme.className} relative min-h-[320px] flex flex-col justify-between`}
+            className={`rounded-2xl p-8 border-2 border-gray-200/60 shadow-inner relative min-h-[360px] flex flex-col justify-between ${selectedTheme.className}`}
           >
             {/* Stamp Displayed on Top Right of Letter Sheet */}
-            <div className="absolute top-4 right-4 p-2 rounded bg-white/10 backdrop-blur border border-black/10 shadow flex flex-col items-center">
-              <span className="text-2xl">{selectedStamp.flag}</span>
-              <span className="text-[9px] font-typewriter uppercase tracking-wider font-bold mt-1 text-black/70">
+            <div className="absolute top-6 right-6 p-2 rounded bg-white/80 backdrop-blur border border-black/10 shadow flex flex-col items-center">
+              <span className="text-3xl">{selectedStamp.flag}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider mt-1 text-black/70">
                 {selectedStamp.country}
               </span>
             </div>
@@ -162,45 +164,45 @@ export const LetterWriterModal: React.FC = () => {
                 placeholder="Mektup Başlığı (Örn: Yağmurlu bir İstanbul gününden selamlar...)"
                 value={subject}
                 onChange={e => setSubject(e.target.value)}
-                className="w-full bg-transparent border-b border-black/20 pb-2 mb-4 font-serif text-lg sm:text-xl font-bold focus:outline-none focus:border-black/50 placeholder:opacity-50"
+                className="w-full bg-transparent border-b-2 border-black/20 pb-3 mb-6 font-serif text-xl sm:text-2xl font-bold focus:outline-none focus:border-black/50 placeholder:opacity-50 text-gray-900"
               />
 
-              {/* Main Letter Body (Typewriter font) */}
+              {/* Main Letter Body */}
               <textarea
                 placeholder={`Sevgili ${writingRecipient.pseudonym},\n\nBuraya içinden geçenleri içtenlikle kaleme alabilirsin... Fotoğrafsız, telaşsız ve samimi.`}
                 value={content}
                 onChange={e => setContent(e.target.value)}
-                rows={10}
-                className="w-full bg-transparent font-typewriter text-sm sm:text-base leading-relaxed focus:outline-none resize-none placeholder:opacity-50"
+                rows={11}
+                className="w-full bg-transparent font-serif text-base sm:text-lg leading-relaxed focus:outline-none resize-none placeholder:opacity-50 text-gray-900"
               />
             </div>
 
             {/* Word Counter & Guidelines */}
-            <div className="pt-4 border-t border-black/10 flex items-center justify-between text-xs opacity-75 font-typewriter">
+            <div className="pt-4 border-t border-black/10 flex items-center justify-between text-xs sm:text-sm font-medium opacity-80">
               <span>Kelime Sayısı: {wordCount} (Önerilen: 30+ kelime)</span>
-              <span>Rumuzun: NostaljikDüşünür</span>
+              <span>Gönderen Rumuz: {user.pseudonym}</span>
             </div>
           </div>
 
           {/* Error Message */}
           {errorMsg && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-[#8b261a]/20 border border-[#8b261a] text-[#e07a5f] text-xs font-sans">
-              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <div className="flex items-center gap-2.5 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-bold">
+              <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <span>{errorMsg}</span>
             </div>
           )}
         </div>
 
         {/* Footer Actions */}
-        <div className="px-6 py-4 bg-[#231713] border-t border-[#3b2a22] flex items-center justify-between">
-          <p className="text-xs text-[#a89078] hidden sm:block font-serif italic">
+        <div className="px-8 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between text-base font-bold">
+          <p className="text-xs sm:text-sm text-gray-600 hidden sm:block font-serif italic">
             "Mektup mühürlendiğinde anında ulaşmaz, sabırla beklenir."
           </p>
 
           <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
             <button
               onClick={closeWriterModal}
-              className="px-4 py-2 rounded-lg bg-[#2e1f18] hover:bg-[#3b2a22] text-[#a89078] text-xs font-medium transition"
+              className="px-6 py-2.5 rounded-xl bg-gray-200 hover:bg-gray-300 text-gray-700 transition cursor-pointer text-base"
             >
               Vazgeç
             </button>
@@ -208,18 +210,18 @@ export const LetterWriterModal: React.FC = () => {
             <button
               onClick={handleSend}
               disabled={isSealing}
-              className={`flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#8b261a] to-[#b83b28] hover:from-[#a83222] hover:to-[#d44834] text-white text-sm font-bold shadow-xl transition transform active:scale-95 ${
+              className={`flex items-center justify-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-rose-700 to-red-800 hover:from-rose-800 hover:to-red-900 text-white text-base font-bold shadow-lg transition transform active:scale-95 cursor-pointer ${
                 isSealing ? 'opacity-80 cursor-wait' : ''
               }`}
             >
               {isSealing ? (
                 <>
-                  <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                  <div className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin" />
                   <span>Balmumu Mühür Basılıyor...</span>
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4" />
+                  <Sparkles className="w-5 h-5 animate-pulse" />
                   <span>Mühürle ve Gönder</span>
                 </>
               )}
