@@ -32,7 +32,7 @@ export interface PenPalProfile {
   flag: string;
   languages: string[];
   interests: string[];
-  gender?: 'Kadın' | 'Erkek';
+  gender?: 'Kadın' | 'Erkek' | 'Belirtmek İstemiyorum';
   avatarStyle: string; // e.g. color or icon identifier
   lettersExchangedCount: number;
   joinedDate: string;
@@ -79,7 +79,7 @@ export interface UserProfile {
   city: string;
   languages: string[];
   interests: string[];
-  gender?: 'Kadın' | 'Erkek';
+  gender?: 'Kadın' | 'Erkek' | 'Belirtmek İstemiyorum';
   avatarColor: string;
   stampsCollected: string[]; // stamp IDs
 }

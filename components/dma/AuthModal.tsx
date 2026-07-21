@@ -20,7 +20,7 @@ export const AuthModal: React.FC = () => {
   const [interestsStr, setInterestsStr] = useState('');
   const [error, setError] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [gender, setGender] = useState<'Kadın' | 'Erkek' | ''>('');
+  const [gender, setGender] = useState<'Kadın' | 'Erkek' | 'Belirtmek İstemiyorum' | ''>('');
   const [isSubmittedAttempt, setIsSubmittedAttempt] = useState(false);
 
   // Email Verification Step State
@@ -306,14 +306,14 @@ export const AuthModal: React.FC = () => {
                 </div>
               </div>
 
-              {/* Cinsiyet Seçimi (Yeni Hane) */}
+              {/* Cinsiyet Seçimi (Yeni Hane - 3 Seçenek) */}
               <div>
                 <label className="block text-gray-955 font-extrabold mb-1.5 text-base">Cinsiyetiniz *</label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-2.5">
                   <button
                     type="button"
                     onClick={() => setGender('Kadın')}
-                    className={`py-3.5 rounded-xl border-2 font-bold text-lg cursor-pointer transition-all flex items-center justify-center gap-2 ${
+                    className={`py-3.5 rounded-xl border-2 font-bold text-[13px] sm:text-base cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
                       gender === 'Kadın'
                         ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
                         : isSubmittedAttempt && !gender
@@ -326,7 +326,7 @@ export const AuthModal: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setGender('Erkek')}
-                    className={`py-3.5 rounded-xl border-2 font-bold text-lg cursor-pointer transition-all flex items-center justify-center gap-2 ${
+                    className={`py-3.5 rounded-xl border-2 font-bold text-[13px] sm:text-base cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
                       gender === 'Erkek'
                         ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
                         : isSubmittedAttempt && !gender
@@ -335,6 +335,19 @@ export const AuthModal: React.FC = () => {
                     }`}
                   >
                     👨 Erkek
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGender('Belirtmek İstemiyorum')}
+                    className={`py-3.5 rounded-xl border-2 font-bold text-[11px] sm:text-xs leading-tight cursor-pointer transition-all flex items-center justify-center gap-1.5 text-center ${
+                      gender === 'Belirtmek İstemiyorum'
+                        ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
+                        : isSubmittedAttempt && !gender
+                        ? 'border-rose-500 bg-rose-50/20 text-rose-700'
+                        : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    👤 Belirtme
                   </button>
                 </div>
               </div>

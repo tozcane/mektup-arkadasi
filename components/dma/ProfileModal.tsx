@@ -13,7 +13,7 @@ export const ProfileModal: React.FC = () => {
   const [age, setAge] = useState(user.age);
   const [city, setCity] = useState(user.city);
   const [interestsText, setInterestsText] = useState(user.interests.join(', '));
-  const [gender, setGender] = useState<'Kadın' | 'Erkek' | ''>(user.gender || '');
+  const [gender, setGender] = useState<'Kadın' | 'Erkek' | 'Belirtmek İstemiyorum' | ''>(user.gender || '');
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   if (!isProfileModalOpen) return null;
@@ -123,14 +123,14 @@ export const ProfileModal: React.FC = () => {
             </div>
           </div>
 
-          {/* Cinsiyet Seçimi */}
+          {/* Cinsiyet Seçimi (3 Seçenekli) */}
           <div>
             <label className="block text-gray-900 font-bold mb-2 text-base">Cinsiyetim</label>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-2.5">
               <button
                 type="button"
                 onClick={() => setGender('Kadın')}
-                className={`py-3.5 rounded-xl border-2 font-bold text-base cursor-pointer transition-all flex items-center justify-center gap-2 ${
+                className={`py-3.5 rounded-xl border-2 font-bold text-xs sm:text-sm cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
                   gender === 'Kadın'
                     ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
                     : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
@@ -141,13 +141,24 @@ export const ProfileModal: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setGender('Erkek')}
-                className={`py-3.5 rounded-xl border-2 font-bold text-base cursor-pointer transition-all flex items-center justify-center gap-2 ${
+                className={`py-3.5 rounded-xl border-2 font-bold text-xs sm:text-sm cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
                   gender === 'Erkek'
                     ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
                     : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 👨 Erkek
+              </button>
+              <button
+                type="button"
+                onClick={() => setGender('Belirtmek İstemiyorum')}
+                className={`py-3.5 rounded-xl border-2 font-bold text-[10px] sm:text-xs leading-tight cursor-pointer transition-all flex items-center justify-center gap-1.5 text-center ${
+                  gender === 'Belirtmek İstemiyorum'
+                    ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
+                    : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                👤 Belirtme
               </button>
             </div>
           </div>

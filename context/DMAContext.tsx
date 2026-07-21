@@ -26,7 +26,7 @@ interface DMAContextType {
     city: string;
     country: string;
     interests: string[];
-    gender: 'Kadın' | 'Erkek';
+    gender: 'Kadın' | 'Erkek' | 'Belirtmek İstemiyorum';
   }) => void;
   logout: () => void;
 
@@ -196,7 +196,7 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     city: string;
     country: string;
     interests: string[];
-    gender: 'Kadın' | 'Erkek';
+    gender: 'Kadın' | 'Erkek' | 'Belirtmek İstemiyorum';
   }) => {
     const cityClean = city ? city.trim() : 'İstanbul';
     
