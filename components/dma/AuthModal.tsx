@@ -22,12 +22,22 @@ export const AuthModal: React.FC = () => {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   // Email Verification Step State
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
+  const [isCodeSent, setIsCodeSent] = useState(false);
   const [generatedCode, setGeneratedCode] = useState('');
   const [codeInput, setCodeInput] = useState('');
 
   if (!isAuthModalOpen) return null;
+
+  const handleSendCode = () => {
+    if (!email.trim() || !email.includes('@')) {
+      setError('Lütfen geçerli bir e-posta adresi girin.');
+      return;
+    }
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedCode(code);
+    setIsCodeSent(true);
+    setError('');
+  };
 
   const initiateRegistration = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,22 +65,16 @@ export const AuthModal: React.FC = () => {
       setError('Lütfen şifre belirleyin.');
       return;
     }
-    if (!acceptedTerms) {
-      setError('Devam etmek için lütfen telif hakları ve saygı kuralları onay kutusunu işaretleyin.');
+    if (!isCodeSent) {
+      setError('Lütfen önce e-postanıza doğrulama kodu gönderin.');
       return;
     }
-
-    // Generate a 6-digit verification code and proceed to code entry step
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    setGeneratedCode(code);
-    setIsVerifying(true);
-    setError('');
-  };
-
-  const handleVerifyAndRegister = (e: React.FormEvent) => {
-    e.preventDefault();
     if (codeInput.trim() !== generatedCode) {
       setError('Girdiğiniz doğrulama kodu hatalı. Lütfen kontrol edin.');
+      return;
+    }
+    if (!acceptedTerms) {
+      setError('Devam etmek için lütfen telif hakları ve saygı kuralları onay kutusunu işaretleyin.');
       return;
     }
 
@@ -93,7 +97,9 @@ export const AuthModal: React.FC = () => {
     });
 
     // Reset verification states
-    setIsVerifying(false);
+    setIsCodeSent(false);
+    setCodeInput('');
+    setGeneratedCode('');
     setError('');
   };
 
@@ -131,32 +137,30 @@ export const AuthModal: React.FC = () => {
           </button>
         </div>
 
-        {/* Tab Selection (Verification step has no tabs) */}
-        {!isVerifying && (
-          <div className="flex border-b border-gray-200 bg-gray-50 text-lg font-extrabold">
-            <button
-              onClick={() => { setMode('register'); setError(''); }}
-              className={`flex-1 py-4 text-center transition border-b-2 cursor-pointer ${
-                mode === 'register'
-                  ? 'border-rose-700 text-rose-750 bg-white'
-                  : 'border-transparent text-gray-650 hover:text-gray-900'
-              }`}
-            >
-              ✨ Üye Ol
-            </button>
+        {/* Tab Selection */}
+        <div className="flex border-b border-gray-200 bg-gray-50 text-lg font-extrabold">
+          <button
+            onClick={() => { setMode('register'); setError(''); }}
+            className={`flex-1 py-4 text-center transition border-b-2 cursor-pointer ${
+              mode === 'register'
+                ? 'border-rose-700 text-rose-750 bg-white'
+                : 'border-transparent text-gray-650 hover:text-gray-900'
+            }`}
+          >
+            ✨ Üye Ol
+          </button>
 
-            <button
-              onClick={() => { setMode('login'); setError(''); }}
-              className={`flex-1 py-4 text-center transition border-b-2 cursor-pointer ${
-                mode === 'login'
-                  ? 'border-rose-700 text-rose-750 bg-white'
-                  : 'border-transparent text-gray-650 hover:text-gray-900'
-              }`}
-            >
-              🔑 Üye Girişi
-            </button>
-          </div>
-        )}
+          <button
+            onClick={() => { setMode('login'); setError(''); }}
+            className={`flex-1 py-4 text-center transition border-b-2 cursor-pointer ${
+              mode === 'login'
+                ? 'border-rose-700 text-rose-750 bg-white'
+                : 'border-transparent text-gray-650 hover:text-gray-900'
+            }`}
+          >
+            🔑 Üye Girişi
+          </button>
+        </div>
 
         {/* Form Body */}
         <div className="p-8 space-y-6">
@@ -166,165 +170,151 @@ export const AuthModal: React.FC = () => {
             </div>
           )}
 
-          {isVerifying ? (
+          {mode === 'register' ? (
             /* =========================================================
-               E-POSTA DOĞRULAMA KODU EKRANI (STEP 2 - Büyütüldü)
-               ========================================================= */
-            <form onSubmit={handleVerifyAndRegister} className="space-y-6 text-lg">
-              <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 text-base sm:text-lg leading-relaxed text-center space-y-2">
-                <p className="font-extrabold text-xl text-rose-800">📬 E-posta Doğrulama Kodu</p>
-                <p>
-                  <strong>{email}</strong> adresinize 6 haneli doğrulama kodu gönderilmiştir. Lütfen gelen kodu giriniz.
-                </p>
-              </div>
-
-              {/* Simulation Code Helper */}
-              <div className="p-4 rounded-xl bg-gray-100 border border-gray-200 text-gray-800 text-center font-mono text-base font-bold">
-                Simüle Edilen E-posta Doğrulama Kodu: <span className="font-extrabold text-rose-700 text-lg">{generatedCode}</span>
-              </div>
-
-              <div>
-                <label className="block text-gray-900 font-extrabold mb-2.5 text-base sm:text-lg text-center">Doğrulama Kodu *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="------"
-                  value={codeInput}
-                  onChange={e => setCodeInput(e.target.value)}
-                  className="w-full text-center bg-gray-50 border-2 border-gray-300 rounded-xl px-4 py-4.5 text-gray-950 focus:outline-none focus:border-rose-700 text-2xl font-extrabold tracking-widest"
-                />
-              </div>
-
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  onClick={() => setIsVerifying(false)}
-                  className="flex-1 py-4.5 rounded-2xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-extrabold text-base sm:text-lg cursor-pointer"
-                >
-                  Geri Dön
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 py-4.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-extrabold text-base sm:text-lg shadow-lg cursor-pointer"
-                >
-                  Doğrula ve Kaydol
-                </button>
-              </div>
-            </form>
-          ) : mode === 'register' ? (
-            /* =========================================================
-               ÜYE KAYIT FORMU (Büyütüldü)
+               ÜYE KAYIT FORMU (Büyütüldü - Onay Kodu Gönderme & Kutusu Dahil)
                ========================================================= */
             <form onSubmit={initiateRegistration} className="space-y-5 text-lg">
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Adı *</label>
+                  <label className="block text-gray-955 font-extrabold mb-1.5 text-base">Adı *</label>
                   <input
                     type="text"
                     required
                     placeholder="Adınız"
                     value={firstName}
                     onChange={e => setFirstName(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Soyadı *</label>
+                  <label className="block text-gray-955 font-extrabold mb-1.5 text-base">Soyadı *</label>
                   <input
                     type="text"
                     required
                     placeholder="Soyadınız"
                     value={lastName}
                     onChange={e => setLastName(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Telefon Numarası *</label>
+                  <label className="block text-gray-955 font-extrabold mb-1.5 text-base">Telefon Numarası *</label>
                   <input
                     type="tel"
                     required
                     placeholder="05XX XXX XX XX"
                     value={phoneNumber}
                     onChange={e => setPhoneNumber(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Rumuz (Takma Ad) *</label>
+                  <label className="block text-gray-955 font-extrabold mb-1.5 text-base">Rumuz (Takma Ad) *</label>
                   <input
                     type="text"
                     required
                     placeholder="Mektup Takma Adı"
                     value={pseudonym}
                     onChange={e => setPseudonym(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Yaş *</label>
+                  <label className="block text-gray-955 font-extrabold mb-1.5 text-base">Yaş *</label>
                   <input
                     type="number"
                     required
                     placeholder="Yaş"
                     value={age}
                     onChange={e => setAge(Number(e.target.value))}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Memleketi / Şehir *</label>
+                  <label className="block text-gray-955 font-extrabold mb-1.5 text-base">Memleketi / Şehir *</label>
                   <input
                     type="text"
                     required
                     placeholder="Şehir"
                     value={city}
                     onChange={e => setCity(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-gray-950 font-extrabold mb-1.5 text-base">İlgi Alanları *</label>
+                <label className="block text-gray-955 font-extrabold mb-1.5 text-base">İlgi Alanları *</label>
                 <input
                   type="text"
                   required
                   placeholder="Edebiyat, Nostalji, Doğa"
                   value={interestsStr}
                   onChange={e => setInterestsStr(e.target.value)}
-                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-950 font-extrabold mb-1.5 text-base">E-posta Adresi *</label>
-                <input
-                  type="email"
-                  required
-                  placeholder="eposta@ornek.com"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
-                />
+                <label className="block text-gray-955 font-extrabold mb-1.5 text-base">E-posta Adresi *</label>
+                <div className="flex gap-3">
+                  <input
+                    type="email"
+                    required
+                    placeholder="eposta@ornek.com"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    className="flex-1 bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSendCode}
+                    className="px-5 py-3 rounded-xl bg-rose-700 hover:bg-rose-800 text-white font-extrabold text-base shadow-md cursor-pointer transition whitespace-nowrap"
+                  >
+                    {isCodeSent ? 'Tekrar Gönder' : 'Onay Kodu Gönder'}
+                  </button>
+                </div>
+                
+                {isCodeSent && (
+                  <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-955 text-sm sm:text-base leading-relaxed mt-2 animate-fadeIn font-semibold">
+                    📬 <strong>{email}</strong> adresinize doğrulama kodu gönderildi! <br/>
+                    Simüle Edilen Kod: <span className="font-extrabold text-rose-700 text-base">{generatedCode}</span>
+                  </div>
+                )}
               </div>
 
+              {/* Onay Kodu Giriş Kutusu (Sadece Kod Gönderildiğinde Görünür) */}
+              {isCodeSent && (
+                <div className="animate-fadeIn">
+                  <label className="block text-gray-955 font-extrabold mb-1.5 text-base">E-posta Doğrulama Kodu *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="6 Haneli Doğrulama Kodu"
+                    value={codeInput}
+                    onChange={e => setCodeInput(e.target.value)}
+                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold tracking-widest text-center"
+                  />
+                </div>
+              )}
+
               <div>
-                <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Şifre *</label>
+                <label className="block text-gray-955 font-extrabold mb-1.5 text-base">Şifre *</label>
                 <input
                   type="password"
                   required
                   placeholder="••••••••"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
                 />
               </div>
 
@@ -347,7 +337,7 @@ export const AuthModal: React.FC = () => {
                 type="submit"
                 className="w-full py-4.5 rounded-2xl bg-gradient-to-r from-rose-700 to-red-800 hover:from-rose-800 hover:to-red-900 text-white font-extrabold text-lg sm:text-xl shadow-xl transition transform active:scale-95 cursor-pointer mt-3"
               >
-                ✨ Doğrulama Kodu Gönder & Kaydol
+                ✨ Üye Ol & Mektup Sandığını Aç
               </button>
             </form>
           ) : (
