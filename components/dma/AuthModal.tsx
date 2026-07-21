@@ -20,6 +20,7 @@ export const AuthModal: React.FC = () => {
   const [interestsStr, setInterestsStr] = useState('Edebiyat, Nostalji, Gece Sohbetleri');
   const [error, setError] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [isSubmittedAttempt, setIsSubmittedAttempt] = useState(false);
 
   // Email Verification Step State
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -29,6 +30,12 @@ export const AuthModal: React.FC = () => {
   if (!isAuthModalOpen) return null;
 
   const handleSendCode = async () => {
+    setIsSubmittedAttempt(true);
+    // Validate mandatory registration details before generating verification code
+    if (!firstName.trim() || !lastName.trim() || !phoneNumber.trim() || !pseudonym.trim() || !city.trim() || !interestsStr.trim()) {
+      setError('Lütfen kırmızıyla işaretli tüm alanları doldurun.');
+      return;
+    }
     if (!email.trim() || !email.includes('@')) {
       setError('Lütfen geçerli bir e-posta adresi girin.');
       return;
@@ -56,6 +63,7 @@ export const AuthModal: React.FC = () => {
 
   const initiateRegistration = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmittedAttempt(true);
     if (!firstName.trim()) {
       setError('Lütfen Adınızı girin.');
       return;
@@ -76,10 +84,6 @@ export const AuthModal: React.FC = () => {
       setError('Lütfen geçerli bir e-posta adresi girin.');
       return;
     }
-    if (!password.trim()) {
-      setError('Lütfen şifre belirleyin.');
-      return;
-    }
     if (!isCodeSent) {
       setError('Lütfen önce e-postanıza doğrulama kodu gönderin.');
       return;
@@ -87,6 +91,10 @@ export const AuthModal: React.FC = () => {
     if (codeInput.trim() !== generatedCode) {
       setError('Girdiğiniz doğrulama kodu hatalı. Lütfen kontrol edin.');
       setCodeInput('');
+      return;
+    }
+    if (!password.trim()) {
+      setError('Lütfen şifre belirleyin.');
       return;
     }
     if (!acceptedTerms) {
@@ -117,6 +125,7 @@ export const AuthModal: React.FC = () => {
     setCodeInput('');
     setGeneratedCode('');
     setError('');
+    setIsSubmittedAttempt(false);
   };
 
   const handleLogin = (e: React.FormEvent) => {
@@ -201,7 +210,11 @@ export const AuthModal: React.FC = () => {
                     placeholder="Adınız"
                     value={firstName}
                     onChange={e => setFirstName(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className={`w-full bg-gray-50 border-2 rounded-xl px-4 py-3 text-gray-955 focus:outline-none text-lg font-bold transition-all ${
+                      isSubmittedAttempt && !firstName.trim()
+                        ? 'border-rose-500 bg-rose-50/20'
+                        : 'border-gray-200 focus:border-rose-700'
+                    }`}
                   />
                 </div>
                 <div>
@@ -212,7 +225,11 @@ export const AuthModal: React.FC = () => {
                     placeholder="Soyadınız"
                     value={lastName}
                     onChange={e => setLastName(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className={`w-full bg-gray-50 border-2 rounded-xl px-4 py-3 text-gray-955 focus:outline-none text-lg font-bold transition-all ${
+                      isSubmittedAttempt && !lastName.trim()
+                        ? 'border-rose-500 bg-rose-50/20'
+                        : 'border-gray-200 focus:border-rose-700'
+                    }`}
                   />
                 </div>
               </div>
@@ -226,7 +243,11 @@ export const AuthModal: React.FC = () => {
                     placeholder="05XX XXX XX XX"
                     value={phoneNumber}
                     onChange={e => setPhoneNumber(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className={`w-full bg-gray-50 border-2 rounded-xl px-4 py-3 text-gray-955 focus:outline-none text-lg font-bold transition-all ${
+                      isSubmittedAttempt && !phoneNumber.trim()
+                        ? 'border-rose-500 bg-rose-50/20'
+                        : 'border-gray-200 focus:border-rose-700'
+                    }`}
                   />
                 </div>
                 <div>
@@ -237,7 +258,11 @@ export const AuthModal: React.FC = () => {
                     placeholder="Mektup Takma Adı"
                     value={pseudonym}
                     onChange={e => setPseudonym(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className={`w-full bg-gray-50 border-2 rounded-xl px-4 py-3 text-gray-955 focus:outline-none text-lg font-bold transition-all ${
+                      isSubmittedAttempt && !pseudonym.trim()
+                        ? 'border-rose-500 bg-rose-50/20'
+                        : 'border-gray-200 focus:border-rose-700'
+                    }`}
                   />
                 </div>
               </div>
@@ -251,7 +276,11 @@ export const AuthModal: React.FC = () => {
                     placeholder="Yaş"
                     value={age}
                     onChange={e => setAge(Number(e.target.value))}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className={`w-full bg-gray-50 border-2 rounded-xl px-4 py-3 text-gray-955 focus:outline-none text-lg font-bold transition-all ${
+                      isSubmittedAttempt && (!age || age <= 0)
+                        ? 'border-rose-500 bg-rose-50/20'
+                        : 'border-gray-200 focus:border-rose-700'
+                    }`}
                   />
                 </div>
                 <div>
@@ -262,7 +291,11 @@ export const AuthModal: React.FC = () => {
                     placeholder="Şehir"
                     value={city}
                     onChange={e => setCity(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className={`w-full bg-gray-50 border-2 rounded-xl px-4 py-3 text-gray-955 focus:outline-none text-lg font-bold transition-all ${
+                      isSubmittedAttempt && !city.trim()
+                        ? 'border-rose-500 bg-rose-50/20'
+                        : 'border-gray-200 focus:border-rose-700'
+                    }`}
                   />
                 </div>
               </div>
@@ -275,7 +308,11 @@ export const AuthModal: React.FC = () => {
                   placeholder="Edebiyat, Nostalji, Doğa"
                   value={interestsStr}
                   onChange={e => setInterestsStr(e.target.value)}
-                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                  className={`w-full bg-gray-50 border-2 rounded-xl px-4 py-3 text-gray-955 focus:outline-none text-lg font-bold transition-all ${
+                    isSubmittedAttempt && !interestsStr.trim()
+                      ? 'border-rose-500 bg-rose-50/20'
+                      : 'border-gray-200 focus:border-rose-700'
+                  }`}
                 />
               </div>
 
@@ -288,7 +325,11 @@ export const AuthModal: React.FC = () => {
                     placeholder="eposta@ornek.com"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="flex-1 bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                    className={`flex-1 bg-gray-50 border-2 rounded-xl px-4 py-3 text-gray-955 focus:outline-none text-lg font-bold transition-all ${
+                      isSubmittedAttempt && (!email.trim() || !email.includes('@'))
+                        ? 'border-rose-500 bg-rose-50/20'
+                        : 'border-gray-200 focus:border-rose-700'
+                    }`}
                   />
                   <button
                     type="button"
@@ -323,6 +364,8 @@ export const AuthModal: React.FC = () => {
                           ? 'border-emerald-500 bg-emerald-50/30'
                           : codeInput.length === 6
                           ? 'border-rose-500 bg-rose-50/30'
+                          : isSubmittedAttempt && !codeInput.trim()
+                          ? 'border-rose-500 bg-rose-50/20'
                           : 'border-gray-200 focus:border-rose-700'
                       }`}
                     />
@@ -348,7 +391,11 @@ export const AuthModal: React.FC = () => {
                   placeholder="••••••••"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-955 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                  className={`w-full bg-gray-50 border-2 rounded-xl px-4 py-3 text-gray-955 focus:outline-none text-lg font-bold transition-all ${
+                    isSubmittedAttempt && !password.trim()
+                      ? 'border-rose-500 bg-rose-50/20'
+                      : 'border-gray-200 focus:border-rose-700'
+                  }`}
                 />
               </div>
 
@@ -360,7 +407,11 @@ export const AuthModal: React.FC = () => {
                   required
                   checked={acceptedTerms}
                   onChange={e => setAcceptedTerms(e.target.checked)}
-                  className="w-6 h-6 rounded border-gray-300 text-rose-700 focus:ring-rose-500 cursor-pointer mt-0.5"
+                  className={`w-6 h-6 rounded cursor-pointer mt-0.5 transition-all ${
+                    isSubmittedAttempt && !acceptedTerms
+                      ? 'ring-2 ring-rose-500 border-rose-500 bg-rose-50/20'
+                      : 'border-gray-300 text-rose-700 focus:ring-rose-500'
+                  }`}
                 />
                 <label htmlFor="terms" className="text-sm sm:text-base text-gray-800 leading-relaxed cursor-pointer font-bold select-none">
                   Paylaştığım mektupların özgün olduğunu, telif haklarını ihlal etmediğini ve topluluk kurallarına (saygı çerçevesinde argo/küfür/hakaret içermeyen dil) uyacağımı kabul ediyorum. *
