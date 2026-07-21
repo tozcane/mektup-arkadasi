@@ -9,7 +9,8 @@ export const AuthModal: React.FC = () => {
   const [mode, setMode] = useState<'register' | 'login'>('register');
 
   // Form states
-  const [fullName, setFullName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [pseudonym, setPseudonym] = useState('');
   const [email, setEmail] = useState('');
@@ -30,8 +31,12 @@ export const AuthModal: React.FC = () => {
 
   const initiateRegistration = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fullName.trim()) {
-      setError('Lütfen Adınızı ve Soyadınızı girin.');
+    if (!firstName.trim()) {
+      setError('Lütfen Adınızı girin.');
+      return;
+    }
+    if (!lastName.trim()) {
+      setError('Lütfen Soyadınızı girin.');
       return;
     }
     if (!phoneNumber.trim()) {
@@ -73,6 +78,8 @@ export const AuthModal: React.FC = () => {
       .split(',')
       .map(s => s.trim())
       .filter(Boolean);
+
+    const fullName = `${firstName.trim()} ${lastName.trim()}`;
 
     register({
       pseudonym,
@@ -212,16 +219,30 @@ export const AuthModal: React.FC = () => {
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Adı Soyadı *</label>
+                  <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Adı *</label>
                   <input
                     type="text"
                     required
-                    placeholder="Ad Soyad"
-                    value={fullName}
-                    onChange={e => setFullName(e.target.value)}
+                    placeholder="Adınız"
+                    value={firstName}
+                    onChange={e => setFirstName(e.target.value)}
                     className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
+                <div>
+                  <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Soyadı *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Soyadınız"
+                    value={lastName}
+                    onChange={e => setLastName(e.target.value)}
+                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Telefon Numarası *</label>
                   <input
@@ -233,9 +254,6 @@ export const AuthModal: React.FC = () => {
                     className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Rumuz (Takma Ad) *</label>
                   <input
@@ -247,6 +265,9 @@ export const AuthModal: React.FC = () => {
                     className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Yaş *</label>
                   <input
@@ -258,9 +279,6 @@ export const AuthModal: React.FC = () => {
                     className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-gray-950 font-extrabold mb-1.5 text-base">Memleketi / Şehir *</label>
                   <input
@@ -272,17 +290,18 @@ export const AuthModal: React.FC = () => {
                     className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
                   />
                 </div>
-                <div>
-                  <label className="block text-gray-950 font-extrabold mb-1.5 text-base">İlgi Alanları *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Edebiyat, Nostalji, Doğa"
-                    value={interestsStr}
-                    onChange={e => setInterestsStr(e.target.value)}
-                    className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
-                  />
-                </div>
+              </div>
+
+              <div>
+                <label className="block text-gray-950 font-extrabold mb-1.5 text-base">İlgi Alanları *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Edebiyat, Nostalji, Doğa"
+                  value={interestsStr}
+                  onChange={e => setInterestsStr(e.target.value)}
+                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-950 focus:outline-none focus:border-rose-700 text-lg font-bold"
+                />
               </div>
 
               <div>
