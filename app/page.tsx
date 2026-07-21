@@ -133,7 +133,7 @@ function MainContent() {
 
                 {/* 2. Hero Title */}
                 <h1 className="font-serif text-4xl sm:text-[3.5rem] font-bold text-gray-900 leading-tight tracking-tight">
-                  Fotoğrafların Değil, Düşüncelerin Konuşulduğu Köşe.
+                  Görselliğin Gürültüsünden Uzak, Kelimelerin Kalbine Yolculuk.
                 </h1>
 
                 {/* 3. Hero Subtitle */}
