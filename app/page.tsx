@@ -133,8 +133,8 @@ function MainContent() {
                   Görselliğin Gürültüsünden Uzak, Kelimelerin Kalbine Yolculuk.
                 </h1>
 
-                {/* 3. Hero Subtitle */}
-                <p className="text-base sm:text-xl text-gray-700 font-typewriter leading-relaxed max-w-3xl mx-auto font-medium">
+                {/* 3. Hero Subtitle (Büyütüldü) */}
+                <p className="text-lg sm:text-2xl text-gray-700 font-typewriter leading-relaxed max-w-4xl mx-auto font-medium">
                   Hızlı dünyanın gürültüsünden uzaklaşın. Fotoğraf yok, anlık telaş yok. Dünyanın dertlerinden uzak samimi mektuplar yazışın, beklemenin heyecanını yaşayın.
                 </p>
 
@@ -157,69 +157,69 @@ function MainContent() {
                   </button>
                 </div>
 
-                 {/* 5. Poetic Essence Description (Sitenin Ruhu - Yeni Bölüm) */}
-                 <div className="pt-8 border-t border-gray-150 max-w-3xl mx-auto text-left space-y-4">
-                   <h2 className="font-serif text-xl sm:text-2xl font-extrabold text-rose-850 tracking-wide text-center">
+                 {/* 5. Poetic Essence Description (Büyütüldü) */}
+                 <div className="pt-8 border-t border-gray-150 max-w-4xl mx-auto text-left space-y-4">
+                   <h2 className="font-serif text-2xl sm:text-3xl font-extrabold text-rose-850 tracking-wide text-center">
                      🕯️ Yavaşlığın, Derinliğin ve Kelimelerin Kutsal Yuvası
                    </h2>
-                   <p className="text-sm sm:text-base text-gray-700 leading-relaxed font-typewriter text-center font-semibold italic">
+                   <p className="text-base sm:text-lg text-gray-800 leading-relaxed font-typewriter text-center font-bold italic">
                      mektuparkadasi.net; hızın, anlık beğenilerin ve dijital gürültünün arasında kaybolan ruhlar için sakin bir limandır. Burası, fotoğrafların ötesinde, kelimelerin ve samimi düşüncelerin değer bulduğu yavaş bir dünyadır. Bir mektubu yazmanın özeni, gönderilen pulun hatırası ve o mektubun yola çıkıp alıcısına ulaşmasını heyecanla beklemenin nostaljik büyüsüdür. Ruhların önyargısızca, sadece samimi kelimelerin sıcaklığında buluştuğu bu kulüpte, yavaş iletişimin asaletini yeniden keşfediyoruz.
                    </p>
                  </div>
 
-                 {/* 6. Özellik Kartları (Açıklamalar Geliştirildi) */}
-                 <div className="pt-4 space-y-8">
+                 {/* 6. Özellik Kartları (Açıklamalar & Başlıklar Büyütüldü) */}
+                 <div className="pt-4 space-y-10">
                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
                      
                      {/* Kart 1: Anonim & Fotoğrafsız */}
-                     <div className="relative p-7 rounded-3xl bg-gradient-to-b from-amber-50/75 to-white border-2 border-amber-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
+                     <div className="relative p-8 rounded-3xl bg-gradient-to-b from-amber-50/75 to-white border-2 border-amber-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
                        <div className="w-13 h-13 rounded-2xl bg-amber-100 border border-amber-300 text-amber-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
                          🎭
                        </div>
                        <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
                          Anonim & Fotoğrafsız
                        </h3>
-                       <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
+                       <p className="text-base text-gray-800 font-typewriter leading-relaxed font-semibold">
                          Profil resmi, unvan veya sosyal statü yok. Sadece düşüncelerinizle ve rumuzunuzla var olursunuz; böylece önyargısız, samimi ve derin bağlar kurarsınız.
                        </p>
                      </div>
 
                      {/* Kart 2: Balmumu Mühür */}
-                     <div className="relative p-7 rounded-3xl bg-gradient-to-b from-rose-50/75 to-white border-2 border-rose-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
+                     <div className="relative p-8 rounded-3xl bg-gradient-to-b from-rose-50/75 to-white border-2 border-rose-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
                        <div className="w-13 h-13 rounded-2xl bg-rose-100 border border-rose-350 text-rose-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
                          🕯️
                        </div>
                        <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
                          Balmumu Mühür
                        </h3>
-                       <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
+                       <p className="text-base text-gray-800 font-typewriter leading-relaxed font-semibold">
                          Yazdığınız mektubu nostaljik balmumu mühürle kapatırsınız. Alıcı üye, mektubu açıp okumak için bu mührü heyecanla kırarak açar.
                        </p>
                      </div>
 
                      {/* Kart 3: Yavaş & Değerli Teslimat */}
-                     <div className="relative p-7 rounded-3xl bg-gradient-to-b from-emerald-50/75 to-white border-2 border-emerald-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
+                     <div className="relative p-8 rounded-3xl bg-gradient-to-b from-emerald-50/75 to-white border-2 border-emerald-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
                        <div className="w-13 h-13 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
                          🕊️
                        </div>
                        <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
                          Yavaş & Değerli Teslimat
                        </h3>
-                       <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
+                       <p className="text-base text-gray-800 font-typewriter leading-relaxed font-semibold">
                          Mektuplar anlık mesajlar gibi saniyeler içinde gitmez; aradaki mesafeye göre saatler sürer. Beklemek mektubun kıymetini ve heyecanını katlar.
                        </p>
                      </div>
 
                    </div>
 
-                   {/* 7. Trust & Privacy Notice (Sayfanın En Altına Alındı) */}
-                   <div className="p-6 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-left max-w-3xl mx-auto flex items-start gap-4 shadow-md pt-6">
-                     <ShieldCheck className="w-8 h-8 text-emerald-600 flex-shrink-0 mt-0.5" />
-                     <div className="space-y-1.5">
-                       <span className="font-serif font-bold text-emerald-950 text-base sm:text-lg block">
+                   {/* 7. Trust & Privacy Notice (Büyütüldü) */}
+                   <div className="p-8 rounded-3xl bg-emerald-50 border-2 border-emerald-200 text-left max-w-4xl mx-auto flex items-start gap-5 shadow-md">
+                     <ShieldCheck className="w-10 h-10 text-emerald-600 flex-shrink-0 mt-0.5" />
+                     <div className="space-y-2">
+                       <span className="font-serif font-bold text-emerald-950 text-xl sm:text-2xl block">
                          🔐 %100 Uçtan Uca Gizlilik & Güven Garantisi
                        </span>
-                       <p className="text-emerald-900 leading-relaxed font-sans text-sm sm:text-base font-medium">
+                       <p className="text-emerald-900 leading-relaxed font-sans text-base sm:text-lg font-bold">
                          Mektuplarınız tamamen size ve mektup arkadaşınıza özeldir. Dışarıdan veya ziyaretçilerden tamamen gizlidir. Gerçek ad ve soyad istenmez, sadece rumuzunuzla güvenle yazışırsınız.
                        </p>
                      </div>
@@ -637,44 +637,44 @@ function MainContent() {
                                     {letter.senderName[0]}
                                   </div>
                                   <div>
-                                    <h3 className="font-serif text-lg sm:text-xl font-bold text-gray-900 group-hover:text-rose-700 transition">
+                                    <h3 className="font-serif text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-rose-700 transition">
                                       {letter.senderName} {letter.senderFlag}
                                     </h3>
-                                    <p className="text-xs sm:text-sm text-gray-500 font-typewriter">
+                                    <p className="text-sm sm:text-base text-gray-500 font-typewriter">
                                       {new Date(letter.deliveredAt || letter.sentAt).toLocaleDateString('tr-TR')}
                                     </p>
                                   </div>
                                 </div>
 
-                                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/80 border border-amber-200 text-xs sm:text-sm text-amber-900 font-typewriter font-bold">
+                                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/80 border border-amber-200 text-sm sm:text-base text-amber-900 font-typewriter font-bold">
                                   <span>{letter.stampFlag}</span>
                                   <span>{letter.stampName}</span>
                                 </div>
                               </div>
 
                               <div className="mb-4">
-                                <h4 className="font-serif text-base sm:text-lg font-bold text-gray-900 mb-1">
+                                <h4 className="font-serif text-lg sm:text-xl font-bold text-gray-900 mb-1">
                                   {letter.subject}
                                 </h4>
-                                <p className="text-xs sm:text-sm text-gray-600 font-typewriter line-clamp-2 leading-relaxed">
+                                <p className="text-sm sm:text-base text-gray-700 font-typewriter line-clamp-2 leading-relaxed">
                                   {letter.content}
                                 </p>
                               </div>
 
-                              <div className="pt-3 border-t border-gray-200/60 flex items-center justify-between text-xs sm:text-sm">
+                              <div className="pt-3 border-t border-gray-200/60 flex items-center justify-between text-sm sm:text-base">
                                 {isUnread ? (
-                                  <div className="flex items-center gap-1.5 text-rose-700 font-typewriter font-bold">
-                                    <Lock className="w-4 h-4" />
+                                  <div className="flex items-center gap-1.5 text-rose-700 font-typewriter font-extrabold">
+                                    <Lock className="w-4.5 h-4.5" />
                                     <span>Balmumu Mühürü Kır & Oku</span>
                                   </div>
                                 ) : (
-                                  <div className="flex items-center gap-1.5 text-emerald-700 font-typewriter font-medium">
-                                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                                  <div className="flex items-center gap-1.5 text-emerald-700 font-typewriter font-bold">
+                                    <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600" />
                                     <span>Okundu & Arşivde</span>
                                   </div>
                                 )}
 
-                                <span className="text-xs sm:text-sm font-bold text-gray-800 group-hover:translate-x-1 transition font-typewriter">
+                                <span className="text-sm sm:text-base font-extrabold text-gray-800 group-hover:translate-x-1 transition font-typewriter">
                                   Oku →
                                 </span>
                               </div>
