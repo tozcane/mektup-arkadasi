@@ -10,7 +10,7 @@ import { EnRouteSection } from '@/components/dma/EnRouteSection';
 import { StampAlbum } from '@/components/dma/StampAlbum';
 import { ProfileModal } from '@/components/dma/ProfileModal';
 import { AuthModal } from '@/components/dma/AuthModal';
-import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, Heart, LogIn, Compass, Stamp as StampIcon, Table } from 'lucide-react';
+import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, LogIn, Compass, Stamp as StampIcon, Table, Send } from 'lucide-react';
 
 function MainContent() {
   const {
@@ -27,6 +27,7 @@ function MainContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTopic, setSelectedTopic] = useState<string>('all');
   const [selectedUserForLetters, setSelectedUserForLetters] = useState<string | null>(null);
+  const [expandedLetterId, setExpandedLetterId] = useState<string | null>(null);
 
   const filteredPenpals = penpals.filter(p => {
     const matchesSearch =
@@ -181,85 +182,86 @@ function MainContent() {
               /* =========================================================
                  YÖNETİCİ GİRİŞİ YAPILDIĞINDA GÖRÜLECEK EXCEL TABLOSU (DİREKT EKRANDA)
                  ========================================================= */
-              <div className="space-y-6">
+              <div className="space-y-10">
                 
-                {/* Sakin Başlık */}
-                <div className="border-b border-gray-200 pb-4 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-700 shadow-sm">
-                    <Table className="w-5.5 h-5.5" />
+                {/* 1. Üyeler Bölümü */}
+                <div className="space-y-6">
+                  <div className="border-b border-gray-200 pb-4 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-700 shadow-sm">
+                      <Table className="w-5.5 h-5.5" />
+                    </div>
+                    <div>
+                      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900">
+                        Platform Üye Kayıtları (Excel Görünümü)
+                      </h2>
+                      <p className="text-xs sm:text-sm text-gray-500 font-typewriter mt-1">
+                        Sisteme kayıt olan üyelerin detaylı Excel kayıt listesi.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900">
-                      Platform Üye Kayıtları (Excel Görünümü)
-                    </h2>
-                    <p className="text-xs sm:text-sm text-gray-500 font-typewriter mt-1">
-                      Kayıtlı üyelerin listesi ve mektup akışı denetim ekranı.
+
+                  <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 flex items-start gap-2.5">
+                    <Lock className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-xs sm:text-sm">
+                      💡 Üyelerin <strong>Rumuz (Takma Ad)</strong> bilgisine tıklayarak, o üyenin gönderdiği ve aldığı tüm mektup yazışmalarını tablonun hemen altında inceleyebilirsiniz.
                     </p>
                   </div>
-                </div>
 
-                {/* Bilgilendirme Kutusu */}
-                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 flex items-start gap-2.5">
-                  <Lock className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <p className="text-xs sm:text-sm">
-                    💡 Üyelerin <strong>Rumuz (Takma Ad)</strong> bilgisine tıklayarak, o üyenin gönderdiği ve aldığı tüm mektup yazışmalarını tablonun hemen altında inceleyebilirsiniz.
-                  </p>
-                </div>
-
-                {/* Excel Style Table Grid */}
-                <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md">
-                  <table className="w-full text-left border-collapse bg-white">
-                    <thead>
-                      <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 font-bold text-xs sm:text-sm">
-                        <th className="p-4 border-r border-gray-300">Adı Soyadı</th>
-                        <th className="p-4 border-r border-gray-300">Telefon</th>
-                        <th className="p-4 border-r border-gray-300">E-posta</th>
-                        <th className="p-4 border-r border-gray-300 text-rose-800">Rumuz (Yazışmalar İçin Tıkla)</th>
-                        <th className="p-4 border-r border-gray-300">Yaş</th>
-                        <th className="p-4">Şehir (Memleket)</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 text-xs sm:text-sm text-gray-800">
-                      {penpals.map((p, idx) => (
-                        <tr key={p.id || idx} className="hover:bg-gray-50/80 transition">
-                          <td className="p-4 border-r border-gray-250 font-medium">
-                            {p.fullName || 'Tahir Özcan Ersöz'}
-                          </td>
-                          <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
-                            {p.phoneNumber || '0532 999 88 77'}
-                          </td>
-                          <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
-                            {p.email || 'tahir@email.com'}
-                          </td>
-                          <td className="p-4 border-r border-gray-250">
-                            <button
-                              onClick={() => setSelectedUserForLetters(p.pseudonym)}
-                              className={`text-rose-700 font-bold hover:underline cursor-pointer flex items-center gap-1.5 ${
-                                selectedUserForLetters === p.pseudonym ? 'bg-rose-50 px-3 py-1 rounded-lg border border-rose-200' : ''
-                              }`}
-                            >
-                              🎭 {p.pseudonym}
-                            </button>
-                          </td>
-                          <td className="p-4 border-r border-gray-250 font-bold">{p.age}</td>
-                          <td className="p-4 font-medium">{p.city}</td>
+                  {/* Excel Style Table Grid */}
+                  <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md">
+                    <table className="w-full text-left border-collapse bg-white">
+                      <thead>
+                        <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 font-bold text-xs sm:text-sm">
+                          <th className="p-4 border-r border-gray-300">Adı Soyadı</th>
+                          <th className="p-4 border-r border-gray-300">Telefon</th>
+                          <th className="p-4 border-r border-gray-300">E-posta</th>
+                          <th className="p-4 border-r border-gray-300 text-rose-800">Rumuz (Yazışmalar İçin Tıkla)</th>
+                          <th className="p-4 border-r border-gray-300">Yaş</th>
+                          <th className="p-4">Şehir (Memleket)</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200 text-xs sm:text-sm text-gray-800">
+                        {penpals.map((p, idx) => (
+                          <tr key={p.id || idx} className="hover:bg-gray-50/80 transition">
+                            <td className="p-4 border-r border-gray-250 font-medium">
+                              {p.fullName || 'Tahir Özcan Ersöz'}
+                            </td>
+                            <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
+                              {p.phoneNumber || '0532 999 88 77'}
+                            </td>
+                            <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
+                              {p.email || 'tahir@email.com'}
+                            </td>
+                            <td className="p-4 border-r border-gray-250">
+                              <button
+                                onClick={() => setSelectedUserForLetters(p.pseudonym)}
+                                className={`text-rose-700 font-bold hover:underline cursor-pointer flex items-center gap-1.5 ${
+                                  selectedUserForLetters === p.pseudonym ? 'bg-rose-50 px-3 py-1 rounded-lg border border-rose-200' : ''
+                                }`}
+                              >
+                                🎭 {p.pseudonym}
+                              </button>
+                            </td>
+                            <td className="p-4 border-r border-gray-250 font-bold">{p.age}</td>
+                            <td className="p-4 font-medium">{p.city}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
-                {/* User Correspondences View (Seçilen Rumuzun Yazışmaları) */}
+                {/* 2. Özel Seçilen Üyenin Yazışmaları */}
                 {selectedUserForLetters && (
                   <div className="p-6 rounded-2xl bg-amber-50/50 border border-amber-200 space-y-4 animate-fadeIn">
                     <div className="flex items-center justify-between border-b border-amber-200 pb-2">
                       <h3 className="font-serif text-lg font-bold text-amber-950 flex items-center gap-2">
                         <Mail className="w-5 h-5 text-rose-700" />
-                        <span>"{selectedUserForLetters}" Kullanıcısının Tüm Yazışmaları ({userLetters.length} Mektup)</span>
+                        <span>"{selectedUserForLetters}" Kullanıcısının Özel Yazışmaları ({userLetters.length} Mektup)</span>
                       </h3>
                       <button
                         onClick={() => setSelectedUserForLetters(null)}
-                        className="text-xs sm:text-sm text-rose-805 hover:underline font-bold cursor-pointer"
+                        className="text-xs sm:text-sm text-rose-800 hover:underline font-bold cursor-pointer"
                       >
                         Kapat
                       </button>
@@ -290,6 +292,99 @@ function MainContent() {
                     )}
                   </div>
                 )}
+
+                {/* 3. Tüm Platform Mektup Akışı (Birbirlerine gönderilen mektuplar) */}
+                <div className="space-y-6 pt-4 border-t border-gray-200">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-700 shadow-sm">
+                      <Send className="w-5 h-5 text-rose-700" />
+                    </div>
+                    <div>
+                      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900">
+                        Tüm Platform Yazışmaları (Mektup Akışı)
+                      </h2>
+                      <p className="text-xs sm:text-sm text-gray-500 font-typewriter mt-1">
+                        Üyelerin birbirlerine yazdığı tüm güncel mektup trafiği ve içerikleri.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md">
+                    <table className="w-full text-left border-collapse bg-white">
+                      <thead>
+                        <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 font-bold text-xs sm:text-sm">
+                          <th className="p-4 border-r border-gray-300">Gönderen</th>
+                          <th className="p-4 border-r border-gray-300">Alıcı</th>
+                          <th className="p-4 border-r border-gray-300">Mektup Başlığı (Konu)</th>
+                          <th className="p-4 border-r border-gray-300">Gönderim Tarihi</th>
+                          <th className="p-4 border-r border-gray-300">Durum</th>
+                          <th className="p-4">İçerik</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200 text-xs sm:text-sm text-gray-800">
+                        {letters.map((letter) => {
+                          const isExpanded = expandedLetterId === letter.id;
+                          return (
+                            <React.Fragment key={letter.id}>
+                              <tr className="hover:bg-gray-50/80 transition">
+                                <td className="p-4 border-r border-gray-250 font-bold text-rose-900">
+                                  🎭 {letter.senderName} {letter.senderFlag}
+                                </td>
+                                <td className="p-4 border-r border-gray-250 font-bold text-emerald-900">
+                                  🎭 {letter.recipientName}
+                                </td>
+                                <td className="p-4 border-r border-gray-250 font-medium text-gray-900">
+                                  {letter.subject}
+                                </td>
+                                <td className="p-4 border-r border-gray-250 font-mono text-gray-600">
+                                  {new Date(letter.sentAt).toLocaleDateString('tr-TR')}
+                                </td>
+                                <td className="p-4 border-r border-gray-250 font-bold">
+                                  {letter.status === 'en_route' ? (
+                                    <span className="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                                      🕊️ Yolda
+                                    </span>
+                                  ) : letter.status === 'delivered_unread' ? (
+                                    <span className="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 border border-rose-200">
+                                      🕯️ Mühürlü
+                                    </span>
+                                  ) : (
+                                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                      📖 Okundu
+                                    </span>
+                                  )}
+                                </td>
+                                <td className="p-4">
+                                  <button
+                                    onClick={() => setExpandedLetterId(isExpanded ? null : letter.id)}
+                                    className="text-xs font-bold text-rose-700 hover:underline cursor-pointer"
+                                  >
+                                    {isExpanded ? 'Gizle ▲' : 'Oku/Genişlet ▼'}
+                                  </button>
+                                </td>
+                              </tr>
+                              {isExpanded && (
+                                <tr className="bg-amber-50/20">
+                                  <td colSpan={6} className="p-6 border-b border-gray-300">
+                                    <div className="p-6 rounded-xl bg-white border border-amber-200 shadow-inner space-y-3 max-w-4xl">
+                                      <div className="flex items-center justify-between text-xs text-gray-500 border-b border-gray-100 pb-2">
+                                        <span>Konu: <strong>{letter.subject}</strong></span>
+                                        <span>Pul: {letter.stampFlag} {letter.stampName}</span>
+                                      </div>
+                                      <p className="font-serif text-sm sm:text-base text-gray-800 leading-relaxed whitespace-pre-line">
+                                        {letter.content}
+                                      </p>
+                                    </div>
+                                  </td>
+                                </tr>
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
 
               </div>
             ) : (
