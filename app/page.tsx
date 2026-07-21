@@ -174,45 +174,45 @@ function MainContent() {
                     </div>
                   </div>
 
-                  {/* 6. Özellik Kartları */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left pt-2">
+                  {/* 6. Özellik Kartları (Açıklamalar Geliştirildi) */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left pt-4">
                     
                     {/* Kart 1: Anonim & Fotoğrafsız */}
-                    <div className="relative p-6 rounded-2xl bg-gradient-to-b from-amber-50/80 to-white border-2 border-amber-200/80 shadow-md hover:shadow-lg transition group space-y-3">
-                      <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-300 text-amber-900 flex items-center justify-center text-2xl shadow-sm">
+                    <div className="relative p-7 rounded-3xl bg-gradient-to-b from-amber-50/75 to-white border-2 border-amber-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
+                      <div className="w-13 h-13 rounded-2xl bg-amber-100 border border-amber-300 text-amber-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
                         🎭
                       </div>
-                      <h3 className="font-serif font-bold text-lg sm:text-xl text-gray-900 group-hover:text-rose-800 transition">
+                      <h3 className="font-serif font-bold text-xl text-gray-950 group-hover:text-rose-850 transition">
                         Anonim & Fotoğrafsız
                       </h3>
-                      <p className="text-xs sm:text-sm text-gray-700 font-typewriter leading-relaxed">
-                        Dış görünüş veya unvan yok. Sadece önyargısız duygu ve düşünceler konuşur.
+                      <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
+                        Profil resmi, unvan veya sosyal statü yok. Sadece düşüncelerinizle ve rumuzunuzla var olursunuz; böylece önyargısız, samimi ve derin bağlar kurarsınız.
                       </p>
                     </div>
 
                     {/* Kart 2: Balmumu Mühür */}
-                    <div className="relative p-6 rounded-2xl bg-gradient-to-b from-rose-50/80 to-white border-2 border-rose-200/80 shadow-md hover:shadow-lg transition group space-y-3">
-                      <div className="w-12 h-12 rounded-2xl bg-rose-100 border border-rose-300 text-rose-900 flex items-center justify-center text-2xl shadow-sm">
+                    <div className="relative p-7 rounded-3xl bg-gradient-to-b from-rose-50/75 to-white border-2 border-rose-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
+                      <div className="w-13 h-13 rounded-2xl bg-rose-100 border border-rose-300 text-rose-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
                         🕯️
                       </div>
-                      <h3 className="font-serif font-bold text-lg sm:text-xl text-gray-900 group-hover:text-rose-800 transition">
+                      <h3 className="font-serif font-bold text-xl text-gray-950 group-hover:text-rose-850 transition">
                         Balmumu Mühür
                       </h3>
-                      <p className="text-xs sm:text-sm text-gray-700 font-typewriter leading-relaxed">
-                        Mektubunuzu özel balmumu mühürle kapatın, alıcısı sandığında heyecanla kırsın.
+                      <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
+                        Yazdığınız mektubu nostaljik balmumu mühürle kapatırsınız. Alıcı üye, mektubu açıp okumak için bu mührü heyecanla kırarak açar.
                       </p>
                     </div>
 
                     {/* Kart 3: Yavaş & Değerli Teslimat */}
-                    <div className="relative p-6 rounded-2xl bg-gradient-to-b from-emerald-50/80 to-white border-2 border-emerald-200/80 shadow-md hover:shadow-lg transition group space-y-3">
-                      <div className="w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 flex items-center justify-center text-2xl shadow-sm">
+                    <div className="relative p-7 rounded-3xl bg-gradient-to-b from-emerald-50/75 to-white border-2 border-emerald-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
+                      <div className="w-13 h-13 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
                         🕊️
                       </div>
-                      <h3 className="font-serif font-bold text-lg sm:text-xl text-gray-900 group-hover:text-rose-800 transition">
+                      <h3 className="font-serif font-bold text-xl text-gray-950 group-hover:text-rose-850 transition">
                         Yavaş & Değerli Teslimat
                       </h3>
-                      <p className="text-xs sm:text-sm text-gray-700 font-typewriter leading-relaxed">
-                        Mektuplar anında gitmez, mesafe kat eder. Beklemek mektubu kıymetli kılar.
+                      <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
+                        Mektuplar anlık mesajlar gibi saniyeler içinde gitmez; aradaki mesafeye göre saatler sürer. Beklemek mektubun kıymetini ve heyecanını katlar.
                       </p>
                     </div>
 
