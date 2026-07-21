@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DMAProvider, useDMA } from '@/context/DMAContext';
 import { Navbar } from '@/components/layout/Navbar';
 import { PenPalCard } from '@/components/dma/PenPalCard';
@@ -11,6 +11,15 @@ import { StampAlbum } from '@/components/dma/StampAlbum';
 import { ProfileModal } from '@/components/dma/ProfileModal';
 import { AuthModal } from '@/components/dma/AuthModal';
 import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, LogIn, Compass, Stamp as StampIcon, Table, Send } from 'lucide-react';
+
+const STATUS_OPTIONS = [
+  '🟢 Çevrimiçi',
+  '🟢 Çevrimiçi',
+  '⚪ Çevrimdışı',
+  '✍️ Mektup Yazıyor...',
+  '📬 Mektup Okuyor...',
+  '☕ Uzakta (Kahve Arası)',
+];
 
 function MainContent() {
   const {
@@ -28,6 +37,34 @@ function MainContent() {
   const [selectedTopic, setSelectedTopic] = useState<string>('all');
   const [selectedUserForLetters, setSelectedUserForLetters] = useState<string | null>(null);
   const [expandedLetterId, setExpandedLetterId] = useState<string | null>(null);
+
+  // Dynamic user live status state for admin excel sheet
+  const [liveStatuses, setLiveStatuses] = useState<Record<string, string>>({});
+
+  // Initialize and simulate live user status updates
+  useEffect(() => {
+    // Initial load
+    const initial: Record<string, string> = {};
+    penpals.forEach(p => {
+      initial[p.id] = STATUS_OPTIONS[Math.floor(Math.random() * STATUS_OPTIONS.length)];
+    });
+    setLiveStatuses(initial);
+
+    // Live update interval
+    const interval = setInterval(() => {
+      setLiveStatuses(prev => {
+        const next = { ...prev };
+        // Randomly update 1 or 2 users' statuses
+        const randomPenpal = penpals[Math.floor(Math.random() * penpals.length)];
+        if (randomPenpal) {
+          next[randomPenpal.id] = STATUS_OPTIONS[Math.floor(Math.random() * STATUS_OPTIONS.length)];
+        }
+        return next;
+      });
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [penpals]);
 
   const filteredPenpals = penpals.filter(p => {
     const matchesSearch =
@@ -217,7 +254,8 @@ function MainContent() {
                           <th className="p-4 border-r border-gray-300">E-posta</th>
                           <th className="p-4 border-r border-gray-300 text-rose-800">Rumuz (Yazışmalar İçin Tıkla)</th>
                           <th className="p-4 border-r border-gray-300">Yaş</th>
-                          <th className="p-4">Şehir (Memleket)</th>
+                          <th className="p-4 border-r border-gray-300">Şehir (Memleket)</th>
+                          <th className="p-4 text-emerald-800">Aktif Durum (Canlı)</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 text-xs sm:text-sm text-gray-800">
@@ -243,7 +281,10 @@ function MainContent() {
                               </button>
                             </td>
                             <td className="p-4 border-r border-gray-250 font-bold">{p.age}</td>
-                            <td className="p-4 font-medium">{p.city}</td>
+                            <td className="p-4 border-r border-gray-250 font-medium">{p.city}</td>
+                            <td className="p-4 font-bold font-typewriter text-xs text-gray-900 transition-colors duration-500">
+                              {liveStatuses[p.id] || '🟢 Çevrimiçi'}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
