@@ -31,7 +31,7 @@ export const AdminPanelModal: React.FC<{ isOpen: boolean; onClose: () => void }>
       <div className="relative w-full max-w-5xl rounded-3xl bg-white border border-gray-200 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         
         {/* Header Bar */}
-        <div className="px-8 py-6 border-b border-gray-250 bg-gray-50 flex items-center justify-between text-gray-900">
+        <div className="px-8 py-5 border-b border-gray-250 bg-gray-50 flex items-center justify-between text-gray-900">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-700">
               <Table className="w-5.5 h-5.5" />
@@ -41,7 +41,7 @@ export const AdminPanelModal: React.FC<{ isOpen: boolean; onClose: () => void }>
                 Platform Üye Kayıtları (Excel Görünümü)
               </h2>
               <p className="text-sm text-gray-500 font-medium">
-                mektuparkadasi.net • Sistem Yöneticisi Denetim Tablosu
+                mektuparkadasi.net
               </p>
             </div>
           </div>
@@ -60,7 +60,7 @@ export const AdminPanelModal: React.FC<{ isOpen: boolean; onClose: () => void }>
           <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 flex items-start gap-2.5">
             <Lock className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
             <p className="text-xs sm:text-sm">
-              💡 <strong>Yönetici Bilgilendirmesi:</strong> Excel tablosundaki herhangi bir üyenin <strong>Rumuz (Takma Ad)</strong> bilgisine tıklayarak, o üyenin gönderdiği ve aldığı tüm mektup yazışmalarını aşağıda listeleyebilirsiniz.
+              💡 Excel tablosundaki herhangi bir üyenin <strong>Rumuz (Takma Ad)</strong> bilgisine tıklayarak, o üyenin gönderdiği ve aldığı tüm mektup yazışmalarını aşağıda listeleyebilirsiniz.
             </p>
           </div>
 
