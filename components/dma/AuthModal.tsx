@@ -20,6 +20,7 @@ export const AuthModal: React.FC = () => {
   const [interestsStr, setInterestsStr] = useState('');
   const [error, setError] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [gender, setGender] = useState<'Kadın' | 'Erkek' | ''>('');
   const [isSubmittedAttempt, setIsSubmittedAttempt] = useState(false);
 
   // Email Verification Step State
@@ -32,7 +33,7 @@ export const AuthModal: React.FC = () => {
   const handleSendCode = async () => {
     setIsSubmittedAttempt(true);
     // Validate mandatory registration details before generating verification code
-    if (!firstName.trim() || !lastName.trim() || !phoneNumber.trim() || !pseudonym.trim() || !city.trim() || !interestsStr.trim()) {
+    if (!firstName.trim() || !lastName.trim() || !phoneNumber.trim() || !pseudonym.trim() || !city.trim() || !interestsStr.trim() || !gender) {
       setError('Lütfen kırmızıyla işaretli tüm alanları doldurun.');
       return;
     }
@@ -80,6 +81,10 @@ export const AuthModal: React.FC = () => {
       setError('Lütfen Rumuzunuzu (Takma Ad) belirleyin.');
       return;
     }
+    if (!gender) {
+      setError('Lütfen Cinsiyetinizi seçin.');
+      return;
+    }
     if (!email.trim() || !email.includes('@')) {
       setError('Lütfen geçerli bir e-posta adresi girin.');
       return;
@@ -118,6 +123,7 @@ export const AuthModal: React.FC = () => {
       city,
       country: 'Türkiye',
       interests,
+      gender: gender as 'Kadın' | 'Erkek',
     });
 
     // Reset verification states
@@ -165,7 +171,7 @@ export const AuthModal: React.FC = () => {
         {/* Tab Selection */}
         <div className="flex border-b border-gray-200 bg-gray-50 text-lg font-extrabold">
           <button
-            onClick={() => { setMode('register'); setError(''); }}
+            onClick={() => { setMode('register'); setError(''); setIsSubmittedAttempt(false); setGender(''); }}
             className={`flex-1 py-4 text-center transition border-b-2 cursor-pointer ${
               mode === 'register'
                 ? 'border-rose-700 text-rose-750 bg-white'
@@ -176,7 +182,7 @@ export const AuthModal: React.FC = () => {
           </button>
 
           <button
-            onClick={() => { setMode('login'); setError(''); }}
+            onClick={() => { setMode('login'); setError(''); setIsSubmittedAttempt(false); setGender(''); }}
             className={`flex-1 py-4 text-center transition border-b-2 cursor-pointer ${
               mode === 'login'
                 ? 'border-rose-700 text-rose-750 bg-white'
@@ -297,6 +303,39 @@ export const AuthModal: React.FC = () => {
                         : 'border-gray-200 focus:border-rose-700'
                     }`}
                   />
+                </div>
+              </div>
+
+              {/* Cinsiyet Seçimi (Yeni Hane) */}
+              <div>
+                <label className="block text-gray-955 font-extrabold mb-1.5 text-base">Cinsiyetiniz *</label>
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setGender('Kadın')}
+                    className={`py-3.5 rounded-xl border-2 font-bold text-lg cursor-pointer transition-all flex items-center justify-center gap-2 ${
+                      gender === 'Kadın'
+                        ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
+                        : isSubmittedAttempt && !gender
+                        ? 'border-rose-500 bg-rose-50/20 text-rose-700'
+                        : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    👩 Kadın
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGender('Erkek')}
+                    className={`py-3.5 rounded-xl border-2 font-bold text-lg cursor-pointer transition-all flex items-center justify-center gap-2 ${
+                      gender === 'Erkek'
+                        ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
+                        : isSubmittedAttempt && !gender
+                        ? 'border-rose-500 bg-rose-50/20 text-rose-700'
+                        : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    👨 Erkek
+                  </button>
                 </div>
               </div>
 

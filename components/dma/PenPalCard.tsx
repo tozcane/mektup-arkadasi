@@ -36,7 +36,9 @@ export const PenPalCard: React.FC<PenPalCardProps> = ({ profile }) => {
             <h3 className="font-serif text-lg font-bold text-gray-900 group-hover:text-rose-700 transition">
               {profile.pseudonym}
             </h3>
-            <p className="text-xs text-gray-500 font-typewriter">{profile.age} yaşında</p>
+            <p className="text-xs text-gray-500 font-typewriter">
+              {profile.gender ? `${profile.gender}, ` : ''}{profile.age} yaşında
+            </p>
           </div>
         </div>
 

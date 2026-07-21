@@ -370,7 +370,9 @@ function MainContent() {
                                     🎭 {p.pseudonym}
                                   </button>
                                 </td>
-                                <td className="p-4 border-r border-gray-250 font-bold">{p.age}</td>
+                                 <td className="p-4 border-r border-gray-250 font-bold">
+                                   {p.gender ? `${p.gender}, ` : ''}{p.age}
+                                 </td>
                                 <td className="p-4 border-r border-gray-250 font-medium">{p.city}</td>
                                 <td className="p-4 border-r border-gray-250 font-bold font-typewriter text-xs text-gray-900">
                                   {isSuspended ? (

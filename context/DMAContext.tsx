@@ -26,6 +26,7 @@ interface DMAContextType {
     city: string;
     country: string;
     interests: string[];
+    gender: 'Kadın' | 'Erkek';
   }) => void;
   logout: () => void;
 
@@ -128,6 +129,26 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       try {
         localStorage.setItem('mektup_user_session', JSON.stringify(nextUser));
       } catch (e) {}
+
+      // Sync to penpals list so changes reflect in the member list and admin dashboard
+      setPenpals(prevPenpals =>
+        prevPenpals.map(p =>
+          p.id === nextUser.id
+            ? {
+                ...p,
+                pseudonym: nextUser.pseudonym,
+                title: nextUser.title,
+                bio: nextUser.bio,
+                age: nextUser.age,
+                city: nextUser.city,
+                interests: nextUser.interests,
+                gender: nextUser.gender,
+                avatarStyle: nextUser.avatarColor
+              }
+            : p
+        )
+      );
+
       return nextUser;
     });
   };
@@ -165,6 +186,7 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     city,
     country,
     interests,
+    gender,
   }: {
     pseudonym: string;
     fullName: string;
@@ -174,6 +196,7 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     city: string;
     country: string;
     interests: string[];
+    gender: 'Kadın' | 'Erkek';
   }) => {
     const cityClean = city ? city.trim() : 'İstanbul';
     
@@ -200,12 +223,13 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       isLoggedIn: true,
       registeredAt: new Date().toISOString(),
       title: 'Mektup Arkadaşı Kulübü Üyesi',
-      bio: 'Sakinlik, samimiyet ve nostaljik mektuplar yazmayı seven yeni bir üye.',
+      bio: 'Sakinlik, samimiyet and nostaljik mektuplar yazmayı seven yeni bir üye.',
       age: age || 30,
       city: cityClean,
       country: country || 'Türkiye',
       languages: ['Türkçe', 'İngilizce'],
       interests: interests.length > 0 ? interests : ['Edebiyat', 'Nostalji'],
+      gender,
       avatarColor: '#8b261a',
       stampsCollected: [cityStamp.id, 'stamp-1', 'stamp-2', 'stamp-3', 'stamp-4'],
     };
@@ -231,6 +255,7 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       flag: '🇹🇷',
       languages: newUser.languages,
       interests: newUser.interests,
+      gender: newUser.gender,
       avatarStyle: newUser.avatarColor,
       lettersExchangedCount: 0,
       joinedDate: 'Şimdi',

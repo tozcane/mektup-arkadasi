@@ -13,6 +13,7 @@ export const ProfileModal: React.FC = () => {
   const [age, setAge] = useState(user.age);
   const [city, setCity] = useState(user.city);
   const [interestsText, setInterestsText] = useState(user.interests.join(', '));
+  const [gender, setGender] = useState<'Kadın' | 'Erkek' | ''>(user.gender || '');
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   if (!isProfileModalOpen) return null;
@@ -30,6 +31,7 @@ export const ProfileModal: React.FC = () => {
       age: Number(age),
       city,
       interests,
+      gender: gender as 'Kadın' | 'Erkek',
     });
 
     setSavedSuccess(true);
@@ -118,6 +120,35 @@ export const ProfileModal: React.FC = () => {
                 onChange={e => setCity(e.target.value)}
                 className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-rose-700 text-base font-medium"
               />
+            </div>
+          </div>
+
+          {/* Cinsiyet Seçimi */}
+          <div>
+            <label className="block text-gray-900 font-bold mb-2 text-base">Cinsiyetim</label>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => setGender('Kadın')}
+                className={`py-3.5 rounded-xl border-2 font-bold text-base cursor-pointer transition-all flex items-center justify-center gap-2 ${
+                  gender === 'Kadın'
+                    ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
+                    : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                👩 Kadın
+              </button>
+              <button
+                type="button"
+                onClick={() => setGender('Erkek')}
+                className={`py-3.5 rounded-xl border-2 font-bold text-base cursor-pointer transition-all flex items-center justify-center gap-2 ${
+                  gender === 'Erkek'
+                    ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
+                    : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                👨 Erkek
+              </button>
             </div>
           </div>
 
