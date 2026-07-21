@@ -73,7 +73,7 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [user, setUser] = useState<UserProfile>(INITIAL_USER);
   const [penpals, setPenpals] = useState<PenPalProfile[]>(MOCK_PENPALS);
   const [letters, setLetters] = useState<Letter[]>(INITIAL_LETTERS);
-  const [stamps] = useState<Stamp[]>(STAMPS);
+  const [stamps, setStamps] = useState<Stamp[]>(STAMPS);
   
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [writingRecipient, setWritingRecipient] = useState<PenPalProfile | null>(null);
@@ -175,6 +175,22 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     country: string;
     interests: string[];
   }) => {
+    const cityClean = city ? city.trim() : 'İstanbul';
+    
+    // Create personalized city stamp
+    const cityStamp: Stamp = {
+      id: `stamp-city-${Date.now()}`,
+      name: `${cityClean} Hatırası`,
+      country: 'Türkiye',
+      flag: '🇹🇷',
+      imageUrl: '',
+      year: '2026',
+      rarity: 'legendary',
+    };
+
+    // Prepend new stamp to stamps list
+    setStamps(prev => [cityStamp, ...prev]);
+
     const newUser: UserProfile = {
       id: `user-${Date.now()}`,
       pseudonym: pseudonym.trim() || 'NostaljikDüşünür',
@@ -186,12 +202,12 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       title: 'Mektup Arkadaşı Kulübü Üyesi',
       bio: 'Sakinlik, samimiyet ve nostaljik mektuplar yazmayı seven yeni bir üye.',
       age: age || 30,
-      city: city || 'İstanbul',
+      city: cityClean,
       country: country || 'Türkiye',
       languages: ['Türkçe', 'İngilizce'],
       interests: interests.length > 0 ? interests : ['Edebiyat', 'Nostalji'],
       avatarColor: '#8b261a',
-      stampsCollected: ['stamp-1', 'stamp-2'],
+      stampsCollected: [cityStamp.id, 'stamp-1', 'stamp-2', 'stamp-3', 'stamp-4'],
     };
 
     setUser(newUser);
@@ -225,7 +241,7 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     setPenpals(prev => [...prev, newPenpal]);
 
-    // Generate automatic welcome letter
+    // Generate automatic welcome letter with hometown stamp
     const welcomeLetter: Letter = {
       id: `welcome-${Date.now()}`,
       senderId: penpals[0]?.id || 'penpal-1',
@@ -240,14 +256,14 @@ mektuparkadasi.net ailesine hoş geldin!
 
 Bu mektup sana özel olarak hazırlamış olduğum nostaljik bir karşılama yazısıdır. Hızlı dünyanın karmaşasından ve yüzeysel mesajlarından uzaklaşıp; sakin ve derin yazışmalar yapabileceğin bu özel köşede seninle buluştuğuma çok sevindim.
 
-Sandığın artık tamamen sana özel ve mühürlü. İlk mektubunu yazmak veya benimle dertleşmek istersen tek tıkla mektup kaleme alabilirsin.
+Sana hediye ettiğim "${cityStamp.name}" özel pulunu mektup yazarken kullanabilirsin. İlk mektubunu yazmak veya benimle dertleşmek istersen tek tıkla mektup kaleme alabilirsin.
 
 Sevgi ve selamlarımla,
 SessizLiman`,
       paperTheme: 'parchment',
-      stampId: 'stamp-1',
-      stampName: 'Kapadokya Balonları',
-      stampFlag: '🇹🇷',
+      stampId: cityStamp.id,
+      stampName: cityStamp.name,
+      stampFlag: cityStamp.flag,
       sentAt: new Date().toISOString(),
       estimatedDeliveryAt: new Date().toISOString(),
       deliveredAt: new Date().toISOString(),

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDMA } from '@/context/DMAContext';
 import { PAPER_THEMES } from '@/data/mockData';
 import { PaperThemeId } from '@/types/dma';
@@ -17,6 +17,21 @@ export const LetterWriterModal: React.FC = () => {
   const [selectedStampId, setSelectedStampId] = useState<string>(stamps[0]?.id || 'stamp-1');
   const [isSealing, setIsSealing] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Reset fields and default to hometown/city stamp when modal is opened
+  useEffect(() => {
+    if (writingRecipient) {
+      const cityStamp = stamps.find(s => s.id.startsWith('stamp-city'));
+      if (cityStamp) {
+        setSelectedStampId(cityStamp.id);
+      } else if (stamps.length > 0) {
+        setSelectedStampId(stamps[0].id);
+      }
+      setSubject('');
+      setContent('');
+      setErrorMsg('');
+    }
+  }, [writingRecipient, stamps]);
 
   if (!writingRecipient) return null;
 
