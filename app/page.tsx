@@ -162,7 +162,7 @@ function MainContent() {
                    <h2 className="font-serif text-2xl sm:text-3xl font-extrabold text-rose-850 tracking-wide text-center">
                      🕯️ Yavaşlığın, Derinliğin ve Kelimelerin Kutsal Yuvası
                    </h2>
-                   <p className="text-base sm:text-lg text-gray-800 leading-relaxed font-typewriter text-center font-bold italic">
+                   <p className="text-base sm:text-lg text-gray-800 leading-relaxed font-typewriter text-center font-bold">
                      mektuparkadasi.net; hızın, anlık beğenilerin ve dijital gürültünün arasında kaybolan ruhlar için sakin bir limandır. Burası, fotoğrafların ötesinde, kelimelerin ve samimi düşüncelerin değer bulduğu yavaş bir dünyadır. Bir mektubu yazmanın özeni, gönderilen pulun hatırası ve o mektubun yola çıkıp alıcısına ulaşmasını heyecanla beklemenin nostaljik büyüsüdür. Ruhların önyargısızca, sadece samimi kelimelerin sıcaklığında buluştuğu bu kulüpte, yavaş iletişimin asaletini yeniden keşfediyoruz.
                    </p>
                  </div>
