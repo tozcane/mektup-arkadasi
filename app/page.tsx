@@ -10,6 +10,7 @@ import { EnRouteSection } from '@/components/dma/EnRouteSection';
 import { StampAlbum } from '@/components/dma/StampAlbum';
 import { ProfileModal } from '@/components/dma/ProfileModal';
 import { AuthModal } from '@/components/dma/AuthModal';
+import Footer from '@/components/layout/Footer';
 import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, Heart, LogIn, Compass, Stamp as StampIcon } from 'lucide-react';
 
 function MainContent() {
@@ -340,6 +341,9 @@ function MainContent() {
 
         </div>
       </main>
+
+      {/* Footer */}
+      <Footer />
 
       {/* Global Modals */}
       <LetterWriterModal />

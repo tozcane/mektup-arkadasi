@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useDMA } from '@/context/DMAContext';
-import { Mail, Compass, Stamp as StampIcon, Send, ShieldCheck, PenTool, Lock, Sparkles, LogIn, LogOut } from 'lucide-react';
+import { Mail, Compass, Stamp as StampIcon, Send, PenTool, Lock, Sparkles, LogIn, LogOut } from 'lucide-react';
 import { ActiveTab } from '@/types/dma';
-import { AdminPanelModal } from '@/components/dma/AdminPanelModal';
 import { AuthModal } from '@/components/dma/AuthModal';
 
 export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAssignPenPal }) => {
@@ -18,8 +17,6 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
     setIsAuthModalOpen,
     logout,
   } = useDMA();
-
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   const unreadCount = letters.filter(l => l.status === 'delivered_unread').length;
   const enRouteCount = letters.filter(l => l.status === 'en_route').length;
@@ -53,7 +50,7 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
     <>
       <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-          {/* Brand Logo & Title (Tam İdeal Orta Boyut) */}
+          {/* Brand Logo & Title */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-700 to-rose-900 text-white flex items-center justify-center shadow-md">
               <PenTool className="w-5 h-5" />
@@ -72,7 +69,7 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
             </div>
           </div>
 
-          {/* Navigation Tabs (Giriş Yapıldığında Görünür - İdeal Orta Boyut) */}
+          {/* Navigation Tabs (Giriş Yapıldığında Görünür) */}
           {user.isLoggedIn && (
             <nav className="flex items-center space-x-1 sm:space-x-2 overflow-x-auto py-1">
               {navItems.map(item => {
@@ -102,16 +99,6 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
 
           {/* Action Controls */}
           <div className="flex items-center gap-2">
-            {/* Admin Button */}
-            <button
-              onClick={() => setIsAdminOpen(true)}
-              title="Yönetim Paneli"
-              className="flex items-center gap-1 px-2.5 py-2 rounded-lg bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200 text-xs sm:text-sm font-medium transition cursor-pointer"
-            >
-              <ShieldCheck className="w-4 h-4 text-rose-700" />
-              <span className="hidden md:inline">Yönetim</span>
-            </button>
-
             {/* Auth Buttons */}
             {user.isLoggedIn ? (
               <div className="flex items-center gap-1.5">
@@ -164,9 +151,8 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
         </div>
       </header>
 
-      {/* Auth & Admin Modals */}
+      {/* Auth Modal */}
       <AuthModal />
-      <AdminPanelModal isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
     </>
   );
 };
