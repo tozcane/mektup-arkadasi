@@ -53,70 +53,70 @@ function MainContent() {
       <Navbar onAutoAssignPenPal={() => openWriterModal(penpals[0])} />
 
       {/* Main Container */}
-      <main className="relative z-10 max-w-5xl mx-auto px-4 py-8 sm:py-10 space-y-8">
+      <main className="relative z-10 max-w-5xl mx-auto px-4 py-10 sm:py-12 space-y-10">
         
         {/* Main Content Card Frame */}
-        <div className="relative p-2 sm:p-5 rounded-3xl bg-gray-950/5 border border-gray-200/80 shadow-2xl backdrop-blur-md">
+        <div className="relative p-3 sm:p-6 rounded-3xl bg-gray-950/5 border border-gray-200/80 shadow-2xl backdrop-blur-md">
           
           {/* Card Body Container */}
-          <div className="bg-white/95 backdrop-blur-lg p-6 sm:p-10 rounded-2xl shadow-xl space-y-8 border border-gray-100">
+          <div className="bg-white/95 backdrop-blur-lg p-6 sm:p-12 rounded-2xl shadow-xl space-y-10 border border-gray-100">
 
             {!user.isLoggedIn ? (
               /* =========================================================
-                 ZİYARETÇİ / İLK KARŞILAMA SAYFASI (TEMİZ VE NET BEYAZ TEMA)
+                 ZİYARETÇİ / İLK KARŞILAMA SAYFASI (OKUNAKLI BÜYÜTÜLMÜŞ FONT)
                  ========================================================= */
-              <section className="space-y-7 py-4 text-center max-w-4xl mx-auto">
+              <section className="space-y-8 py-6 text-center max-w-4xl mx-auto">
                 
                 {/* 1. Brand Badge */}
-                <div className="inline-flex items-center gap-2.5 px-4.5 py-2 rounded-full bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-base font-typewriter font-bold shadow-sm">
-                  <Sparkles className="w-4.5 h-4.5 text-amber-500 animate-spin" />
+                <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-rose-50 border border-rose-200 text-rose-800 text-sm sm:text-base font-typewriter font-bold shadow-sm">
+                  <Sparkles className="w-5 h-5 text-amber-500 animate-spin" />
                   <span>mektuparkadasi.net — Nostaljik & Yavaş İletişim Kulübü</span>
                 </div>
 
-                {/* 2. Hero Title */}
-                <h1 className="font-serif text-3xl sm:text-[3.25rem] font-bold text-gray-900 leading-tight tracking-tight">
+                {/* 2. Hero Title (Büyütüldü) */}
+                <h1 className="font-serif text-4xl sm:text-[3.5rem] font-bold text-gray-900 leading-tight tracking-tight">
                   Fotoğrafların Değil, Düşüncelerin Konuşulduğu Köşe.
                 </h1>
 
-                {/* 3. Hero Subtitle */}
+                {/* 3. Hero Subtitle (Büyütüldü) */}
                 <p className="text-base sm:text-xl text-gray-700 font-typewriter leading-relaxed max-w-3xl mx-auto font-medium">
                   Hızlı dünyanın gürültüsünden uzaklaşın. Fotoğraf yok, anlık telaş yok. Dünyanın dört bir yanından insanlarla samimi mektuplar yazışın, beklemenin heyecanını yaşayın.
                 </p>
 
-                {/* 4. Action Buttons */}
-                <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-4">
+                {/* 4. Action Buttons (Büyütüldü) */}
+                <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-5">
                   <button
                     onClick={() => setIsAuthModalOpen(true)}
-                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-9 py-4 rounded-2xl bg-gradient-to-r from-rose-700 to-red-800 hover:from-rose-800 hover:to-red-900 text-white font-bold text-base sm:text-lg shadow-xl transition transform active:scale-95 cursor-pointer"
+                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-4.5 rounded-2xl bg-gradient-to-r from-rose-700 to-red-800 hover:from-rose-800 hover:to-red-900 text-white font-bold text-base sm:text-lg shadow-xl transition transform active:scale-95 cursor-pointer"
                   >
-                    <Feather className="w-5.5 h-5.5" />
+                    <Feather className="w-6 h-6" />
                     <span>✨ Üye Ol & Mektup Sandığını Aç</span>
                   </button>
 
                   <button
                     onClick={() => setIsAuthModalOpen(true)}
-                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-9 py-4 rounded-2xl bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-800 font-bold text-base sm:text-lg transition cursor-pointer"
+                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-4.5 rounded-2xl bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-800 font-bold text-base sm:text-lg transition cursor-pointer"
                   >
-                    <LogIn className="w-5.5 h-5.5 text-gray-700" />
+                    <LogIn className="w-6 h-6 text-gray-700" />
                     <span>🔑 Zaten Üyeyim, Giriş Yap</span>
                   </button>
                 </div>
 
                 {/* 5. Trust & Privacy Notice */}
-                <div className="pt-6 border-t border-gray-100 space-y-6">
-                  <div className="p-5.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-left max-w-2xl mx-auto flex items-start gap-3.5 shadow-sm">
-                    <ShieldCheck className="w-7.5 h-7.5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                    <div className="space-y-1">
-                      <span className="font-serif font-bold text-emerald-900 text-base sm:text-lg block">
+                <div className="pt-8 border-t border-gray-100 space-y-8">
+                  <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-left max-w-3xl mx-auto flex items-start gap-4 shadow-sm">
+                    <ShieldCheck className="w-8 h-8 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <div className="space-y-1.5">
+                      <span className="font-serif font-bold text-emerald-950 text-base sm:text-lg block">
                         🔐 %100 Uçtan Uca Gizlilik & Güven Garantisi
                       </span>
-                      <p className="text-emerald-800 leading-relaxed font-sans text-xs sm:text-sm">
+                      <p className="text-emerald-900 leading-relaxed font-sans text-sm sm:text-base">
                         Mektuplarınız tamamen size ve mektup arkadaşınıza özeldir. Dışarıdan veya ziyaretçilerden tamamen gizlidir. Gerçek ad ve soyad istenmez, sadece rumuzunuzla iletişim kurarsınız.
                       </p>
                     </div>
                   </div>
 
-                  {/* 6. Renolenmiş Yüksek Okunabilirlikli Özellik Kartları */}
+                  {/* 6. Özellik Kartları (Büyütüldü) */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left pt-2">
                     
                     {/* Kart 1: Anonim & Fotoğrafsız */}
@@ -164,7 +164,7 @@ function MainContent() {
               </section>
             ) : (
               /* =========================================================
-                 ÜYE GİRİŞİ YAPILDIKTAN SONRAKİ DASHBOARD
+                 ÜYE GİRİŞİ YAPILDIKTAN SONRAKİ DASHBOARD (BÜYÜTÜLMÜŞ FONT)
                  ========================================================= */
               <div className="space-y-8">
                 
@@ -175,7 +175,7 @@ function MainContent() {
                     <span className="font-serif font-bold text-emerald-900 text-lg sm:text-xl block">
                       Hoş Geldin {user.pseudonym}! 🔐 %100 Özel Sandığın Aktif
                     </span>
-                    <p className="text-emerald-800 text-xs sm:text-sm leading-relaxed font-sans">
+                    <p className="text-emerald-800 text-sm sm:text-base leading-relaxed font-sans">
                       Sandığındaki tüm mektuplar tamamen sana özeldir. Başka kimse göremez.
                     </p>
                   </div>
@@ -233,16 +233,16 @@ function MainContent() {
                                     {letter.senderName[0]}
                                   </div>
                                   <div>
-                                    <h3 className="font-serif text-lg font-bold text-gray-900 group-hover:text-rose-700 transition">
+                                    <h3 className="font-serif text-lg sm:text-xl font-bold text-gray-900 group-hover:text-rose-700 transition">
                                       {letter.senderName} {letter.senderFlag}
                                     </h3>
-                                    <p className="text-xs text-gray-500 font-typewriter">
+                                    <p className="text-xs sm:text-sm text-gray-500 font-typewriter">
                                       {new Date(letter.deliveredAt || letter.sentAt).toLocaleDateString('tr-TR')}
                                     </p>
                                   </div>
                                 </div>
 
-                                <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-100/80 border border-amber-200 text-xs text-amber-900 font-typewriter font-bold">
+                                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/80 border border-amber-200 text-xs sm:text-sm text-amber-900 font-typewriter font-bold">
                                   <span>{letter.stampFlag}</span>
                                   <span>{letter.stampName}</span>
                                 </div>
