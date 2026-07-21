@@ -44,9 +44,13 @@ function MainContent() {
 
   return (
     <div className="relative min-h-screen bg-white text-gray-900 font-sans selection:bg-rose-700 selection:text-white">
-      {/* Side Overlays (Left Man, Right Woman) */}
-      <div className="bg-couple-overlay-left" />
-      <div className="bg-couple-overlay-right" />
+      {/* Side Overlays (Left Man, Right Woman) - Hide for Admin */}
+      {!user.isAdmin && (
+        <>
+          <div className="bg-couple-overlay-left" />
+          <div className="bg-couple-overlay-right" />
+        </>
+      )}
 
       {/* Navigation Header */}
       <Navbar onAutoAssignPenPal={() => openWriterModal(penpals[0])} />
