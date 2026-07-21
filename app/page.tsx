@@ -212,15 +212,15 @@ function MainContent() {
 
                    </div>
 
-                   {/* 7. Trust & Privacy Notice (Büyütüldü) */}
-                   <div className="p-8 rounded-3xl bg-emerald-50 border-2 border-emerald-200 text-left max-w-4xl mx-auto flex items-start gap-5 shadow-md">
-                     <ShieldCheck className="w-10 h-10 text-emerald-600 flex-shrink-0 mt-0.5" />
-                     <div className="space-y-2">
-                       <span className="font-serif font-bold text-emerald-950 text-xl sm:text-2xl block">
+                   {/* 7. Trust & Privacy Notice (Küçültüldü & Detaylandırıldı) */}
+                   <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-left max-w-3xl mx-auto flex items-start gap-4 shadow-sm">
+                     <ShieldCheck className="w-8 h-8 text-emerald-600 flex-shrink-0 mt-0.5" />
+                     <div className="space-y-1.5">
+                       <span className="font-serif font-bold text-emerald-950 text-base sm:text-lg block">
                          🔐 %100 Uçtan Uca Gizlilik & Güven Garantisi
                        </span>
-                       <p className="text-emerald-900 leading-relaxed font-sans text-base sm:text-lg font-bold">
-                         Mektuplarınız tamamen size ve mektup arkadaşınıza özeldir. Dışarıdan veya ziyaretçilerden tamamen gizlidir. Gerçek ad ve soyad istenmez, sadece rumuzunuzla güvenle yazışırsınız.
+                       <p className="text-emerald-800 leading-relaxed font-sans text-xs sm:text-sm font-semibold">
+                         Mektuplarınız tamamen size ve mektup arkadaşınıza özeldir. Dışarıdan veya ziyaretçilerden tamamen gizlidir. Gerçek ad ve soyadınız sadece güvenliğiniz için istenmektedir; bu bilgiler mektup arkadaşlarınızla kesinlikle paylaşılmayacak ve hiçbir yerde gözükmeyecektir. İletişimi sadece rumuzunuzla güvenle sürdürürsünüz.
                        </p>
                      </div>
                    </div>
