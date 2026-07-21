@@ -19,6 +19,8 @@ interface DMAContextType {
   login: (pseudonymOrEmail: string, password?: string) => boolean;
   register: (params: {
     pseudonym: string;
+    fullName: string;
+    phoneNumber: string;
     email: string;
     age: number;
     city: string;
@@ -60,7 +62,7 @@ const DMAContext = createContext<DMAContextType | undefined>(undefined);
 export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeTab, setActiveTab] = useState<ActiveTab>('inbox');
   const [user, setUser] = useState<UserProfile>(INITIAL_USER);
-  const [penpals] = useState<PenPalProfile[]>(MOCK_PENPALS);
+  const [penpals, setPenpals] = useState<PenPalProfile[]>(MOCK_PENPALS);
   const [letters, setLetters] = useState<Letter[]>(INITIAL_LETTERS);
   const [stamps] = useState<Stamp[]>(STAMPS);
   
@@ -143,6 +145,8 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const register = ({
     pseudonym,
+    fullName,
+    phoneNumber,
     email,
     age,
     city,
@@ -150,6 +154,8 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     interests,
   }: {
     pseudonym: string;
+    fullName: string;
+    phoneNumber: string;
     email: string;
     age: number;
     city: string;
@@ -159,6 +165,8 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const newUser: UserProfile = {
       id: `user-${Date.now()}`,
       pseudonym: pseudonym.trim() || 'NostaljikDüşünür',
+      fullName: fullName.trim(),
+      phoneNumber: phoneNumber.trim(),
       email: email.trim(),
       isLoggedIn: true,
       registeredAt: new Date().toISOString(),
@@ -178,12 +186,37 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       localStorage.setItem('mektup_user_session', JSON.stringify(newUser));
     } catch (e) {}
 
-    // Generate an automatic wax-sealed welcome letter for the new user!
+    // Add user to the PenPalProfile list so they show up in admin panel
+    const newPenpal: PenPalProfile = {
+      id: newUser.id,
+      pseudonym: newUser.pseudonym,
+      fullName: newUser.fullName,
+      phoneNumber: newUser.phoneNumber,
+      email: newUser.email,
+      title: newUser.title,
+      bio: newUser.bio,
+      age: newUser.age,
+      country: newUser.country,
+      city: newUser.city,
+      flag: '🇹🇷',
+      languages: newUser.languages,
+      interests: newUser.interests,
+      avatarStyle: newUser.avatarColor,
+      lettersExchangedCount: 0,
+      joinedDate: 'Şimdi',
+      status: 'active',
+      distanceKm: 0,
+      estimatedDeliveryHours: 1,
+    };
+
+    setPenpals(prev => [...prev, newPenpal]);
+
+    // Generate automatic wax-sealed welcome letter
     const welcomeLetter: Letter = {
       id: `welcome-${Date.now()}`,
-      senderId: penpals[0].id,
-      senderName: penpals[0].pseudonym,
-      senderFlag: penpals[0].flag,
+      senderId: penpals[0]?.id || 'penpal-1',
+      senderName: penpals[0]?.pseudonym || 'SessizLiman',
+      senderFlag: penpals[0]?.flag || '🇹🇷',
       recipientId: newUser.id,
       recipientName: newUser.pseudonym,
       subject: `Hoş Geldin ${newUser.pseudonym}! Mektup Sandığın Hazır 🕯️`,
@@ -196,7 +229,7 @@ Bu mektup sana özel olarak hazırlamış olduğum nostaljik bir karşılama yaz
 Sandığın artık tamamen sana özel ve mühürlü. İlk mektubunu yazmak veya benimle düşüncelerini paylaşmak istersen tek tıkla mektup kaleme alabilirsin.
 
 Sevgi ve selamlarımla,
-${penpals[0].pseudonym}`,
+SessizLiman`,
       paperTheme: 'parchment',
       stampId: 'stamp-1',
       stampName: 'Kapadokya Balonları',

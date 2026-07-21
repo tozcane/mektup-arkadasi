@@ -21,6 +21,9 @@ export interface Stamp {
 export interface PenPalProfile {
   id: string;
   pseudonym: string;
+  fullName?: string;
+  phoneNumber?: string;
+  email?: string;
   title: string;
   bio: string;
   age: number;
@@ -62,6 +65,8 @@ export type ActiveTab = 'inbox' | 'en_route' | 'penpals' | 'stamps';
 export interface UserProfile {
   id: string;
   pseudonym: string;
+  fullName?: string;
+  phoneNumber?: string;
   email?: string;
   isLoggedIn?: boolean;
   isAdmin?: boolean;
