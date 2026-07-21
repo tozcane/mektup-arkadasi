@@ -17,7 +17,7 @@ export const AuthModal: React.FC = () => {
   const [password, setPassword] = useState('');
   const [age, setAge] = useState(28);
   const [city, setCity] = useState('İstanbul');
-  const [interestsStr, setInterestsStr] = useState('Edebiyat, Nostalji, Gece Sohbetleri');
+  const [interestsStr, setInterestsStr] = useState('');
   const [error, setError] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [isSubmittedAttempt, setIsSubmittedAttempt] = useState(false);
