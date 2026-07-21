@@ -157,64 +157,74 @@ function MainContent() {
                   </button>
                 </div>
 
-                {/* 5. Trust & Privacy Notice */}
-                <div className="pt-8 border-t border-gray-100 space-y-8">
-                  <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-left max-w-3xl mx-auto flex items-start gap-4 shadow-sm">
-                    <ShieldCheck className="w-8 h-8 text-emerald-600 flex-shrink-0 mt-0.5" />
-                    <div className="space-y-1.5">
-                      <span className="font-serif font-bold text-emerald-950 text-base sm:text-lg block">
-                        🔐 %100 Uçtan Uca Gizlilik & Güven Garantisi
-                      </span>
-                      <p className="text-emerald-900 leading-relaxed font-sans text-sm sm:text-base">
-                        Mektuplarınız tamamen size ve mektup arkadaşınıza özeldir. Dışarıdan veya ziyaretçilerden tamamen gizlidir. Gerçek ad ve soyad istenmez, sadece rumuzunuzla iletişim kurarsınız.
-                      </p>
-                    </div>
-                  </div>
+                 {/* 5. Poetic Essence Description (Sitenin Ruhu - Yeni Bölüm) */}
+                 <div className="pt-8 border-t border-gray-150 max-w-3xl mx-auto text-left space-y-4">
+                   <h2 className="font-serif text-xl sm:text-2xl font-extrabold text-rose-850 tracking-wide text-center">
+                     🕯️ Yavaşlığın, Derinliğin ve Kelimelerin Kutsal Yuvası
+                   </h2>
+                   <p className="text-sm sm:text-base text-gray-700 leading-relaxed font-typewriter text-center font-semibold italic">
+                     mektuparkadasi.net; hızın, anlık beğenilerin ve dijital gürültünün arasında kaybolan ruhlar için sakin bir limandır. Burası, fotoğrafların ötesinde, kelimelerin ve samimi düşüncelerin değer bulduğu yavaş bir dünyadır. Bir mektubu yazmanın özeni, gönderilen pulun hatırası ve o mektubun yola çıkıp alıcısına ulaşmasını heyecanla beklemenin nostaljik büyüsüdür. Ruhların önyargısızca, sadece samimi kelimelerin sıcaklığında buluştuğu bu kulüpte, yavaş iletişimin asaletini yeniden keşfediyoruz.
+                   </p>
+                 </div>
 
-                  {/* 6. Özellik Kartları (Açıklamalar Geliştirildi) */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left pt-4">
-                    
-                    {/* Kart 1: Anonim & Fotoğrafsız */}
-                    <div className="relative p-7 rounded-3xl bg-gradient-to-b from-amber-50/75 to-white border-2 border-amber-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
-                      <div className="w-13 h-13 rounded-2xl bg-amber-100 border border-amber-300 text-amber-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
-                        🎭
-                      </div>
-                      <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
-                        Anonim & Fotoğrafsız
-                      </h3>
-                      <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
-                        Profil resmi, unvan veya sosyal statü yok. Sadece düşüncelerinizle ve rumuzunuzla var olursunuz; böylece önyargısız, samimi ve derin bağlar kurarsınız.
-                      </p>
-                    </div>
+                 {/* 6. Özellik Kartları (Açıklamalar Geliştirildi) */}
+                 <div className="pt-4 space-y-8">
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                     
+                     {/* Kart 1: Anonim & Fotoğrafsız */}
+                     <div className="relative p-7 rounded-3xl bg-gradient-to-b from-amber-50/75 to-white border-2 border-amber-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
+                       <div className="w-13 h-13 rounded-2xl bg-amber-100 border border-amber-300 text-amber-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
+                         🎭
+                       </div>
+                       <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
+                         Anonim & Fotoğrafsız
+                       </h3>
+                       <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
+                         Profil resmi, unvan veya sosyal statü yok. Sadece düşüncelerinizle ve rumuzunuzla var olursunuz; böylece önyargısız, samimi ve derin bağlar kurarsınız.
+                       </p>
+                     </div>
 
-                    {/* Kart 2: Balmumu Mühür */}
-                    <div className="relative p-7 rounded-3xl bg-gradient-to-b from-rose-50/75 to-white border-2 border-rose-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
-                      <div className="w-13 h-13 rounded-2xl bg-rose-100 border border-rose-300 text-rose-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
-                        🕯️
-                      </div>
-                      <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
-                        Balmumu Mühür
-                      </h3>
-                      <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
-                        Yazdığınız mektubu nostaljik balmumu mühürle kapatırsınız. Alıcı üye, mektubu açıp okumak için bu mührü heyecanla kırarak açar.
-                      </p>
-                    </div>
+                     {/* Kart 2: Balmumu Mühür */}
+                     <div className="relative p-7 rounded-3xl bg-gradient-to-b from-rose-50/75 to-white border-2 border-rose-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
+                       <div className="w-13 h-13 rounded-2xl bg-rose-100 border border-rose-350 text-rose-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
+                         🕯️
+                       </div>
+                       <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
+                         Balmumu Mühür
+                       </h3>
+                       <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
+                         Yazdığınız mektubu nostaljik balmumu mühürle kapatırsınız. Alıcı üye, mektubu açıp okumak için bu mührü heyecanla kırarak açar.
+                       </p>
+                     </div>
 
-                    {/* Kart 3: Yavaş & Değerli Teslimat */}
-                    <div className="relative p-7 rounded-3xl bg-gradient-to-b from-emerald-50/75 to-white border-2 border-emerald-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
-                      <div className="w-13 h-13 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
-                        🕊️
-                      </div>
-                      <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
-                        Yavaş & Değerli Teslimat
-                      </h3>
-                      <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
-                        Mektuplar anlık mesajlar gibi saniyeler içinde gitmez; aradaki mesafeye göre saatler sürer. Beklemek mektubun kıymetini ve heyecanını katlar.
-                      </p>
-                    </div>
+                     {/* Kart 3: Yavaş & Değerli Teslimat */}
+                     <div className="relative p-7 rounded-3xl bg-gradient-to-b from-emerald-50/75 to-white border-2 border-emerald-200/70 shadow-md hover:shadow-xl transition duration-300 group space-y-4">
+                       <div className="w-13 h-13 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
+                         🕊️
+                       </div>
+                       <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
+                         Yavaş & Değerli Teslimat
+                       </h3>
+                       <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
+                         Mektuplar anlık mesajlar gibi saniyeler içinde gitmez; aradaki mesafeye göre saatler sürer. Beklemek mektubun kıymetini ve heyecanını katlar.
+                       </p>
+                     </div>
 
-                  </div>
-                </div>
+                   </div>
+
+                   {/* 7. Trust & Privacy Notice (Sayfanın En Altına Alındı) */}
+                   <div className="p-6 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-left max-w-3xl mx-auto flex items-start gap-4 shadow-md pt-6">
+                     <ShieldCheck className="w-8 h-8 text-emerald-600 flex-shrink-0 mt-0.5" />
+                     <div className="space-y-1.5">
+                       <span className="font-serif font-bold text-emerald-950 text-base sm:text-lg block">
+                         🔐 %100 Uçtan Uca Gizlilik & Güven Garantisi
+                       </span>
+                       <p className="text-emerald-900 leading-relaxed font-sans text-sm sm:text-base font-medium">
+                         Mektuplarınız tamamen size ve mektup arkadaşınıza özeldir. Dışarıdan veya ziyaretçilerden tamamen gizlidir. Gerçek ad ve soyad istenmez, sadece rumuzunuzla güvenle yazışırsınız.
+                       </p>
+                     </div>
+                   </div>
+                 </div>
 
               </section>
             ) : (user.isAdmin && isAdminViewMode) ? (
