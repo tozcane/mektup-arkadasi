@@ -119,9 +119,13 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const login = (pseudonymOrEmail: string, password?: string): boolean => {
+    const adminUsername = (process.env.NEXT_PUBLIC_ADMIN_USERNAME || 'tahir_admin').toLowerCase();
+    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'Mektup2026!Gizli';
+
+    const inputUser = pseudonymOrEmail.trim().toLowerCase();
     const isOwnerAdmin =
-      (pseudonymOrEmail.toLowerCase() === 'admin' || pseudonymOrEmail.toLowerCase() === 'yonetici' || pseudonymOrEmail.toLowerCase() === 'admin@mektuparkadasi.net') &&
-      (password === 'admin' || password === 'admin123' || !password);
+      (inputUser === adminUsername || inputUser === 'tahir_admin' || inputUser === 'admin@mektuparkadasi.net') &&
+      password === adminPassword;
 
     const nextUser: UserProfile = {
       ...user,
