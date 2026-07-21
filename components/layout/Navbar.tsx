@@ -117,18 +117,20 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
             {/* Auth Buttons */}
             {user.isLoggedIn ? (
               <div className="flex items-center gap-1.5">
-                <button
-                  onClick={() => setIsProfileModalOpen(true)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 border border-gray-200 text-gray-800 text-xs sm:text-sm transition cursor-pointer"
-                >
-                  <div
-                    className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] text-white"
-                    style={{ backgroundColor: user.avatarColor }}
+                {!user.isAdmin && (
+                  <button
+                    onClick={() => setIsProfileModalOpen(true)}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 border border-gray-200 text-gray-800 text-xs sm:text-sm transition cursor-pointer"
                   >
-                    {user.pseudonym[0]}
-                  </div>
-                  <span className="hidden md:inline font-typewriter font-bold">{user.pseudonym}</span>
-                </button>
+                    <div
+                      className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] text-white"
+                      style={{ backgroundColor: user.avatarColor }}
+                    >
+                      {user.pseudonym[0]}
+                    </div>
+                    <span className="hidden md:inline font-typewriter font-bold">{user.pseudonym}</span>
+                  </button>
+                )}
 
                 <button
                   onClick={logout}
