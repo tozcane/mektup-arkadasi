@@ -42,6 +42,23 @@ body {
   border-left: 2px solid #e2e8f0;
 }
 
+/* Screen resizing responsive rules (Prevents format breakage on zoom and wide monitors) */
+@media (max-width: 1399px) {
+  .bg-couple-overlay-left,
+  .bg-couple-overlay-right {
+    display: none !important;
+  }
+}
+
+@media (min-width: 2200px) {
+  .bg-couple-overlay-left {
+    left: calc(50vw - 1100px) !important;
+  }
+  .bg-couple-overlay-right {
+    right: calc(50vw - 1100px) !important;
+  }
+}
+
 /* Flag Picture Frame (Resim Çerçevesi) */
 .flag-picture-frame {
   position: relative;
