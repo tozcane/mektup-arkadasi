@@ -17,7 +17,7 @@ body {
   z-index: 0;
   background-image: url('/man_left.jpg');
   background-size: cover;
-  background-position: 15% 30%;
+  background-position: 55% 15%;
   opacity: 0.90;
   pointer-events: none;
   box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15);
