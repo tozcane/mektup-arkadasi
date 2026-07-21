@@ -162,9 +162,25 @@ function MainContent() {
                 </div>
 
               </section>
+            ) : user.isAdmin ? (
+              /* =========================================================
+                 YÖNETİCİ GİRİŞİ YAPILDIĞINDA GÖRÜLECEK SADE EKRAN
+                 ========================================================= */
+              <div className="py-12 text-center max-w-2xl mx-auto space-y-6">
+                <div className="w-16 h-16 rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-800 flex items-center justify-center mx-auto shadow-sm">
+                  <ShieldCheck className="w-9 h-9" />
+                </div>
+                <h2 className="font-serif text-3xl font-bold text-gray-900">Site Yönetim Paneli Aktif</h2>
+                <p className="text-base text-gray-650 font-typewriter leading-relaxed">
+                  Sisteme yönetici hesabı ile güvenli giriş yaptınız. Kayıtlı üye listesini incelemek, üye detaylarına ulaşmak ve tüm yazışmaları Excel formatında denetlemek için yukarıdaki <strong>"Yönetim Paneli"</strong> butonuna tıklayabilirsiniz.
+                </p>
+                <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 text-xs text-gray-500 font-typewriter">
+                  Platform Sahibi Oturumu • mektuparkadasi.net
+                </div>
+              </div>
             ) : (
               /* =========================================================
-                 ÜYE GİRİŞİ YAPILDIKTAN SONRAKİ DASHBOARD (BÜYÜTÜLMÜŞ FONT)
+                 NORMAL ÜYE GİRİŞİ YAPILDIKTAN SONRAKİ DASHBOARD (BÜYÜTÜLMÜŞ FONT)
                  ========================================================= */
               <div className="space-y-8">
                 

@@ -72,8 +72,8 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
             </div>
           </div>
 
-          {/* Navigation Tabs (Giriş Yapıldığında Görünür) */}
-          {user.isLoggedIn && (
+          {/* Navigation Tabs (SADECE NORMAL ÜYE GİRİŞİ YAPILDIĞINDA GÖRÜNÜR, YÖNETİCİYE GÖRÜNMEZ!) */}
+          {user.isLoggedIn && !user.isAdmin && (
             <nav className="flex items-center space-x-1 sm:space-x-2 overflow-x-auto py-1">
               {navItems.map(item => {
                 const isActive = activeTab === item.id;

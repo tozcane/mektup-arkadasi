@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useDMA } from '@/context/DMAContext';
-import { ShieldCheck, Lock, X, Table, Mail, User } from 'lucide-react';
+import { Lock, X, Table, Mail } from 'lucide-react';
 
 export const AdminPanelModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
@@ -27,20 +27,20 @@ export const AdminPanelModal: React.FC<{ isOpen: boolean; onClose: () => void }>
   const selectedPseudonymName = selectedUserForLetters;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
       <div className="relative w-full max-w-5xl rounded-3xl bg-white border border-gray-200 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         
-        {/* Header Bar (Sade & Sakin) */}
-        <div className="px-8 py-5 border-b border-gray-250 bg-gray-50 flex items-center justify-between text-gray-900">
+        {/* Header Bar */}
+        <div className="px-8 py-6 border-b border-gray-250 bg-gray-50 flex items-center justify-between text-gray-900">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-700">
               <Table className="w-5.5 h-5.5" />
             </div>
             <div>
-              <h2 className="font-serif text-xl font-bold">
+              <h2 className="font-serif text-2xl font-bold">
                 Platform Üye Kayıtları (Excel Görünümü)
               </h2>
-              <p className="text-xs text-gray-500 font-medium">
+              <p className="text-sm text-gray-500 font-medium">
                 mektuparkadasi.net • Sistem Yöneticisi Denetim Tablosu
               </p>
             </div>
@@ -48,9 +48,9 @@ export const AdminPanelModal: React.FC<{ isOpen: boolean; onClose: () => void }>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-650 transition cursor-pointer"
+            className="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-650 transition cursor-pointer"
           >
-            <X className="w-5.5 h-5.5" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
@@ -151,7 +151,7 @@ export const AdminPanelModal: React.FC<{ isOpen: boolean; onClose: () => void }>
 
         </div>
 
-        {/* Footer (Sade ve Temiz - Alttaki Şerit Kaldırıldı) */}
+        {/* Footer */}
         <div className="px-8 py-5 border-t border-gray-250 bg-gray-50 flex items-center justify-end">
           <button
             onClick={onClose}
