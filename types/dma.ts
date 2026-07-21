@@ -62,6 +62,9 @@ export type ActiveTab = 'inbox' | 'en_route' | 'penpals' | 'stamps';
 export interface UserProfile {
   id: string;
   pseudonym: string;
+  email?: string;
+  isLoggedIn?: boolean;
+  registeredAt?: string;
   title: string;
   bio: string;
   age: number;
