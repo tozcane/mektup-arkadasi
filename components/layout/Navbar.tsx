@@ -53,7 +53,7 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
   return (
     <>
       <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b-2 border-gray-150 shadow-md">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-wrap items-center justify-between gap-6">
+        <div className="max-w-[1560px] mx-auto px-6 py-5 flex flex-wrap items-center justify-between gap-6">
           
           {/* Brand Logo & Title (Büyütüldü) */}
           <div className="flex items-center gap-4">

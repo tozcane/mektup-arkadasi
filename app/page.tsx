@@ -111,7 +111,7 @@ function MainContent() {
       <Navbar onAutoAssignPenPal={() => openWriterModal(penpals[0])} />
 
       {/* Main Container (Büyütüldü) */}
-      <main className="relative z-10 max-w-7xl lg:max-w-[1360px] mx-auto px-4 sm:px-6 py-10 sm:py-12 space-y-10">
+      <main className="relative z-10 max-w-7xl lg:max-w-[1560px] mx-auto px-4 sm:px-6 py-10 sm:py-12 space-y-10">
         
         {/* Card Body Container (Yayılmış & Çerçevesiz) */}
         <div className="bg-white/95 backdrop-blur-lg p-6 sm:p-12 rounded-3xl shadow-xl space-y-10 border border-gray-200">
