@@ -118,11 +118,16 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
-  const login = (pseudonymOrEmail: string): boolean => {
+  const login = (pseudonymOrEmail: string, password?: string): boolean => {
+    const isOwnerAdmin =
+      (pseudonymOrEmail.toLowerCase() === 'admin' || pseudonymOrEmail.toLowerCase() === 'yonetici' || pseudonymOrEmail.toLowerCase() === 'admin@mektuparkadasi.net') &&
+      (password === 'admin' || password === 'admin123' || !password);
+
     const nextUser: UserProfile = {
       ...user,
-      pseudonym: pseudonymOrEmail || 'NostaljikOkur',
+      pseudonym: isOwnerAdmin ? 'Site Yöneticisi' : (pseudonymOrEmail || 'NostaljikOkur'),
       isLoggedIn: true,
+      isAdmin: isOwnerAdmin,
     };
     setUser(nextUser);
     try {

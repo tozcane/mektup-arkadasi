@@ -64,6 +64,7 @@ export interface UserProfile {
   pseudonym: string;
   email?: string;
   isLoggedIn?: boolean;
+  isAdmin?: boolean;
   registeredAt?: string;
   title: string;
   bio: string;

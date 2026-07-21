@@ -1,13 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { PenTool, ShieldCheck, Heart } from 'lucide-react';
-import { AdminPanelModal } from '@/components/dma/AdminPanelModal';
+import React from 'react';
+import { PenTool } from 'lucide-react';
 
 export default function Footer() {
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
-
   return (
     <footer className="mt-20 border-t border-gray-200 bg-white/95 backdrop-blur text-gray-700 py-10 relative z-20">
       <div className="max-w-6xl mx-auto px-4 space-y-6">
@@ -31,22 +27,9 @@ export default function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500 font-typewriter">
           <p>© 2026 mektuparkadasi.net. Tüm hakları saklıdır.</p>
-
-          <div className="flex items-center gap-4">
-            <span className="text-gray-400">Sevgi ve samimiyetle tasarlandı</span>
-            {/* Secret Admin Button for Platform Owner */}
-            <button
-              onClick={() => setIsAdminOpen(true)}
-              title="Yönetim Paneli Girişi"
-              className="p-1 rounded text-gray-400 hover:text-gray-900 transition cursor-pointer"
-            >
-              <ShieldCheck className="w-4 h-4" />
-            </button>
-          </div>
+          <span className="text-gray-400">Sevgi ve samimiyetle tasarlandı</span>
         </div>
       </div>
-
-      <AdminPanelModal isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
     </footer>
   );
 }
