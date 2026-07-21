@@ -86,6 +86,7 @@ export const AuthModal: React.FC = () => {
     }
     if (codeInput.trim() !== generatedCode) {
       setError('Girdiğiniz doğrulama kodu hatalı. Lütfen kontrol edin.');
+      setCodeInput('');
       return;
     }
     if (!acceptedTerms) {
