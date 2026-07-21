@@ -10,7 +10,7 @@ import { EnRouteSection } from '@/components/dma/EnRouteSection';
 import { StampAlbum } from '@/components/dma/StampAlbum';
 import { ProfileModal } from '@/components/dma/ProfileModal';
 import { AuthModal } from '@/components/dma/AuthModal';
-import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, LogIn, Compass, Stamp as StampIcon, Table, Send, AlertTriangle } from 'lucide-react';
+import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, LogIn, Compass, Stamp as StampIcon, Table, Send, ArrowLeft } from 'lucide-react';
 
 const STATUS_OPTIONS = [
   '🟢 Çevrimiçi',
@@ -41,23 +41,23 @@ function MainContent() {
   const [selectedUserForLetters, setSelectedUserForLetters] = useState<string | null>(null);
   const [expandedLetterId, setExpandedLetterId] = useState<string | null>(null);
 
+  // Admin section view state: 'menu' | 'users' | 'letters'
+  const [adminActiveView, setAdminActiveView] = useState<'menu' | 'users' | 'letters'>('menu');
+
   // Dynamic user live status state for admin excel sheet
   const [liveStatuses, setLiveStatuses] = useState<Record<string, string>>({});
 
   // Initialize and simulate live user status updates
   useEffect(() => {
-    // Initial load
     const initial: Record<string, string> = {};
     penpals.forEach(p => {
       initial[p.id] = STATUS_OPTIONS[Math.floor(Math.random() * STATUS_OPTIONS.length)];
     });
     setLiveStatuses(initial);
 
-    // Live update interval
     const interval = setInterval(() => {
       setLiveStatuses(prev => {
         const next = { ...prev };
-        // Randomly update status for active users
         const activePenpals = penpals.filter(p => p.status === 'active');
         if (activePenpals.length > 0) {
           const randomPenpal = activePenpals[Math.floor(Math.random() * activePenpals.length)];
@@ -221,250 +221,341 @@ function MainContent() {
               </section>
             ) : user.isAdmin ? (
               /* =========================================================
-                 YÖNETİCİ GİRİŞİ YAPILDIĞINDA GÖRÜLECEK EXCEL TABLOSU (DİREKT EKRANDA)
+                 YÖNETİCİ SEÇİM PANELİ (ÜYELER VS MEKTUP AKIŞI SEÇİM DASHBOARD'U)
                  ========================================================= */
-              <div className="space-y-10">
+              <div className="space-y-8 animate-fadeIn">
                 
-                {/* 1. Üyeler Bölümü */}
-                <div className="space-y-6">
-                  <div className="border-b border-gray-200 pb-4 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-700 shadow-sm">
-                      <Table className="w-5.5 h-5.5" />
+                {/* Admin View 1: Main Menu */}
+                {adminActiveView === 'menu' && (
+                  <div className="space-y-8 py-6 text-center max-w-4xl mx-auto">
+                    <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-rose-50 border border-rose-200 text-rose-800 text-sm sm:text-base font-typewriter font-bold shadow-sm">
+                      <ShieldCheck className="w-5 h-5 text-rose-700" />
+                      <span>mektuparkadasi.net • Yönetim Portalı</span>
                     </div>
-                    <div>
-                      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900">
-                        Platform Üye Kayıtları (Excel Görünümü)
-                      </h2>
-                      <p className="text-xs sm:text-sm text-gray-500 font-typewriter mt-1">
-                        Sisteme kayıt olan üyelerin detaylı Excel kayıt listesi ve yönetim araçları.
-                      </p>
-                    </div>
-                  </div>
 
-                  <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 flex items-start gap-2.5">
-                    <Lock className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-xs sm:text-sm">
-                      💡 Üyelerin <strong>Rumuz</strong> sütununa tıklayarak yazışmalarını görebilir; en sağdaki <strong>İşlemler</strong> sütununu kullanarak hesapları dondurabilir, aktif edebilir veya tamamen silebilirsiniz.
+                    <h1 className="font-serif text-3xl sm:text-4xl font-bold text-gray-900">
+                      Hangi Bölümü İncelemek İstersiniz?
+                    </h1>
+                    <p className="text-base text-gray-600 max-w-2xl mx-auto font-typewriter">
+                      Lütfen denetlemek veya müdahale etmek istediğiniz yönetim tablosunu seçin.
                     </p>
-                  </div>
 
-                  {/* Excel Style Table Grid */}
-                  <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md overflow-x-auto">
-                    <table className="w-full text-left border-collapse bg-white min-w-[900px]">
-                      <thead>
-                        <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 font-bold text-xs sm:text-sm">
-                          <th className="p-4 border-r border-gray-300">Adı Soyadı</th>
-                          <th className="p-4 border-r border-gray-300">Telefon</th>
-                          <th className="p-4 border-r border-gray-300">E-posta</th>
-                          <th className="p-4 border-r border-gray-300 text-rose-800">Rumuz (Yazışmalar İçin Tıkla)</th>
-                          <th className="p-4 border-r border-gray-300">Yaş</th>
-                          <th className="p-4 border-r border-gray-300">Şehir (Memleket)</th>
-                          <th className="p-4 border-r border-gray-300 text-emerald-800">Aktif Durum (Canlı)</th>
-                          <th className="p-4 text-rose-900">Yönetimsel İşlemler</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200 text-xs sm:text-sm text-gray-800">
-                        {penpals.map((p, idx) => {
-                          const isSuspended = p.status === 'away';
-                          return (
-                            <tr key={p.id || idx} className={`hover:bg-gray-50/80 transition ${isSuspended ? 'bg-gray-100/50 opacity-80' : ''}`}>
-                              <td className="p-4 border-r border-gray-250 font-medium">
-                                {p.fullName || 'Tahir Özcan Ersöz'}
-                              </td>
-                              <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
-                                {p.phoneNumber || '0532 999 88 77'}
-                              </td>
-                              <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
-                                {p.email || 'tahir@email.com'}
-                              </td>
-                              <td className="p-4 border-r border-gray-250">
-                                <button
-                                  onClick={() => setSelectedUserForLetters(p.pseudonym)}
-                                  className={`text-rose-700 font-bold hover:underline cursor-pointer flex items-center gap-1.5 ${
-                                    selectedUserForLetters === p.pseudonym ? 'bg-rose-50 px-3 py-1 rounded-lg border border-rose-200' : ''
-                                  }`}
-                                >
-                                  🎭 {p.pseudonym}
-                                </button>
-                              </td>
-                              <td className="p-4 border-r border-gray-250 font-bold">{p.age}</td>
-                              <td className="p-4 border-r border-gray-250 font-medium">{p.city}</td>
-                              <td className="p-4 border-r border-gray-250 font-bold font-typewriter text-xs text-gray-900">
-                                {isSuspended ? (
-                                  <span className="text-gray-500">⚪ Donduruldu</span>
-                                ) : (
-                                  liveStatuses[p.id] || '🟢 Çevrimiçi'
-                                )}
-                              </td>
-                              <td className="p-4 flex items-center gap-2">
-                                {isSuspended ? (
-                                  <button
-                                    onClick={() => activateUser(p.id)}
-                                    className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-xs cursor-pointer transition"
-                                  >
-                                    🟢 Aktif Et
-                                  </button>
-                                ) : (
-                                  <button
-                                    onClick={() => suspendUser(p.id)}
-                                    className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-bold text-xs cursor-pointer transition"
-                                  >
-                                    ⚪ Dondur
-                                  </button>
-                                )}
-                                <button
-                                  onClick={() => {
-                                    if (confirm(`${p.pseudonym} üyesini silmek istediğinize emin misiniz?`)) {
-                                      deleteUser(p.id);
-                                    }
-                                  }}
-                                  className="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-300 font-bold text-xs cursor-pointer transition"
-                                >
-                                  ❌ İptal Et (Sil)
-                                </button>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                {/* 2. Özel Seçilen Üyenin Yazışmaları */}
-                {selectedUserForLetters && (
-                  <div className="p-6 rounded-2xl bg-amber-50/50 border border-amber-200 space-y-4 animate-fadeIn">
-                    <div className="flex items-center justify-between border-b border-amber-200 pb-2">
-                      <h3 className="font-serif text-lg font-bold text-amber-950 flex items-center gap-2">
-                        <Mail className="w-5 h-5 text-rose-700" />
-                        <span>"{selectedUserForLetters}" Kullanıcısının Özel Yazışmaları ({userLetters.length} Mektup)</span>
-                      </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 max-w-3xl mx-auto">
+                      
+                      {/* Kart 1: Üye Kayıtları Excel Tablosu */}
                       <button
-                        onClick={() => setSelectedUserForLetters(null)}
-                        className="text-xs sm:text-sm text-rose-800 hover:underline font-bold cursor-pointer"
+                        onClick={() => setAdminActiveView('users')}
+                        className="p-8 rounded-3xl border-2 border-gray-200 bg-white hover:border-rose-700 hover:shadow-2xl transition-all duration-300 text-left group cursor-pointer space-y-4 shadow-md"
                       >
-                        Kapat
+                        <div className="w-14 h-14 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center justify-center shadow-sm group-hover:scale-110 transition">
+                          <Table className="w-8 h-8" />
+                        </div>
+                        <h3 className="font-serif text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-rose-700 transition">
+                          📊 Üye Kayıtları (Excel)
+                        </h3>
+                        <p className="text-sm text-gray-500 font-typewriter leading-relaxed">
+                          Adı, soyadı, telefonu, e-postası ve rumuzu ile tüm kayıtlı kullanıcıların Excel listesi. Hesap dondurma ve iptal etme yetkisi.
+                        </p>
+                        <div className="pt-2 flex items-center justify-between text-xs font-bold text-gray-400 group-hover:text-rose-700 transition">
+                          <span>Kayıtlı Üye: {penpals.length}</span>
+                          <span>Görüntüle →</span>
+                        </div>
+                      </button>
+
+                      {/* Kart 2: Tüm Yazışmalar (Mektup Akışı) */}
+                      <button
+                        onClick={() => setAdminActiveView('letters')}
+                        className="p-8 rounded-3xl border-2 border-gray-200 bg-white hover:border-rose-700 hover:shadow-2xl transition-all duration-300 text-left group cursor-pointer space-y-4 shadow-md"
+                      >
+                        <div className="w-14 h-14 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center justify-center shadow-sm group-hover:scale-110 transition">
+                          <Send className="w-8 h-8" />
+                        </div>
+                        <h3 className="font-serif text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-rose-700 transition">
+                          🕊️ Mektup Akışı (Tüm Trafik)
+                        </h3>
+                        <p className="text-sm text-gray-500 font-typewriter leading-relaxed">
+                          Üyelerin birbirlerine yazdığı tüm mektup akışı. Gönderen, alıcı, gönderim zamanı, mektup pulu ve mektup mektup okuma/detay paneli.
+                        </p>
+                        <div className="pt-2 flex items-center justify-between text-xs font-bold text-gray-400 group-hover:text-rose-700 transition">
+                          <span>Toplam Mektup: {letters.length}</span>
+                          <span>Görüntüle →</span>
+                        </div>
+                      </button>
+
+                    </div>
+                  </div>
+                )}
+
+                {/* Admin View 2: Excel Users Table */}
+                {adminActiveView === 'users' && (
+                  <div className="space-y-6 animate-fadeIn">
+                    
+                    {/* Back Button & Header */}
+                    <div className="flex items-center justify-between border-b border-gray-200 pb-4">
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => { setAdminActiveView('menu'); setSelectedUserForLetters(null); }}
+                          className="p-2.5 rounded-xl border border-gray-300 hover:bg-gray-100 text-gray-700 transition flex items-center justify-center cursor-pointer"
+                        >
+                          <ArrowLeft className="w-5 h-5" />
+                        </button>
+                        <div>
+                          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900">
+                            Platform Üye Kayıtları (Excel Görünümü)
+                          </h2>
+                          <p className="text-xs sm:text-sm text-gray-500 font-typewriter mt-1">
+                            Sisteme kayıt olan üyelerin detaylı Excel kayıt listesi ve yönetim araçları.
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => { setAdminActiveView('menu'); setSelectedUserForLetters(null); }}
+                        className="text-xs sm:text-sm font-bold text-rose-700 hover:underline font-typewriter cursor-pointer"
+                      >
+                        ⬅️ Ana Menüye Dön
                       </button>
                     </div>
 
-                    {userLetters.length === 0 ? (
-                      <p className="text-sm text-gray-500 font-serif italic text-center py-6">
-                        Bu kullanıcının henüz gönderdiği veya aldığı bir mektup bulunmuyor.
+                    <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 flex items-start gap-2.5">
+                      <Lock className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                      <p className="text-xs sm:text-sm">
+                        💡 Üyelerin <strong>Rumuz</strong> sütununa tıklayarak yazışmalarını görebilir; en sağdaki <strong>İşlemler</strong> sütununu kullanarak hesapları dondurabilir, aktif edebilir veya tamamen silebilirsiniz.
                       </p>
-                    ) : (
-                      <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2">
-                        {userLetters.map(letter => (
-                          <div key={letter.id} className="p-4 rounded-xl bg-white border border-amber-200 shadow-sm space-y-2">
-                            <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-gray-700">
-                              <span>Gönderen: <strong className="text-gray-900">{letter.senderName}</strong></span>
-                              <span>Alıcı: <strong className="text-gray-900">{letter.recipientName}</strong></span>
-                              <span className="font-mono text-gray-500">{new Date(letter.sentAt).toLocaleDateString('tr-TR')}</span>
-                            </div>
-                            <div className="border-t border-gray-100 pt-2">
-                              <h4 className="font-bold text-gray-900 text-sm">{letter.subject}</h4>
-                              <p className="text-xs sm:text-sm text-gray-600 font-serif leading-relaxed mt-1 whitespace-pre-line">
-                                {letter.content}
-                              </p>
-                            </div>
+                    </div>
+
+                    {/* Excel Style Table Grid */}
+                    <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md overflow-x-auto">
+                      <table className="w-full text-left border-collapse bg-white min-w-[900px]">
+                        <thead>
+                          <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 font-bold text-xs sm:text-sm">
+                            <th className="p-4 border-r border-gray-300">Adı Soyadı</th>
+                            <th className="p-4 border-r border-gray-300">Telefon</th>
+                            <th className="p-4 border-r border-gray-300">E-posta</th>
+                            <th className="p-4 border-r border-gray-300 text-rose-800">Rumuz (Yazışmalar İçin Tıkla)</th>
+                            <th className="p-4 border-r border-gray-300">Yaş</th>
+                            <th className="p-4 border-r border-gray-300">Şehir (Memleket)</th>
+                            <th className="p-4 border-r border-gray-300 text-emerald-800">Aktif Durum (Canlı)</th>
+                            <th className="p-4 text-rose-900">Yönetimsel İşlemler</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200 text-xs sm:text-sm text-gray-800">
+                          {penpals.map((p, idx) => {
+                            const isSuspended = p.status === 'away';
+                            return (
+                              <tr key={p.id || idx} className={`hover:bg-gray-50/80 transition ${isSuspended ? 'bg-gray-100/50 opacity-80' : ''}`}>
+                                <td className="p-4 border-r border-gray-250 font-medium">
+                                  {p.fullName || 'Tahir Özcan Ersöz'}
+                                </td>
+                                <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
+                                  {p.phoneNumber || '0532 999 88 77'}
+                                </td>
+                                <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
+                                  {p.email || 'tahir@email.com'}
+                                </td>
+                                <td className="p-4 border-r border-gray-250">
+                                  <button
+                                    onClick={() => setSelectedUserForLetters(p.pseudonym)}
+                                    className={`text-rose-700 font-bold hover:underline cursor-pointer flex items-center gap-1.5 ${
+                                      selectedUserForLetters === p.pseudonym ? 'bg-rose-50 px-3 py-1 rounded-lg border border-rose-200' : ''
+                                    }`}
+                                  >
+                                    🎭 {p.pseudonym}
+                                  </button>
+                                </td>
+                                <td className="p-4 border-r border-gray-250 font-bold">{p.age}</td>
+                                <td className="p-4 border-r border-gray-250 font-medium">{p.city}</td>
+                                <td className="p-4 border-r border-gray-250 font-bold font-typewriter text-xs text-gray-900">
+                                  {isSuspended ? (
+                                    <span className="text-gray-500">⚪ Donduruldu</span>
+                                  ) : (
+                                    liveStatuses[p.id] || '🟢 Çevrimiçi'
+                                  )}
+                                </td>
+                                <td className="p-4 flex items-center gap-2">
+                                  {isSuspended ? (
+                                    <button
+                                      onClick={() => activateUser(p.id)}
+                                      className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-xs cursor-pointer transition"
+                                    >
+                                      🟢 Aktif Et
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={() => suspendUser(p.id)}
+                                      className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-bold text-xs cursor-pointer transition"
+                                    >
+                                      ⚪ Dondur
+                                    </button>
+                                  )}
+                                  <button
+                                    onClick={() => {
+                                      if (confirm(`${p.pseudonym} üyesini silmek istediğinize emin misiniz?`)) {
+                                        deleteUser(p.id);
+                                      }
+                                    }}
+                                    className="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-300 font-bold text-xs cursor-pointer transition"
+                                  >
+                                    ❌ İptal Et (Sil)
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* Clicked user correspondence details display */}
+                    {selectedUserForLetters && (
+                      <div className="p-6 rounded-2xl bg-amber-50/50 border border-amber-200 space-y-4 animate-fadeIn">
+                        <div className="flex items-center justify-between border-b border-amber-200 pb-2">
+                          <h3 className="font-serif text-lg font-bold text-amber-950 flex items-center gap-2">
+                            <Mail className="w-5 h-5 text-rose-700" />
+                            <span>"{selectedUserForLetters}" Kullanıcısının Özel Yazışmaları ({userLetters.length} Mektup)</span>
+                          </h3>
+                          <button
+                            onClick={() => setSelectedUserForLetters(null)}
+                            className="text-xs sm:text-sm text-rose-800 hover:underline font-bold cursor-pointer"
+                          >
+                            Kapat
+                          </button>
+                        </div>
+
+                        {userLetters.length === 0 ? (
+                          <p className="text-sm text-gray-500 font-serif italic text-center py-6">
+                            Bu kullanıcının henüz gönderdiği veya aldığı bir mektup bulunmuyor.
+                          </p>
+                        ) : (
+                          <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2">
+                            {userLetters.map(letter => (
+                              <div key={letter.id} className="p-4 rounded-xl bg-white border border-amber-200 shadow-sm space-y-2">
+                                <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-gray-700">
+                                  <span>Gönderen: <strong className="text-gray-900">{letter.senderName}</strong></span>
+                                  <span>Alıcı: <strong className="text-gray-900">{letter.recipientName}</strong></span>
+                                  <span className="font-mono text-gray-500">{new Date(letter.sentAt).toLocaleDateString('tr-TR')}</span>
+                                </div>
+                                <div className="border-t border-gray-100 pt-2">
+                                  <h4 className="font-bold text-gray-900 text-sm">{letter.subject}</h4>
+                                  <p className="text-xs sm:text-sm text-gray-600 font-serif leading-relaxed mt-1 whitespace-pre-line">
+                                    {letter.content}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
                           </div>
-                        ))}
+                        )}
                       </div>
                     )}
                   </div>
                 )}
 
-                {/* 3. Tüm Platform Mektup Akışı */}
-                <div className="space-y-6 pt-4 border-t border-gray-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-700 shadow-sm">
-                      <Send className="w-5 h-5 text-rose-700" />
+                {/* Admin View 3: Platform Letter Traffic Flow */}
+                {adminActiveView === 'letters' && (
+                  <div className="space-y-6 animate-fadeIn">
+                    
+                    {/* Back Button & Header */}
+                    <div className="flex items-center justify-between border-b border-gray-200 pb-4">
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => { setAdminActiveView('menu'); setExpandedLetterId(null); }}
+                          className="p-2.5 rounded-xl border border-gray-300 hover:bg-gray-100 text-gray-700 transition flex items-center justify-center cursor-pointer"
+                        >
+                          <ArrowLeft className="w-5 h-5" />
+                        </button>
+                        <div>
+                          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900">
+                            Tüm Platform Yazışmaları (Mektup Akışı)
+                          </h2>
+                          <p className="text-xs sm:text-sm text-gray-500 font-typewriter mt-1">
+                            Üyelerin birbirlerine yazdığı tüm güncel mektup trafiği ve içerikleri.
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => { setAdminActiveView('menu'); setExpandedLetterId(null); }}
+                        className="text-xs sm:text-sm font-bold text-rose-700 hover:underline font-typewriter cursor-pointer"
+                      >
+                        ⬅️ Ana Menüye Dön
+                      </button>
                     </div>
-                    <div>
-                      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900">
-                        Tüm Platform Yazışmaları (Mektup Akışı)
-                      </h2>
-                      <p className="text-xs sm:text-sm text-gray-500 font-typewriter mt-1">
-                        Üyelerin birbirlerine yazdığı tüm güncel mektup trafiği ve içerikleri.
-                      </p>
-                    </div>
-                  </div>
 
-                  <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md overflow-x-auto">
-                    <table className="w-full text-left border-collapse bg-white min-w-[900px]">
-                      <thead>
-                        <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 font-bold text-xs sm:text-sm">
-                          <th className="p-4 border-r border-gray-300">Gönderen</th>
-                          <th className="p-4 border-r border-gray-300">Alıcı</th>
-                          <th className="p-4 border-r border-gray-300">Mektup Başlığı (Konu)</th>
-                          <th className="p-4 border-r border-gray-300">Gönderim Tarihi</th>
-                          <th className="p-4 border-r border-gray-300">Durum</th>
-                          <th className="p-4">İçerik</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200 text-xs sm:text-sm text-gray-800">
-                        {letters.map((letter) => {
-                          const isExpanded = expandedLetterId === letter.id;
-                          return (
-                            <React.Fragment key={letter.id}>
-                              <tr className="hover:bg-gray-50/80 transition">
-                                <td className="p-4 border-r border-gray-250 font-bold text-rose-900">
-                                  🎭 {letter.senderName} {letter.senderFlag}
-                                </td>
-                                <td className="p-4 border-r border-gray-250 font-bold text-emerald-900">
-                                  🎭 {letter.recipientName}
-                                </td>
-                                <td className="p-4 border-r border-gray-250 font-medium text-gray-900">
-                                  {letter.subject}
-                                </td>
-                                <td className="p-4 border-r border-gray-250 font-mono text-gray-600">
-                                  {new Date(letter.sentAt).toLocaleDateString('tr-TR')}
-                                </td>
-                                <td className="p-4 border-r border-gray-250 font-bold">
-                                  {letter.status === 'en_route' ? (
-                                    <span className="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                                      🕊️ Yolda
-                                    </span>
-                                  ) : letter.status === 'delivered_unread' ? (
-                                    <span className="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 border border-rose-200">
-                                      🕯️ Mühürlü
-                                    </span>
-                                  ) : (
-                                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                                      📖 Okundu
-                                    </span>
-                                  )}
-                                </td>
-                                <td className="p-4">
-                                  <button
-                                    onClick={() => setExpandedLetterId(isExpanded ? null : letter.id)}
-                                    className="text-xs font-bold text-rose-700 hover:underline cursor-pointer"
-                                  >
-                                    {isExpanded ? 'Gizle ▲' : 'Oku/Genişlet ▼'}
-                                  </button>
-                                </td>
-                              </tr>
-                              {isExpanded && (
-                                <tr className="bg-amber-50/20">
-                                  <td colSpan={6} className="p-6 border-b border-gray-300">
-                                    <div className="p-6 rounded-xl bg-white border border-amber-200 shadow-inner space-y-3 max-w-4xl">
-                                      <div className="flex items-center justify-between text-xs text-gray-500 border-b border-gray-100 pb-2">
-                                        <span>Konu: <strong>{letter.subject}</strong></span>
-                                        <span>Pul: {letter.stampFlag} {letter.stampName}</span>
-                                      </div>
-                                      <p className="font-serif text-sm sm:text-base text-gray-800 leading-relaxed whitespace-pre-line">
-                                        {letter.content}
-                                      </p>
-                                    </div>
+                    <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md overflow-x-auto">
+                      <table className="w-full text-left border-collapse bg-white min-w-[900px]">
+                        <thead>
+                          <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 font-bold text-xs sm:text-sm">
+                            <th className="p-4 border-r border-gray-300">Gönderen</th>
+                            <th className="p-4 border-r border-gray-300">Alıcı</th>
+                            <th className="p-4 border-r border-gray-300">Mektup Başlığı (Konu)</th>
+                            <th className="p-4 border-r border-gray-300">Gönderim Tarihi</th>
+                            <th className="p-4 border-r border-gray-300">Durum</th>
+                            <th className="p-4">İçerik</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200 text-xs sm:text-sm text-gray-800">
+                          {letters.map((letter) => {
+                            const isExpanded = expandedLetterId === letter.id;
+                            return (
+                              <React.Fragment key={letter.id}>
+                                <tr className="hover:bg-gray-50/80 transition">
+                                  <td className="p-4 border-r border-gray-250 font-bold text-rose-900">
+                                    🎭 {letter.senderName} {letter.senderFlag}
+                                  </td>
+                                  <td className="p-4 border-r border-gray-250 font-bold text-emerald-900">
+                                    🎭 {letter.recipientName}
+                                  </td>
+                                  <td className="p-4 border-r border-gray-250 font-medium text-gray-900">
+                                    {letter.subject}
+                                  </td>
+                                  <td className="p-4 border-r border-gray-250 font-mono text-gray-600">
+                                    {new Date(letter.sentAt).toLocaleDateString('tr-TR')}
+                                  </td>
+                                  <td className="p-4 border-r border-gray-250 font-bold">
+                                    {letter.status === 'en_route' ? (
+                                      <span className="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                                        🕊️ Yolda
+                                      </span>
+                                    ) : letter.status === 'delivered_unread' ? (
+                                      <span className="px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 border border-rose-200">
+                                        🕯️ Mühürlü
+                                      </span>
+                                    ) : (
+                                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                        📖 Okundu
+                                      </span>
+                                    )}
+                                  </td>
+                                  <td className="p-4">
+                                    <button
+                                      onClick={() => setExpandedLetterId(isExpanded ? null : letter.id)}
+                                      className="text-xs font-bold text-rose-700 hover:underline cursor-pointer"
+                                    >
+                                      {isExpanded ? 'Gizle ▲' : 'Oku/Genişlet ▼'}
+                                    </button>
                                   </td>
                                 </tr>
-                              )}
-                            </React.Fragment>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                {isExpanded && (
+                                  <tr className="bg-amber-50/20">
+                                    <td colSpan={6} className="p-6 border-b border-gray-300">
+                                      <div className="p-6 rounded-xl bg-white border border-amber-200 shadow-inner space-y-3 max-w-4xl">
+                                        <div className="flex items-center justify-between text-xs text-gray-500 border-b border-gray-100 pb-2">
+                                          <span>Konu: <strong>{letter.subject}</strong></span>
+                                          <span>Pul: {letter.stampFlag} {letter.stampName}</span>
+                                        </div>
+                                        <p className="font-serif text-sm sm:text-base text-gray-800 leading-relaxed whitespace-pre-line">
+                                          {letter.content}
+                                        </p>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                )}
+                              </React.Fragment>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
+                )}
 
               </div>
             ) : (
