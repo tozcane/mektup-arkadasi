@@ -6,9 +6,10 @@ import { PAPER_THEMES } from '@/data/mockData';
 import { PaperThemeId } from '@/types/dma';
 import { X, Send, Stamp as StampIcon, Sparkles, AlertCircle, CheckCircle2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { containsAbusiveLanguage, sanitizeInput } from '@/utils/security';
 
 export const LetterWriterModal: React.FC = () => {
-  const { writingRecipient, closeWriterModal, sendLetter, stamps } = useDMA();
+  const { writingRecipient, closeWriterModal, sendLetter, stamps, user } = useDMA();
 
   const [subject, setSubject] = useState('');
   const [content, setContent] = useState('');
@@ -33,6 +34,15 @@ export const LetterWriterModal: React.FC = () => {
       return;
     }
 
+    // Security & Abuse Check
+    if (containsAbusiveLanguage(subject) || containsAbusiveLanguage(content)) {
+      setErrorMsg('⚠️ Mektubunuz topluluk kurallarımıza aykırı (argo, küfür veya hakaret) kelimeler barındırmaktadır. Mektup Arkadaşı samimiyet ve saygı esasına dayanır. Lütfen daha saygılı bir dil kullanın.');
+      return;
+    }
+
+    const sanitizedSubject = sanitizeInput(subject);
+    const sanitizedContent = sanitizeInput(content);
+
     setErrorMsg('');
     setIsSealing(true);
 
@@ -48,8 +58,8 @@ export const LetterWriterModal: React.FC = () => {
       sendLetter({
         recipientId: writingRecipient.id,
         recipientName: writingRecipient.pseudonym,
-        subject,
-        content,
+        subject: sanitizedSubject,
+        content: sanitizedContent,
         paperTheme,
         stampId: selectedStampId,
       });

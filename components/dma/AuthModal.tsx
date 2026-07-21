@@ -18,6 +18,7 @@ export const AuthModal: React.FC = () => {
   const [city, setCity] = useState('İstanbul');
   const [interestsStr, setInterestsStr] = useState('Edebiyat, Nostalji, Gece Sohbetleri');
   const [error, setError] = useState('');
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   // Email Verification Step State
   const [isVerifying, setIsVerifying] = useState(false);
@@ -47,6 +48,10 @@ export const AuthModal: React.FC = () => {
     }
     if (!password.trim()) {
       setError('Lütfen şifre belirleyin.');
+      return;
+    }
+    if (!acceptedTerms) {
+      setError('Devam etmek için lütfen telif hakları ve saygı kuralları onay kutusunu işaretleyin.');
       return;
     }
 
@@ -302,6 +307,21 @@ export const AuthModal: React.FC = () => {
                   onChange={e => setPassword(e.target.value)}
                   className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-3.5 py-2.5 text-gray-950 focus:outline-none focus:border-rose-700 text-base"
                 />
+              </div>
+
+              {/* Telif & Topluluk Kuralları Checkbox */}
+              <div className="flex items-start gap-2.5 pt-2">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  required
+                  checked={acceptedTerms}
+                  onChange={e => setAcceptedTerms(e.target.checked)}
+                  className="w-5 h-5 rounded border-gray-300 text-rose-700 focus:ring-rose-500 cursor-pointer mt-0.5"
+                />
+                <label htmlFor="terms" className="text-xs sm:text-sm text-gray-650 leading-relaxed cursor-pointer font-medium select-none">
+                  Paylaştığım mektupların özgün olduğunu, telif haklarını ihlal etmediğini ve topluluk kurallarına (saygı çerçevesinde argo/küfür/hakaret içermeyen dil) uyacağımı kabul ediyorum. *
+                </label>
               </div>
 
               <button
