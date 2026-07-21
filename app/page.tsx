@@ -10,7 +10,7 @@ import { EnRouteSection } from '@/components/dma/EnRouteSection';
 import { StampAlbum } from '@/components/dma/StampAlbum';
 import { ProfileModal } from '@/components/dma/ProfileModal';
 import { AuthModal } from '@/components/dma/AuthModal';
-import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, Heart, LogIn, Compass, Stamp as StampIcon } from 'lucide-react';
+import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, Heart, LogIn, Compass, Stamp as StampIcon, Table } from 'lucide-react';
 
 function MainContent() {
   const {
@@ -26,6 +26,7 @@ function MainContent() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTopic, setSelectedTopic] = useState<string>('all');
+  const [selectedUserForLetters, setSelectedUserForLetters] = useState<string | null>(null);
 
   const filteredPenpals = penpals.filter(p => {
     const matchesSearch =
@@ -42,6 +43,17 @@ function MainContent() {
   const deliveredLetters = letters.filter(l => l.status !== 'en_route');
   const unreadLetters = letters.filter(l => l.status === 'delivered_unread');
 
+  // Filter letters for the clicked/selected user in admin view
+  const userLetters = selectedUserForLetters
+    ? letters.filter(
+        l =>
+          l.senderId === selectedUserForLetters ||
+          l.recipientId === selectedUserForLetters ||
+          l.senderName === selectedUserForLetters ||
+          l.recipientName === selectedUserForLetters
+      )
+    : [];
+
   return (
     <div className="relative min-h-screen bg-white text-gray-900 font-sans selection:bg-rose-700 selection:text-white">
       {/* Side Overlays (Left Man, Right Woman) - Hide for Admin */}
@@ -56,7 +68,7 @@ function MainContent() {
       <Navbar onAutoAssignPenPal={() => openWriterModal(penpals[0])} />
 
       {/* Main Container */}
-      <main className="relative z-10 max-w-5xl mx-auto px-4 py-10 sm:py-12 space-y-10">
+      <main className="relative z-10 max-w-6xl mx-auto px-4 py-10 sm:py-12 space-y-10">
         
         {/* Main Content Card Frame */}
         <div className="relative p-3 sm:p-6 rounded-3xl bg-gray-950/5 border border-gray-200/80 shadow-2xl backdrop-blur-md">
@@ -66,7 +78,7 @@ function MainContent() {
 
             {!user.isLoggedIn ? (
               /* =========================================================
-                 ZİYARETÇİ / İLK KARŞILAMA SAYFASI (OKUNAKLI BÜYÜTÜLMÜŞ FONT)
+                 ZİYARETÇİ / İLK KARŞILAMA SAYFASI
                  ========================================================= */
               <section className="space-y-8 py-6 text-center max-w-4xl mx-auto">
                 
@@ -76,17 +88,17 @@ function MainContent() {
                   <span>mektuparkadasi.net — Nostaljik & Yavaş İletişim Kulübü</span>
                 </div>
 
-                {/* 2. Hero Title (Büyütüldü) */}
+                {/* 2. Hero Title */}
                 <h1 className="font-serif text-4xl sm:text-[3.5rem] font-bold text-gray-900 leading-tight tracking-tight">
                   Fotoğrafların Değil, Düşüncelerin Konuşulduğu Köşe.
                 </h1>
 
-                {/* 3. Hero Subtitle (Büyütüldü) */}
+                {/* 3. Hero Subtitle */}
                 <p className="text-base sm:text-xl text-gray-700 font-typewriter leading-relaxed max-w-3xl mx-auto font-medium">
-                  Hızlı dünyanın gürültüsünden uzaklaşın. Fotoğraf yok, anlık telaş yok. Dünyanın dört bir yanından insanlarla samimi mektuplar yazışın, beklemenin heyecanını yaşayın.
+                  Hızlı dünyanın gürültüsünden uzaklaşın. Fotoğraf yok, anlık telaş yok. Dünyanın dertlerinden uzak samimi mektuplar yazışın, beklemenin heyecanını yaşayın.
                 </p>
 
-                {/* 4. Action Buttons (Büyütüldü) */}
+                {/* 4. Action Buttons */}
                 <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-5">
                   <button
                     onClick={() => setIsAuthModalOpen(true)}
@@ -119,7 +131,7 @@ function MainContent() {
                     </div>
                   </div>
 
-                  {/* 6. Özellik Kartları (Büyütüldü) */}
+                  {/* 6. Özellik Kartları */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left pt-2">
                     
                     {/* Kart 1: Anonim & Fotoğrafsız */}
@@ -167,19 +179,118 @@ function MainContent() {
               </section>
             ) : user.isAdmin ? (
               /* =========================================================
-                 YÖNETİCİ GİRİŞİ YAPILDIĞINDA GÖRÜLECEK SADE EKRAN
+                 YÖNETİCİ GİRİŞİ YAPILDIĞINDA GÖRÜLECEK EXCEL TABLOSU (DİREKT EKRANDA)
                  ========================================================= */
-              <div className="py-12 text-center max-w-2xl mx-auto space-y-6">
-                <div className="w-16 h-16 rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-800 flex items-center justify-center mx-auto shadow-sm">
-                  <ShieldCheck className="w-9 h-9" />
+              <div className="space-y-6">
+                
+                {/* Sakin Başlık */}
+                <div className="border-b border-gray-200 pb-4 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-700 shadow-sm">
+                    <Table className="w-5.5 h-5.5" />
+                  </div>
+                  <div>
+                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900">
+                      Platform Üye Kayıtları (Excel Görünümü)
+                    </h2>
+                    <p className="text-xs sm:text-sm text-gray-500 font-typewriter mt-1">
+                      Kayıtlı üyelerin listesi ve mektup akışı denetim ekranı.
+                    </p>
+                  </div>
                 </div>
-                <h2 className="font-serif text-3xl font-bold text-gray-900">Site Yönetim Paneli Aktif</h2>
-                <p className="text-base text-gray-650 font-typewriter leading-relaxed">
-                  Sisteme yönetici hesabı ile güvenli giriş yaptınız. Kayıtlı üye listesini incelemek, üye detaylarına ulaşmak ve tüm yazışmaları Excel formatında denetlemek için yukarıdaki <strong>"Yönetim Paneli"</strong> butonuna tıklayabilirsiniz.
-                </p>
-                <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 text-xs text-gray-500 font-typewriter">
-                  Platform Sahibi Oturumu • mektuparkadasi.net
+
+                {/* Bilgilendirme Kutusu */}
+                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 flex items-start gap-2.5">
+                  <Lock className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-xs sm:text-sm">
+                    💡 Üyelerin <strong>Rumuz (Takma Ad)</strong> bilgisine tıklayarak, o üyenin gönderdiği ve aldığı tüm mektup yazışmalarını tablonun hemen altında inceleyebilirsiniz.
+                  </p>
                 </div>
+
+                {/* Excel Style Table Grid */}
+                <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md">
+                  <table className="w-full text-left border-collapse bg-white">
+                    <thead>
+                      <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 font-bold text-xs sm:text-sm">
+                        <th className="p-4 border-r border-gray-300">Adı Soyadı</th>
+                        <th className="p-4 border-r border-gray-300">Telefon</th>
+                        <th className="p-4 border-r border-gray-300">E-posta</th>
+                        <th className="p-4 border-r border-gray-300 text-rose-800">Rumuz (Yazışmalar İçin Tıkla)</th>
+                        <th className="p-4 border-r border-gray-300">Yaş</th>
+                        <th className="p-4">Şehir (Memleket)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 text-xs sm:text-sm text-gray-800">
+                      {penpals.map((p, idx) => (
+                        <tr key={p.id || idx} className="hover:bg-gray-50/80 transition">
+                          <td className="p-4 border-r border-gray-250 font-medium">
+                            {p.fullName || 'Tahir Özcan Ersöz'}
+                          </td>
+                          <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
+                            {p.phoneNumber || '0532 999 88 77'}
+                          </td>
+                          <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
+                            {p.email || 'tahir@email.com'}
+                          </td>
+                          <td className="p-4 border-r border-gray-250">
+                            <button
+                              onClick={() => setSelectedUserForLetters(p.pseudonym)}
+                              className={`text-rose-700 font-bold hover:underline cursor-pointer flex items-center gap-1.5 ${
+                                selectedUserForLetters === p.pseudonym ? 'bg-rose-50 px-3 py-1 rounded-lg border border-rose-200' : ''
+                              }`}
+                            >
+                              🎭 {p.pseudonym}
+                            </button>
+                          </td>
+                          <td className="p-4 border-r border-gray-250 font-bold">{p.age}</td>
+                          <td className="p-4 font-medium">{p.city}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* User Correspondences View (Seçilen Rumuzun Yazışmaları) */}
+                {selectedUserForLetters && (
+                  <div className="p-6 rounded-2xl bg-amber-50/50 border border-amber-200 space-y-4 animate-fadeIn">
+                    <div className="flex items-center justify-between border-b border-amber-200 pb-2">
+                      <h3 className="font-serif text-lg font-bold text-amber-950 flex items-center gap-2">
+                        <Mail className="w-5 h-5 text-rose-700" />
+                        <span>"{selectedUserForLetters}" Kullanıcısının Tüm Yazışmaları ({userLetters.length} Mektup)</span>
+                      </h3>
+                      <button
+                        onClick={() => setSelectedUserForLetters(null)}
+                        className="text-xs sm:text-sm text-rose-805 hover:underline font-bold cursor-pointer"
+                      >
+                        Kapat
+                      </button>
+                    </div>
+
+                    {userLetters.length === 0 ? (
+                      <p className="text-sm text-gray-500 font-serif italic text-center py-6">
+                        Bu kullanıcının henüz gönderdiği veya aldığı bir mektup bulunmuyor.
+                      </p>
+                    ) : (
+                      <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2">
+                        {userLetters.map(letter => (
+                          <div key={letter.id} className="p-4 rounded-xl bg-white border border-amber-200 shadow-sm space-y-2">
+                            <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-gray-700">
+                              <span>Gönderen: <strong className="text-gray-900">{letter.senderName}</strong></span>
+                              <span>Alıcı: <strong className="text-gray-900">{letter.recipientName}</strong></span>
+                              <span className="font-mono text-gray-500">{new Date(letter.sentAt).toLocaleDateString('tr-TR')}</span>
+                            </div>
+                            <div className="border-t border-gray-100 pt-2">
+                              <h4 className="font-bold text-gray-900 text-sm">{letter.subject}</h4>
+                              <p className="text-xs sm:text-sm text-gray-600 font-serif leading-relaxed mt-1 whitespace-pre-line">
+                                {letter.content}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
               </div>
             ) : (
               /* =========================================================

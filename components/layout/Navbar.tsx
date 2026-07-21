@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useDMA } from '@/context/DMAContext';
-import { Mail, Compass, Stamp as StampIcon, Send, PenTool, Lock, Sparkles, LogIn, LogOut, ShieldCheck } from 'lucide-react';
+import { Mail, Compass, Stamp as StampIcon, Send, PenTool, Lock, LogIn, LogOut } from 'lucide-react';
 import { ActiveTab } from '@/types/dma';
 import { AuthModal } from '@/components/dma/AuthModal';
-import { AdminPanelModal } from '@/components/dma/AdminPanelModal';
 
 export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAssignPenPal }) => {
   const {
@@ -18,8 +17,6 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
     setIsAuthModalOpen,
     logout,
   } = useDMA();
-
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   const unreadCount = letters.filter(l => l.status === 'delivered_unread').length;
   const enRouteCount = letters.filter(l => l.status === 'en_route').length;
@@ -102,18 +99,6 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
 
           {/* Action Controls */}
           <div className="flex items-center gap-2">
-            {/* Admin Button (SADECE YÖNETİCİ GİRİŞİ YAPILDIĞINDA GÖRÜNÜR) */}
-            {user.isLoggedIn && user.isAdmin && (
-              <button
-                onClick={() => setIsAdminOpen(true)}
-                title="Yönetim Paneli"
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-950 text-amber-300 border border-rose-800 text-xs sm:text-sm font-bold shadow transition cursor-pointer"
-              >
-                <ShieldCheck className="w-4 h-4 text-amber-400" />
-                <span>Yönetim Paneli</span>
-              </button>
-            )}
-
             {/* Auth Buttons */}
             {user.isLoggedIn ? (
               <div className="flex items-center gap-1.5">
@@ -135,7 +120,7 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
                 <button
                   onClick={logout}
                   title="Çıkış Yap"
-                  className="p-2 rounded-lg bg-gray-100 hover:bg-rose-50 hover:text-rose-700 border border-gray-200 text-gray-600 text-xs transition cursor-pointer"
+                  className="p-2 rounded-lg bg-gray-100 hover:bg-rose-50 hover:text-rose-700 border border-gray-200 text-gray-650 text-xs transition cursor-pointer"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -150,27 +135,28 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
               </button>
             )}
 
-            {/* Write Letter Button */}
-            <button
-              onClick={() => {
-                if (!user.isLoggedIn) {
-                  setIsAuthModalOpen(true);
-                } else {
-                  openWriterModal();
-                }
-              }}
-              className="flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-rose-700 hover:bg-rose-800 text-white text-xs sm:text-sm font-bold shadow transition transform active:scale-95 cursor-pointer"
-            >
-              <PenTool className="w-4 h-4" />
-              <span>Mektup Yaz</span>
-            </button>
+            {/* Write Letter Button (Yalnızca normal kullanıcılara gösterilir) */}
+            {!user.isAdmin && (
+              <button
+                onClick={() => {
+                  if (!user.isLoggedIn) {
+                    setIsAuthModalOpen(true);
+                  } else {
+                    openWriterModal();
+                  }
+                }}
+                className="flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-rose-700 hover:bg-rose-800 text-white text-xs sm:text-sm font-bold shadow transition transform active:scale-95 cursor-pointer"
+              >
+                <PenTool className="w-4 h-4" />
+                <span>Mektup Yaz</span>
+              </button>
+            )}
           </div>
         </div>
       </header>
 
       {/* Modals */}
       <AuthModal />
-      <AdminPanelModal isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
     </>
   );
 };
