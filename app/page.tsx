@@ -182,7 +182,7 @@ function MainContent() {
                       <div className="w-13 h-13 rounded-2xl bg-amber-100 border border-amber-300 text-amber-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
                         🎭
                       </div>
-                      <h3 className="font-serif font-bold text-xl text-gray-950 group-hover:text-rose-850 transition">
+                      <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
                         Anonim & Fotoğrafsız
                       </h3>
                       <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
@@ -195,7 +195,7 @@ function MainContent() {
                       <div className="w-13 h-13 rounded-2xl bg-rose-100 border border-rose-300 text-rose-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
                         🕯️
                       </div>
-                      <h3 className="font-serif font-bold text-xl text-gray-950 group-hover:text-rose-850 transition">
+                      <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
                         Balmumu Mühür
                       </h3>
                       <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
@@ -208,7 +208,7 @@ function MainContent() {
                       <div className="w-13 h-13 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 flex items-center justify-center text-3xl shadow-sm transform group-hover:scale-105 transition">
                         🕊️
                       </div>
-                      <h3 className="font-serif font-bold text-xl text-gray-950 group-hover:text-rose-850 transition">
+                      <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-gray-950 group-hover:text-rose-850 transition">
                         Yavaş & Değerli Teslimat
                       </h3>
                       <p className="text-sm text-gray-750 font-typewriter leading-relaxed font-medium">
