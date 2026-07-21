@@ -27,72 +27,72 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
     {
       id: 'inbox',
       label: 'Mektup Sandığım',
-      icon: <Mail className="w-4 h-4" />,
+      icon: <Mail className="w-5 h-5" />,
       badge: unreadCount,
     },
     {
       id: 'en_route',
       label: 'Yoldaki Mektuplar',
-      icon: <Send className="w-4 h-4" />,
+      icon: <Send className="w-5 h-5" />,
       badge: enRouteCount,
     },
     {
       id: 'penpals',
       label: 'Tüm Mektup Arkadaşları',
-      icon: <Compass className="w-4 h-4" />,
+      icon: <Compass className="w-5 h-5" />,
     },
     {
       id: 'stamps',
       label: 'Pul Albümü',
-      icon: <StampIcon className="w-4 h-4" />,
+      icon: <StampIcon className="w-5 h-5" />,
     },
   ];
 
-  // Show navigation tabs if logged in AND (not admin OR admin is currently in user view mode)
   const showNavTabs = user.isLoggedIn && (!user.isAdmin || !isAdminViewMode);
 
   return (
     <>
-      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-          {/* Brand Logo & Title */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-700 to-rose-900 text-white flex items-center justify-center shadow-md">
-              <PenTool className="w-5 h-5" />
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b-2 border-gray-150 shadow-md">
+        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-wrap items-center justify-between gap-6">
+          
+          {/* Brand Logo & Title (Büyütüldü) */}
+          <div className="flex items-center gap-4">
+            <div className="w-13 h-13 rounded-2xl bg-gradient-to-br from-red-700 to-rose-900 text-white flex items-center justify-center shadow-lg transform hover:rotate-6 transition duration-200">
+              <PenTool className="w-6 h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="font-serif font-bold text-xl text-gray-900 tracking-tight">
+              <div className="flex items-center gap-3">
+                <span className="font-serif font-bold text-2xl sm:text-3xl text-gray-900 tracking-tight">
                   Mektup Arkadaşı
                 </span>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">
-                  <Lock className="w-3 h-3" />
+                <span className="hidden sm:inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border-2 border-emerald-250 font-bold shadow-sm">
+                  <Lock className="w-3.5 h-3.5" />
                   <span>%100 Özel & Gizli</span>
                 </span>
               </div>
-              <p className="text-[11px] text-rose-700 font-serif italic font-bold">mektuparkadasi.net</p>
+              <p className="text-xs sm:text-sm text-rose-700 font-serif italic font-bold tracking-wide mt-0.5">mektuparkadasi.net</p>
             </div>
           </div>
 
-          {/* Navigation Tabs */}
+          {/* Navigation Tabs (Yazı ve Boyut Büyütüldü) */}
           {showNavTabs && (
-            <nav className="flex items-center space-x-1 sm:space-x-2 overflow-x-auto py-1">
+            <nav className="flex items-center space-x-2 sm:space-x-3 overflow-x-auto py-1.5">
               {navItems.map(item => {
                 const isActive = activeTab === item.id;
                 return (
                   <button
                     key={item.id}
                     onClick={() => setActiveTab(item.id)}
-                    className={`relative flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer ${
+                    className={`relative flex items-center gap-2.5 px-4.5 py-3 rounded-xl text-sm sm:text-base font-bold transition-all duration-200 cursor-pointer ${
                       isActive
-                        ? 'bg-gray-900 text-white shadow-sm'
-                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                        ? 'bg-gray-900 text-white shadow-md'
+                        : 'text-gray-650 hover:text-gray-900 hover:bg-gray-100 border border-transparent hover:border-gray-200'
                     }`}
                   >
                     {item.icon}
                     <span className="font-sans">{item.label}</span>
                     {item.badge !== undefined && item.badge > 0 && (
-                      <span className="w-5 h-5 rounded-full bg-rose-600 text-white text-[11px] font-bold flex items-center justify-center shadow animate-pulse">
+                      <span className="w-6 h-6 rounded-full bg-rose-600 text-white text-xs font-bold flex items-center justify-center shadow animate-pulse">
                         {item.badge}
                       </span>
                     )}
@@ -102,27 +102,27 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
             </nav>
           )}
 
-          {/* Action Controls */}
-          <div className="flex items-center gap-2">
+          {/* Action Controls (Boyutları ve Paddingleri Büyütüldü) */}
+          <div className="flex items-center gap-3">
             
-            {/* Admin Mode Switcher Toggle (ONLY visible for Tahir Admin) */}
+            {/* Admin Mode Switcher Toggle */}
             {user.isLoggedIn && user.isAdmin && (
               <button
                 onClick={() => setIsAdminViewMode(!isAdminViewMode)}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shadow transition cursor-pointer ${
+                className={`flex items-center gap-2 px-4.5 py-3 rounded-xl text-sm sm:text-base font-extrabold shadow-md transition cursor-pointer ${
                   isAdminViewMode
-                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
-                    : 'bg-rose-950 text-rose-300 border border-rose-800 animate-pulse'
+                    ? 'bg-emerald-950 text-emerald-300 border-2 border-emerald-800'
+                    : 'bg-rose-950 text-rose-300 border-2 border-rose-800 animate-pulse'
                 }`}
               >
                 {isAdminViewMode ? (
                   <>
-                    <Eye className="w-4 h-4 text-emerald-400" />
+                    <Eye className="w-5 h-5 text-emerald-400" />
                     <span>👁️ Kullanıcı Gözüyle Bak</span>
                   </>
                 ) : (
                   <>
-                    <ShieldAlert className="w-4 h-4 text-rose-400" />
+                    <ShieldAlert className="w-5 h-5 text-rose-400" />
                     <span>⚙️ Yönetici Moduna Dön</span>
                   </>
                 )}
@@ -131,41 +131,41 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
 
             {/* Auth Buttons */}
             {user.isLoggedIn ? (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-3">
                 {!user.isAdmin && (
                   <button
                     onClick={() => setIsProfileModalOpen(true)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 border border-gray-200 text-gray-800 text-xs sm:text-sm transition cursor-pointer"
+                    className="flex items-center gap-2.5 px-4.5 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 border border-gray-250 text-gray-805 text-sm sm:text-base font-bold transition cursor-pointer"
                   >
                     <div
-                      className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] text-white"
+                      className="w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs text-white"
                       style={{ backgroundColor: user.avatarColor }}
                     >
                       {user.pseudonym[0]}
                     </div>
-                    <span className="hidden md:inline font-typewriter font-bold">{user.pseudonym}</span>
+                    <span className="hidden md:inline font-typewriter">{user.pseudonym}</span>
                   </button>
                 )}
 
                 <button
                   onClick={logout}
                   title="Çıkış Yap"
-                  className="p-2 rounded-lg bg-gray-100 hover:bg-rose-50 hover:text-rose-700 border border-gray-200 text-gray-650 text-xs transition cursor-pointer"
+                  className="p-3 rounded-xl bg-gray-100 hover:bg-rose-50 hover:text-rose-750 border border-gray-250 text-gray-700 transition cursor-pointer"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-5 h-5" />
                 </button>
               </div>
             ) : (
               <button
                 onClick={() => setIsAuthModalOpen(true)}
-                className="flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-bold shadow transition active:scale-95 cursor-pointer"
+                className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-sm sm:text-base font-extrabold shadow-lg transition active:scale-95 cursor-pointer"
               >
-                <LogIn className="w-4 h-4" />
+                <LogIn className="w-5 h-5" />
                 <span>Giriş Yap / Üye Ol</span>
               </button>
             )}
 
-            {/* Write Letter Button (Yalnızca normal kullanıcılara veya kullanıcı modundaki admine gösterilir) */}
+            {/* Write Letter Button (Büyütüldü) */}
             {(!user.isAdmin || !isAdminViewMode) && (
               <button
                 onClick={() => {
@@ -175,9 +175,9 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
                     openWriterModal();
                   }
                 }}
-                className="flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-rose-700 hover:bg-rose-800 text-white text-xs sm:text-sm font-bold shadow transition transform active:scale-95 cursor-pointer"
+                className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-rose-700 hover:bg-rose-800 text-white text-sm sm:text-base font-extrabold shadow-lg transition transform active:scale-95 cursor-pointer"
               >
-                <PenTool className="w-4 h-4" />
+                <PenTool className="w-5 h-5" />
                 <span>Mektup Yaz</span>
               </button>
             )}
