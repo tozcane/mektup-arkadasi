@@ -29,6 +29,10 @@ interface DMAContextType {
   }) => void;
   logout: () => void;
 
+  // View Switch for Admin
+  isAdminViewMode: boolean;
+  setIsAdminViewMode: (val: boolean) => void;
+
   // Moderation Panel Actions
   suspendUser: (id: string) => void;
   activateUser: (id: string) => void;
@@ -78,6 +82,9 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+
+  // Admin view switch state
+  const [isAdminViewMode, setIsAdminViewMode] = useState<boolean>(true);
 
   // Load user session from LocalStorage on mount
   useEffect(() => {
@@ -141,6 +148,7 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       isAdmin: isOwnerAdmin,
     };
     setUser(nextUser);
+    setIsAdminViewMode(isOwnerAdmin);
     try {
       localStorage.setItem('mektup_user_session', JSON.stringify(nextUser));
     } catch (e) {}
@@ -187,6 +195,7 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     setUser(newUser);
+    setIsAdminViewMode(false);
     try {
       localStorage.setItem('mektup_user_session', JSON.stringify(newUser));
     } catch (e) {}
@@ -253,8 +262,10 @@ SessizLiman`,
     const guestUser: UserProfile = {
       ...user,
       isLoggedIn: false,
+      isAdmin: false,
     };
     setUser(guestUser);
+    setIsAdminViewMode(false);
     try {
       localStorage.removeItem('mektup_user_session');
     } catch (e) {}
@@ -368,6 +379,8 @@ SessizLiman`,
         login,
         register,
         logout,
+        isAdminViewMode,
+        setIsAdminViewMode,
         suspendUser,
         activateUser,
         deleteUser,

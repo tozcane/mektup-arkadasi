@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useDMA } from '@/context/DMAContext';
-import { Mail, Compass, Stamp as StampIcon, Send, PenTool, Lock, LogIn, LogOut } from 'lucide-react';
+import { Mail, Compass, Stamp as StampIcon, Send, PenTool, Lock, LogIn, LogOut, Eye, ShieldAlert } from 'lucide-react';
 import { ActiveTab } from '@/types/dma';
 import { AuthModal } from '@/components/dma/AuthModal';
 
@@ -16,6 +16,8 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
     setIsProfileModalOpen,
     setIsAuthModalOpen,
     logout,
+    isAdminViewMode,
+    setIsAdminViewMode,
   } = useDMA();
 
   const unreadCount = letters.filter(l => l.status === 'delivered_unread').length;
@@ -46,6 +48,9 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
     },
   ];
 
+  // Show navigation tabs if logged in AND (not admin OR admin is currently in user view mode)
+  const showNavTabs = user.isLoggedIn && (!user.isAdmin || !isAdminViewMode);
+
   return (
     <>
       <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
@@ -69,8 +74,8 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
             </div>
           </div>
 
-          {/* Navigation Tabs (SADECE NORMAL ÜYE GİRİŞİ YAPILDIĞINDA GÖRÜNÜR, YÖNETİCİYE GÖRÜNMEZ!) */}
-          {user.isLoggedIn && !user.isAdmin && (
+          {/* Navigation Tabs */}
+          {showNavTabs && (
             <nav className="flex items-center space-x-1 sm:space-x-2 overflow-x-auto py-1">
               {navItems.map(item => {
                 const isActive = activeTab === item.id;
@@ -99,6 +104,31 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
 
           {/* Action Controls */}
           <div className="flex items-center gap-2">
+            
+            {/* Admin Mode Switcher Toggle (ONLY visible for Tahir Admin) */}
+            {user.isLoggedIn && user.isAdmin && (
+              <button
+                onClick={() => setIsAdminViewMode(!isAdminViewMode)}
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shadow transition cursor-pointer ${
+                  isAdminViewMode
+                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+                    : 'bg-rose-950 text-rose-300 border border-rose-800 animate-pulse'
+                }`}
+              >
+                {isAdminViewMode ? (
+                  <>
+                    <Eye className="w-4 h-4 text-emerald-400" />
+                    <span>👁️ Kullanıcı Gözüyle Bak</span>
+                  </>
+                ) : (
+                  <>
+                    <ShieldAlert className="w-4 h-4 text-rose-400" />
+                    <span>⚙️ Yönetici Moduna Dön</span>
+                  </>
+                )}
+              </button>
+            )}
+
             {/* Auth Buttons */}
             {user.isLoggedIn ? (
               <div className="flex items-center gap-1.5">
@@ -135,8 +165,8 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
               </button>
             )}
 
-            {/* Write Letter Button (Yalnızca normal kullanıcılara gösterilir) */}
-            {!user.isAdmin && (
+            {/* Write Letter Button (Yalnızca normal kullanıcılara veya kullanıcı modundaki admine gösterilir) */}
+            {(!user.isAdmin || !isAdminViewMode) && (
               <button
                 onClick={() => {
                   if (!user.isLoggedIn) {

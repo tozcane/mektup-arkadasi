@@ -34,6 +34,7 @@ function MainContent() {
     suspendUser,
     activateUser,
     deleteUser,
+    isAdminViewMode,
   } = useDMA();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -219,7 +220,7 @@ function MainContent() {
                 </div>
 
               </section>
-            ) : user.isAdmin ? (
+            ) : (user.isAdmin && isAdminViewMode) ? (
               /* =========================================================
                  YÖNETİCİ SEÇİM PANELİ (ÜYELER VS MEKTUP AKIŞI SEÇİM DASHBOARD'U)
                  ========================================================= */
