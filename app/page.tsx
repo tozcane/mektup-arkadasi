@@ -10,7 +10,7 @@ import { EnRouteSection } from '@/components/dma/EnRouteSection';
 import { StampAlbum } from '@/components/dma/StampAlbum';
 import { ProfileModal } from '@/components/dma/ProfileModal';
 import { AuthModal } from '@/components/dma/AuthModal';
-import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, LogIn, Compass, Stamp as StampIcon, Table, Send } from 'lucide-react';
+import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, LogIn, Compass, Stamp as StampIcon, Table, Send, AlertTriangle } from 'lucide-react';
 
 const STATUS_OPTIONS = [
   '🟢 Çevrimiçi',
@@ -31,6 +31,9 @@ function MainContent() {
     openWriterModal,
     user,
     setIsAuthModalOpen,
+    suspendUser,
+    activateUser,
+    deleteUser,
   } = useDMA();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -54,9 +57,10 @@ function MainContent() {
     const interval = setInterval(() => {
       setLiveStatuses(prev => {
         const next = { ...prev };
-        // Randomly update 1 or 2 users' statuses
-        const randomPenpal = penpals[Math.floor(Math.random() * penpals.length)];
-        if (randomPenpal) {
+        // Randomly update status for active users
+        const activePenpals = penpals.filter(p => p.status === 'active');
+        if (activePenpals.length > 0) {
+          const randomPenpal = activePenpals[Math.floor(Math.random() * activePenpals.length)];
           next[randomPenpal.id] = STATUS_OPTIONS[Math.floor(Math.random() * STATUS_OPTIONS.length)];
         }
         return next;
@@ -232,7 +236,7 @@ function MainContent() {
                         Platform Üye Kayıtları (Excel Görünümü)
                       </h2>
                       <p className="text-xs sm:text-sm text-gray-500 font-typewriter mt-1">
-                        Sisteme kayıt olan üyelerin detaylı Excel kayıt listesi.
+                        Sisteme kayıt olan üyelerin detaylı Excel kayıt listesi ve yönetim araçları.
                       </p>
                     </div>
                   </div>
@@ -240,13 +244,13 @@ function MainContent() {
                   <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 flex items-start gap-2.5">
                     <Lock className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
                     <p className="text-xs sm:text-sm">
-                      💡 Üyelerin <strong>Rumuz (Takma Ad)</strong> bilgisine tıklayarak, o üyenin gönderdiği ve aldığı tüm mektup yazışmalarını tablonun hemen altında inceleyebilirsiniz.
+                      💡 Üyelerin <strong>Rumuz</strong> sütununa tıklayarak yazışmalarını görebilir; en sağdaki <strong>İşlemler</strong> sütununu kullanarak hesapları dondurabilir, aktif edebilir veya tamamen silebilirsiniz.
                     </p>
                   </div>
 
                   {/* Excel Style Table Grid */}
-                  <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md">
-                    <table className="w-full text-left border-collapse bg-white">
+                  <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md overflow-x-auto">
+                    <table className="w-full text-left border-collapse bg-white min-w-[900px]">
                       <thead>
                         <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 font-bold text-xs sm:text-sm">
                           <th className="p-4 border-r border-gray-300">Adı Soyadı</th>
@@ -255,38 +259,73 @@ function MainContent() {
                           <th className="p-4 border-r border-gray-300 text-rose-800">Rumuz (Yazışmalar İçin Tıkla)</th>
                           <th className="p-4 border-r border-gray-300">Yaş</th>
                           <th className="p-4 border-r border-gray-300">Şehir (Memleket)</th>
-                          <th className="p-4 text-emerald-800">Aktif Durum (Canlı)</th>
+                          <th className="p-4 border-r border-gray-300 text-emerald-800">Aktif Durum (Canlı)</th>
+                          <th className="p-4 text-rose-900">Yönetimsel İşlemler</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 text-xs sm:text-sm text-gray-800">
-                        {penpals.map((p, idx) => (
-                          <tr key={p.id || idx} className="hover:bg-gray-50/80 transition">
-                            <td className="p-4 border-r border-gray-250 font-medium">
-                              {p.fullName || 'Tahir Özcan Ersöz'}
-                            </td>
-                            <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
-                              {p.phoneNumber || '0532 999 88 77'}
-                            </td>
-                            <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
-                              {p.email || 'tahir@email.com'}
-                            </td>
-                            <td className="p-4 border-r border-gray-250">
-                              <button
-                                onClick={() => setSelectedUserForLetters(p.pseudonym)}
-                                className={`text-rose-700 font-bold hover:underline cursor-pointer flex items-center gap-1.5 ${
-                                  selectedUserForLetters === p.pseudonym ? 'bg-rose-50 px-3 py-1 rounded-lg border border-rose-200' : ''
-                                }`}
-                              >
-                                🎭 {p.pseudonym}
-                              </button>
-                            </td>
-                            <td className="p-4 border-r border-gray-250 font-bold">{p.age}</td>
-                            <td className="p-4 border-r border-gray-250 font-medium">{p.city}</td>
-                            <td className="p-4 font-bold font-typewriter text-xs text-gray-900 transition-colors duration-500">
-                              {liveStatuses[p.id] || '🟢 Çevrimiçi'}
-                            </td>
-                          </tr>
-                        ))}
+                        {penpals.map((p, idx) => {
+                          const isSuspended = p.status === 'away';
+                          return (
+                            <tr key={p.id || idx} className={`hover:bg-gray-50/80 transition ${isSuspended ? 'bg-gray-100/50 opacity-80' : ''}`}>
+                              <td className="p-4 border-r border-gray-250 font-medium">
+                                {p.fullName || 'Tahir Özcan Ersöz'}
+                              </td>
+                              <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
+                                {p.phoneNumber || '0532 999 88 77'}
+                              </td>
+                              <td className="p-4 border-r border-gray-250 font-mono text-gray-700">
+                                {p.email || 'tahir@email.com'}
+                              </td>
+                              <td className="p-4 border-r border-gray-250">
+                                <button
+                                  onClick={() => setSelectedUserForLetters(p.pseudonym)}
+                                  className={`text-rose-700 font-bold hover:underline cursor-pointer flex items-center gap-1.5 ${
+                                    selectedUserForLetters === p.pseudonym ? 'bg-rose-50 px-3 py-1 rounded-lg border border-rose-200' : ''
+                                  }`}
+                                >
+                                  🎭 {p.pseudonym}
+                                </button>
+                              </td>
+                              <td className="p-4 border-r border-gray-250 font-bold">{p.age}</td>
+                              <td className="p-4 border-r border-gray-250 font-medium">{p.city}</td>
+                              <td className="p-4 border-r border-gray-250 font-bold font-typewriter text-xs text-gray-900">
+                                {isSuspended ? (
+                                  <span className="text-gray-500">⚪ Donduruldu</span>
+                                ) : (
+                                  liveStatuses[p.id] || '🟢 Çevrimiçi'
+                                )}
+                              </td>
+                              <td className="p-4 flex items-center gap-2">
+                                {isSuspended ? (
+                                  <button
+                                    onClick={() => activateUser(p.id)}
+                                    className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-xs cursor-pointer transition"
+                                  >
+                                    🟢 Aktif Et
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => suspendUser(p.id)}
+                                    className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-bold text-xs cursor-pointer transition"
+                                  >
+                                    ⚪ Dondur
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => {
+                                    if (confirm(`${p.pseudonym} üyesini silmek istediğinize emin misiniz?`)) {
+                                      deleteUser(p.id);
+                                    }
+                                  }}
+                                  className="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-300 font-bold text-xs cursor-pointer transition"
+                                >
+                                  ❌ İptal Et (Sil)
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
@@ -334,7 +373,7 @@ function MainContent() {
                   </div>
                 )}
 
-                {/* 3. Tüm Platform Mektup Akışı (Birbirlerine gönderilen mektuplar) */}
+                {/* 3. Tüm Platform Mektup Akışı */}
                 <div className="space-y-6 pt-4 border-t border-gray-200">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-700 shadow-sm">
@@ -350,8 +389,8 @@ function MainContent() {
                     </div>
                   </div>
 
-                  <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md">
-                    <table className="w-full text-left border-collapse bg-white">
+                  <div className="border border-gray-300 rounded-2xl overflow-hidden shadow-md overflow-x-auto">
+                    <table className="w-full text-left border-collapse bg-white min-w-[900px]">
                       <thead>
                         <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 font-bold text-xs sm:text-sm">
                           <th className="p-4 border-r border-gray-300">Gönderen</th>

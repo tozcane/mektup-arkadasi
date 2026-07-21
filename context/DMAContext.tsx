@@ -29,6 +29,11 @@ interface DMAContextType {
   }) => void;
   logout: () => void;
 
+  // Moderation Panel Actions
+  suspendUser: (id: string) => void;
+  activateUser: (id: string) => void;
+  deleteUser: (id: string) => void;
+
   // Modals & Active State
   writingRecipient: PenPalProfile | null;
   openWriterModal: (recipient?: PenPalProfile) => void;
@@ -211,7 +216,7 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     setPenpals(prev => [...prev, newPenpal]);
 
-    // Generate automatic wax-sealed welcome letter
+    // Generate automatic welcome letter
     const welcomeLetter: Letter = {
       id: `welcome-${Date.now()}`,
       senderId: penpals[0]?.id || 'penpal-1',
@@ -226,7 +231,7 @@ mektuparkadasi.net ailesine hoş geldin!
 
 Bu mektup sana özel olarak hazırlamış olduğum nostaljik bir karşılama yazısıdır. Hızlı dünyanın karmaşasından ve yüzeysel mesajlarından uzaklaşıp; sakin ve derin yazışmalar yapabileceğin bu özel köşede seninle buluştuğuma çok sevindim.
 
-Sandığın artık tamamen sana özel ve mühürlü. İlk mektubunu yazmak veya benimle düşüncelerini paylaşmak istersen tek tıkla mektup kaleme alabilirsin.
+Sandığın artık tamamen sana özel ve mühürlü. İlk mektubunu yazmak veya benimle dertleşmek istersen tek tıkla mektup kaleme alabilirsin.
 
 Sevgi ve selamlarımla,
 SessizLiman`,
@@ -253,6 +258,23 @@ SessizLiman`,
     try {
       localStorage.removeItem('mektup_user_session');
     } catch (e) {}
+  };
+
+  // Moderation Methods
+  const suspendUser = (id: string) => {
+    setPenpals(prev =>
+      prev.map(p => (p.id === id ? { ...p, status: 'away' as const } : p))
+    );
+  };
+
+  const activateUser = (id: string) => {
+    setPenpals(prev =>
+      prev.map(p => (p.id === id ? { ...p, status: 'active' as const } : p))
+    );
+  };
+
+  const deleteUser = (id: string) => {
+    setPenpals(prev => prev.filter(p => p.id !== id));
   };
 
   const openWriterModal = (recipient?: PenPalProfile) => {
@@ -346,6 +368,9 @@ SessizLiman`,
         login,
         register,
         logout,
+        suspendUser,
+        activateUser,
+        deleteUser,
         writingRecipient: isWritingOpen ? writingRecipient : null,
         openWriterModal,
         closeWriterModal,
