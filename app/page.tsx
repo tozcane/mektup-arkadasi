@@ -42,6 +42,7 @@ function MainContent() {
   const [selectedTopic, setSelectedTopic] = useState<string>('all');
   const [selectedUserForLetters, setSelectedUserForLetters] = useState<string | null>(null);
   const [expandedLetterId, setExpandedLetterId] = useState<string | null>(null);
+  const [inboxSubTab, setInboxSubTab] = useState<'received' | 'sent'>('received');
 
   // Admin section view state: 'menu' | 'users' | 'letters'
   const [adminActiveView, setAdminActiveView] = useState<'menu' | 'users' | 'letters'>('menu');
@@ -86,6 +87,8 @@ function MainContent() {
 
   const deliveredLetters = letters.filter(l => l.status !== 'en_route');
   const unreadLetters = letters.filter(l => l.status === 'delivered_unread');
+  const receivedLetters = letters.filter(l => l.recipientId === user.id && l.status !== 'en_route');
+  const sentLetters = letters.filter(l => l.senderId === user.id && l.status !== 'en_route');
 
   // Stats calculations for logged-in user dashboard
   const receivedCount = letters.filter(l => l.recipientId === user.id && l.status !== 'en_route').length;
@@ -684,7 +687,8 @@ function MainContent() {
 
                     </div>
 
-                    <div className="flex items-center justify-between border-b border-gray-100 pb-3 pt-4">
+                    {/* Alt Başlık & Alt Sekme Seçimi */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-4 pt-4">
                       <div>
                         <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2.5">
                           <span>📩 Mektup Sandığım</span>
@@ -695,98 +699,214 @@ function MainContent() {
                           )}
                         </h2>
                         <p className="text-xs sm:text-sm text-gray-500 font-typewriter mt-1">
-                          Gizli ve kişiye özel gelen mühürlü mektupların ve arşivin.
+                          Gizli ve kişiye özel mektup sandığınız: Gelen ve giden nostaljik mektuplarınız.
                         </p>
+                      </div>
+
+                      {/* Gelen / Giden Alt Sekme Seçici (Segmented Control) */}
+                      <div className="flex bg-gray-105 p-1 rounded-xl border border-gray-200 self-start md:self-auto">
+                        <button
+                          onClick={() => setInboxSubTab('received')}
+                          className={`px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                            inboxSubTab === 'received'
+                              ? 'bg-rose-700 text-white shadow-sm'
+                              : 'text-gray-600 hover:text-gray-900'
+                          }`}
+                        >
+                          <span>📥 Gelen</span>
+                          <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                            inboxSubTab === 'received' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-700'
+                          }`}>
+                            {receivedCount}
+                          </span>
+                        </button>
+
+                        <button
+                          onClick={() => setInboxSubTab('sent')}
+                          className={`px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                            inboxSubTab === 'sent'
+                              ? 'bg-rose-700 text-white shadow-sm'
+                              : 'text-gray-600 hover:text-gray-900'
+                          }`}
+                        >
+                          <span>📤 Giden</span>
+                          <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                            inboxSubTab === 'sent' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-700'
+                          }`}>
+                            {sentCount}
+                          </span>
+                        </button>
                       </div>
                     </div>
 
-                    {deliveredLetters.length === 0 ? (
-                      <div className="rounded-2xl bg-gray-50 border border-gray-200 p-10 text-center space-y-4">
-                        <Mail className="w-14 h-14 text-gray-400 mx-auto opacity-60" />
-                        <h3 className="font-serif text-xl font-bold text-gray-800">Sandığın Henüz Boş</h3>
-                        <p className="text-xs sm:text-sm text-gray-500 font-typewriter max-w-sm mx-auto">
-                          Sana henüz ulaşan bir mektup yok. Mektup arkadaşlarına yazarak ilk mektubu gönderebilirsin!
-                        </p>
-                        <button
-                          onClick={() => setActiveTab('penpals')}
-                          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-rose-700 hover:bg-rose-800 text-white text-sm font-bold shadow-md transition cursor-pointer"
-                        >
-                          <span>🔍 İlk Mektup Arkadaşını Bul</span>
-                        </button>
-                      </div>
+                    {/* Mektupların Listelenmesi */}
+                    {inboxSubTab === 'received' ? (
+                      /* =========================================================
+                         GELEN MEKTUPLAR
+                         ========================================================= */
+                      receivedLetters.length === 0 ? (
+                        <div className="rounded-2xl bg-gray-50 border border-gray-200 p-10 text-center space-y-4">
+                          <Mail className="w-14 h-14 text-gray-400 mx-auto opacity-60" />
+                          <h3 className="font-serif text-xl font-bold text-gray-800">Gelen Kutun Henüz Boş</h3>
+                          <p className="text-xs sm:text-sm text-gray-500 font-typewriter max-w-sm mx-auto">
+                            Sana henüz ulaşan bir mektup yok. Mektup arkadaşlarına yazarak ilk mektubu gönderebilirsin!
+                          </p>
+                          <button
+                            onClick={() => setActiveTab('penpals')}
+                            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-rose-700 hover:bg-rose-800 text-white text-sm font-bold shadow-md transition cursor-pointer"
+                          >
+                            <span>🔍 İlk Mektup Arkadaşını Bul</span>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                          {receivedLetters.map(letter => {
+                            const isUnread = letter.status === 'delivered_unread';
+
+                            return (
+                              <div
+                                key={letter.id}
+                                onClick={() => openReaderModal(letter)}
+                                className={`group relative rounded-2xl p-6 border transition-all duration-300 cursor-pointer flex flex-col justify-between shadow-sm hover:shadow-md ${
+                                  isUnread
+                                    ? 'bg-gradient-to-b from-rose-50/90 to-amber-50/90 border-rose-300 hover:border-rose-400 ring-2 ring-rose-200'
+                                    : 'bg-white border-gray-200 hover:border-gray-300'
+                                }`}
+                              >
+                                <div className="flex items-start justify-between mb-4">
+                                  <div className="flex items-center gap-3">
+                                    <div
+                                      className={`w-11 h-11 rounded-full flex items-center justify-center font-serif font-bold text-white text-lg shadow-sm ${
+                                        isUnread ? 'bg-rose-700 animate-bounce' : 'bg-gray-800'
+                                      }`}
+                                    >
+                                      {letter.senderName[0]}
+                                    </div>
+                                    <div>
+                                      <h3 className="font-serif text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-rose-700 transition">
+                                        {letter.senderName} {letter.senderFlag}
+                                      </h3>
+                                      <p className="text-sm sm:text-base text-gray-500 font-typewriter">
+                                        {new Date(letter.deliveredAt || letter.sentAt).toLocaleDateString('tr-TR')}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/80 border border-amber-200 text-sm sm:text-base text-amber-900 font-typewriter font-bold">
+                                    <span>{letter.stampFlag}</span>
+                                    <span>{letter.stampName}</span>
+                                  </div>
+                                </div>
+
+                                <div className="mb-4">
+                                  <h4 className="font-serif text-lg sm:text-xl font-bold text-gray-900 mb-1">
+                                    {letter.subject}
+                                  </h4>
+                                  <p className="text-sm sm:text-base text-gray-700 font-typewriter line-clamp-2 leading-relaxed">
+                                    {letter.content}
+                                  </p>
+                                </div>
+
+                                <div className="pt-3 border-t border-gray-200/60 flex items-center justify-between text-sm sm:text-base">
+                                  {isUnread ? (
+                                    <div className="flex items-center gap-1.5 text-rose-700 font-typewriter font-extrabold">
+                                      <Lock className="w-4.5 h-4.5" />
+                                      <span>Balmumu Mühürü Kır & Oku</span>
+                                    </div>
+                                  ) : (
+                                    <div className="flex items-center gap-1.5 text-emerald-700 font-typewriter font-bold">
+                                      <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600" />
+                                      <span>Okundu & Arşivde</span>
+                                    </div>
+                                  )}
+
+                                  <span className="text-sm sm:text-base font-extrabold text-gray-800 group-hover:translate-x-1 transition font-typewriter">
+                                    Oku →
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )
                     ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        {deliveredLetters.map(letter => {
-                          const isUnread = letter.status === 'delivered_unread';
+                      /* =========================================================
+                         GİDEN MEKTUPLAR
+                         ========================================================= */
+                      sentLetters.length === 0 ? (
+                        <div className="rounded-2xl bg-gray-50 border border-gray-200 p-10 text-center space-y-4">
+                          <Send className="w-14 h-14 text-gray-400 mx-auto opacity-60" />
+                          <h3 className="font-serif text-xl font-bold text-gray-800">Gönderdiğin Mektup Yok</h3>
+                          <p className="text-xs sm:text-sm text-gray-500 font-typewriter max-w-sm mx-auto">
+                            Henüz kimseye mektup göndermemişsin. Mektup arkadaşı arayıp hemen bir mektup yazmaya başlayabilirsin!
+                          </p>
+                          <button
+                            onClick={() => setActiveTab('penpals')}
+                            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-rose-700 hover:bg-rose-800 text-white text-sm font-bold shadow-md transition cursor-pointer"
+                          >
+                            <span>🔍 Mektup Arkadaşı Ara & Yaz</span>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                          {sentLetters.map(letter => {
+                            const recipientProfile = penpals.find(p => p.id === letter.recipientId);
+                            const recFlag = recipientProfile?.flag || '🇹🇷';
 
-                          return (
-                            <div
-                              key={letter.id}
-                              onClick={() => openReaderModal(letter)}
-                              className={`group relative rounded-2xl p-6 border transition-all duration-300 cursor-pointer flex flex-col justify-between shadow-sm hover:shadow-md ${
-                                isUnread
-                                  ? 'bg-gradient-to-b from-rose-50/90 to-amber-50/90 border-rose-300 hover:border-rose-400 ring-2 ring-rose-200'
-                                  : 'bg-white border-gray-200 hover:border-gray-300'
-                              }`}
-                            >
-                              <div className="flex items-start justify-between mb-4">
-                                <div className="flex items-center gap-3">
-                                  <div
-                                    className={`w-11 h-11 rounded-full flex items-center justify-center font-serif font-bold text-white text-lg shadow-sm ${
-                                      isUnread ? 'bg-rose-700 animate-bounce' : 'bg-gray-800'
-                                    }`}
-                                  >
-                                    {letter.senderName[0]}
+                            return (
+                              <div
+                                key={letter.id}
+                                onClick={() => openReaderModal(letter)}
+                                className="group relative rounded-2xl p-6 border bg-white border-gray-200 hover:border-gray-300 transition-all duration-300 cursor-pointer flex flex-col justify-between shadow-sm hover:shadow-md"
+                              >
+                                <div className="flex items-start justify-between mb-4">
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-11 h-11 rounded-full flex items-center justify-center font-serif font-bold text-white text-lg shadow-sm bg-amber-800">
+                                      {letter.recipientName[0]}
+                                    </div>
+                                    <div>
+                                      <h3 className="font-serif text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-amber-800 transition">
+                                        Alıcı: {letter.recipientName} {recFlag}
+                                      </h3>
+                                      <p className="text-sm sm:text-base text-gray-500 font-typewriter">
+                                        Gönderildi: {new Date(letter.sentAt).toLocaleDateString('tr-TR')}
+                                      </p>
+                                    </div>
                                   </div>
-                                  <div>
-                                    <h3 className="font-serif text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-rose-700 transition">
-                                      {letter.senderName} {letter.senderFlag}
-                                    </h3>
-                                    <p className="text-sm sm:text-base text-gray-500 font-typewriter">
-                                      {new Date(letter.deliveredAt || letter.sentAt).toLocaleDateString('tr-TR')}
-                                    </p>
+
+                                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/80 border border-amber-200 text-sm sm:text-base text-amber-900 font-typewriter font-bold">
+                                    <span>{letter.stampFlag}</span>
+                                    <span>{letter.stampName}</span>
                                   </div>
                                 </div>
 
-                                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/80 border border-amber-200 text-sm sm:text-base text-amber-900 font-typewriter font-bold">
-                                  <span>{letter.stampFlag}</span>
-                                  <span>{letter.stampName}</span>
+                                <div className="mb-4">
+                                  <h4 className="font-serif text-lg sm:text-xl font-bold text-gray-900 mb-1">
+                                    {letter.subject}
+                                  </h4>
+                                  <p className="text-sm sm:text-base text-gray-700 font-typewriter line-clamp-2 leading-relaxed">
+                                    {letter.content}
+                                  </p>
                                 </div>
-                              </div>
 
-                              <div className="mb-4">
-                                <h4 className="font-serif text-lg sm:text-xl font-bold text-gray-900 mb-1">
-                                  {letter.subject}
-                                </h4>
-                                <p className="text-sm sm:text-base text-gray-700 font-typewriter line-clamp-2 leading-relaxed">
-                                  {letter.content}
-                                </p>
-                              </div>
-
-                              <div className="pt-3 border-t border-gray-200/60 flex items-center justify-between text-sm sm:text-base">
-                                {isUnread ? (
-                                  <div className="flex items-center gap-1.5 text-rose-700 font-typewriter font-extrabold">
-                                    <Lock className="w-4.5 h-4.5" />
-                                    <span>Balmumu Mühürü Kır & Oku</span>
-                                  </div>
-                                ) : (
+                                <div className="pt-3 border-t border-gray-200/60 flex items-center justify-between text-sm sm:text-base">
                                   <div className="flex items-center gap-1.5 text-emerald-700 font-typewriter font-bold">
                                     <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600" />
-                                    <span>Okundu & Arşivde</span>
+                                    <span>Gönderildi & Ulaştı</span>
                                   </div>
-                                )}
 
-                                <span className="text-sm sm:text-base font-extrabold text-gray-800 group-hover:translate-x-1 transition font-typewriter">
-                                  Oku →
-                                </span>
+                                  <span className="text-sm sm:text-base font-extrabold text-gray-800 group-hover:translate-x-1 transition font-typewriter">
+                                    Detayları Gör →
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
+                            );
+                          })}
+                        </div>
+                    ))}
                   </section>
                 )}
+
 
                 {/* Tab 2: Yoldaki Mektuplar */}
                 {activeTab === 'en_route' && <EnRouteSection letters={letters} />}
