@@ -15,6 +15,7 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
     openWriterModal,
     setIsProfileModalOpen,
     setIsAuthModalOpen,
+    setAuthModalTab,
     logout,
     isAdminViewMode,
     setIsAdminViewMode,
@@ -118,35 +119,33 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
                 {isAdminViewMode ? (
                   <>
                     <Eye className="w-5 h-5 text-emerald-400" />
-                    <span>👁️ Kullanıcı Gözüyle Bak</span>
+                    <span>Admin Paneli (Açık)</span>
                   </>
                 ) : (
                   <>
-                    <ShieldAlert className="w-5 h-5 text-rose-400" />
-                    <span>⚙️ Yönetici Moduna Dön</span>
+                    <ShieldAlert className="w-5 h-5 text-rose-400 animate-bounce" />
+                    <span>Normal Üye Görünümü</span>
                   </>
                 )}
               </button>
             )}
 
-            {/* Auth Buttons */}
+            {/* Profile / Login Controls */}
             {user.isLoggedIn ? (
               <div className="flex items-center gap-3">
-                {!user.isAdmin && (
-                  <button
-                    onClick={() => setIsProfileModalOpen(true)}
-                    className="flex items-center gap-2.5 px-4.5 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 border border-gray-250 text-gray-805 text-sm sm:text-base font-bold transition cursor-pointer"
+                <button
+                  onClick={() => setIsProfileModalOpen(true)}
+                  className="px-6 py-3.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-955 border-2 border-amber-200 text-sm sm:text-base font-extrabold shadow transition active:scale-95 cursor-pointer flex items-center gap-2"
+                >
+                  <div
+                    className="w-5 h-5 rounded-full border border-amber-450 flex items-center justify-center font-serif text-xs font-bold text-white"
+                    style={{ backgroundColor: user.avatarColor }}
                   >
-                    <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs text-white"
-                      style={{ backgroundColor: user.avatarColor }}
-                    >
-                      {user.pseudonym[0]}
-                    </div>
-                    <span className="hidden md:inline font-typewriter">{user.pseudonym}</span>
-                  </button>
-                )}
-
+                    {user.pseudonym[0]}
+                  </div>
+                  <span>Profilimi Düzenle</span>
+                </button>
+                
                 <button
                   onClick={logout}
                   title="Çıkış Yap"
@@ -157,7 +156,7 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
               </div>
             ) : (
               <button
-                onClick={() => setIsAuthModalOpen(true)}
+                onClick={() => { setAuthModalTab('login'); setIsAuthModalOpen(true); }}
                 className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-sm sm:text-base font-extrabold shadow-lg transition active:scale-95 cursor-pointer"
               >
                 <LogIn className="w-5 h-5" />
@@ -170,6 +169,7 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
               <button
                 onClick={() => {
                   if (!user.isLoggedIn) {
+                    setAuthModalTab('login');
                     setIsAuthModalOpen(true);
                   } else {
                     openWriterModal();

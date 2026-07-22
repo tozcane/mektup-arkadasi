@@ -5,8 +5,7 @@ import { useDMA } from '@/context/DMAContext';
 import { X, Lock, Mail, User, ShieldCheck, Phone, MapPin, KeyRound, Sparkles, Check } from 'lucide-react';
 
 export const AuthModal: React.FC = () => {
-  const { isAuthModalOpen, setIsAuthModalOpen, login, register } = useDMA();
-  const [mode, setMode] = useState<'register' | 'login'>('register');
+  const { isAuthModalOpen, setIsAuthModalOpen, login, register, authModalTab, setAuthModalTab } = useDMA();
 
   // Form states
   const [firstName, setFirstName] = useState('');
@@ -172,9 +171,9 @@ export const AuthModal: React.FC = () => {
         {/* Tab Selection */}
         <div className="flex border-b border-gray-200 bg-gray-50 text-lg font-extrabold">
           <button
-            onClick={() => { setMode('register'); setError(''); setIsSubmittedAttempt(false); setGender(''); }}
+            onClick={() => { setAuthModalTab('register'); setError(''); setIsSubmittedAttempt(false); setGender(''); }}
             className={`flex-1 py-4 text-center transition border-b-2 cursor-pointer ${
-              mode === 'register'
+              authModalTab === 'register'
                 ? 'border-rose-700 text-rose-750 bg-white'
                 : 'border-transparent text-gray-650 hover:text-gray-900'
             }`}
@@ -183,9 +182,9 @@ export const AuthModal: React.FC = () => {
           </button>
 
           <button
-            onClick={() => { setMode('login'); setError(''); setIsSubmittedAttempt(false); setGender(''); }}
+            onClick={() => { setAuthModalTab('login'); setError(''); setIsSubmittedAttempt(false); setGender(''); }}
             className={`flex-1 py-4 text-center transition border-b-2 cursor-pointer ${
-              mode === 'login'
+              authModalTab === 'login'
                 ? 'border-rose-700 text-rose-750 bg-white'
                 : 'border-transparent text-gray-650 hover:text-gray-900'
             }`}
@@ -202,7 +201,7 @@ export const AuthModal: React.FC = () => {
             </div>
           )}
 
-          {mode === 'register' ? (
+          {authModalTab === 'register' ? (
             /* =========================================================
                ÜYE KAYIT FORMU (Büyütüldü - Onay Kodu Gönderme & Kutusu Dahil)
                ========================================================= */

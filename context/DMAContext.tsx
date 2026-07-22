@@ -16,6 +16,8 @@ interface DMAContextType {
   // Authentication State & Actions
   isAuthModalOpen: boolean;
   setIsAuthModalOpen: (open: boolean) => void;
+  authModalTab: 'login' | 'register';
+  setAuthModalTab: (tab: 'login' | 'register') => void;
   login: (pseudonymOrEmail: string, password?: string) => boolean;
   register: (params: {
     pseudonym: string;
@@ -77,6 +79,7 @@ export const DMAProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [stamps, setStamps] = useState<Stamp[]>(STAMPS);
   
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+  const [authModalTab, setAuthModalTab] = useState<'login' | 'register'>('register');
   const [writingRecipient, setWritingRecipient] = useState<PenPalProfile | null>(null);
   const [isWritingOpen, setIsWritingOpen] = useState(false);
   const [readingLetter, setReadingLetter] = useState<Letter | null>(null);
@@ -417,6 +420,8 @@ SessizLiman`,
         stamps,
         isAuthModalOpen,
         setIsAuthModalOpen,
+        authModalTab,
+        setAuthModalTab,
         login,
         register,
         logout,
