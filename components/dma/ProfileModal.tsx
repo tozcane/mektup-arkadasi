@@ -123,44 +123,19 @@ export const ProfileModal: React.FC = () => {
             </div>
           </div>
 
-          {/* Cinsiyet Seçimi (3 Seçenekli) */}
+          {/* Cinsiyet Seçimi (Açılır Menü / Dropdown) */}
           <div>
             <label className="block text-gray-900 font-bold mb-2 text-base">Cinsiyetim</label>
-            <div className="grid grid-cols-3 gap-2.5">
-              <button
-                type="button"
-                onClick={() => setGender('Kadın')}
-                className={`py-3.5 rounded-xl border-2 font-bold text-xs sm:text-sm cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
-                  gender === 'Kadın'
-                    ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
-                    : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                👩 Kadın
-              </button>
-              <button
-                type="button"
-                onClick={() => setGender('Erkek')}
-                className={`py-3.5 rounded-xl border-2 font-bold text-xs sm:text-sm cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
-                  gender === 'Erkek'
-                    ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
-                    : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                👨 Erkek
-              </button>
-              <button
-                type="button"
-                onClick={() => setGender('Belirtmek İstemiyorum')}
-                className={`py-3.5 rounded-xl border-2 font-bold text-[10px] sm:text-xs leading-tight cursor-pointer transition-all flex items-center justify-center gap-1.5 text-center ${
-                  gender === 'Belirtmek İstemiyorum'
-                    ? 'bg-rose-50 border-rose-700 text-rose-800 ring-2 ring-rose-200'
-                    : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                👤 Belirtme
-              </button>
-            </div>
+            <select
+              value={gender}
+              onChange={e => setGender(e.target.value as any)}
+              className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-rose-700 text-base font-medium cursor-pointer"
+            >
+              <option value="" disabled>Cinsiyetinizi Seçin</option>
+              <option value="Kadın">👩 Kadın</option>
+              <option value="Erkek">👨 Erkek</option>
+              <option value="Belirtmek İstemiyorum">👤 Belirtmek İstemiyorum</option>
+            </select>
           </div>
 
           <div>
