@@ -45,6 +45,7 @@ export const AuthModal: React.FC = () => {
     setGeneratedCode(code);
     setIsCodeSent(true);
     setError('');
+    console.log("📬 [Mektup Arkadaşı] Üyelik Onay Kodunuz:", code);
 
     try {
       const res = await fetch('/api/send-code', {
