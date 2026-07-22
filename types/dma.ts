@@ -61,7 +61,7 @@ export interface Letter {
   isReplied?: boolean;
 }
 
-export type ActiveTab = 'inbox' | 'en_route' | 'penpals' | 'stamps';
+export type ActiveTab = 'inbox' | 'en_route' | 'penpals';
 
 export interface UserProfile {
   id: string;

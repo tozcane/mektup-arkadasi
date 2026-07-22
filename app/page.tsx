@@ -7,7 +7,7 @@ import { PenPalCard } from '@/components/dma/PenPalCard';
 import { LetterWriterModal } from '@/components/dma/LetterWriterModal';
 import { LetterReaderModal } from '@/components/dma/LetterReaderModal';
 import { EnRouteSection } from '@/components/dma/EnRouteSection';
-import { StampAlbum } from '@/components/dma/StampAlbum';
+
 import { ProfileModal } from '@/components/dma/ProfileModal';
 import { AuthModal } from '@/components/dma/AuthModal';
 import { Mail, Search, Sparkles, Feather, Lock, CheckCircle2, ShieldCheck, LogIn, Compass, Stamp as StampIcon, Table, Send, ArrowLeft } from 'lucide-react';
@@ -1026,8 +1026,7 @@ function MainContent() {
                   </section>
                 )}
 
-                {/* Tab 4: Pul Albümü */}
-                {activeTab === 'stamps' && <StampAlbum />}
+
 
               </div>
             )}

@@ -42,11 +42,6 @@ export const Navbar: React.FC<{ onAutoAssignPenPal: () => void }> = ({ onAutoAss
       label: 'Tüm Mektup Arkadaşları',
       icon: <Compass className="w-5 h-5" />,
     },
-    {
-      id: 'stamps',
-      label: 'Pul Albümü',
-      icon: <StampIcon className="w-5 h-5" />,
-    },
   ];
 
   const showNavTabs = user.isLoggedIn && (!user.isAdmin || !isAdminViewMode);
