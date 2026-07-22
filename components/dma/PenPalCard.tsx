@@ -10,7 +10,7 @@ interface PenPalCardProps {
 }
 
 export const PenPalCard: React.FC<PenPalCardProps> = ({ profile }) => {
-  const { openWriterModal } = useDMA();
+  const { openWriterModal, hasReachedLetterLimit } = useDMA();
 
   return (
     <div className="group relative rounded-2xl bg-white border border-gray-200 hover:border-rose-400 p-5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden">
@@ -18,35 +18,36 @@ export const PenPalCard: React.FC<PenPalCardProps> = ({ profile }) => {
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-600 via-amber-500 to-rose-600" />
 
       {/* Stamp Flag on Top Right */}
-      <div className="absolute top-3.5 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-xs text-amber-900 font-typewriter font-bold shadow-sm">
-        <span className="text-base">{profile.flag}</span>
+      <div className="absolute top-4 right-4 flex items-center gap-1 bg-gray-50 border border-gray-200 px-2 py-0.5 rounded text-xs text-gray-700 font-bold font-typewriter">
+        <span>{profile.flag}</span>
         <span>{profile.country}</span>
       </div>
 
-      <div>
-        {/* Avatar & Pseudonym */}
-        <div className="flex items-center gap-3 mb-4 mt-1">
+      <div className="space-y-4">
+        {/* Profile Info */}
+        <div className="flex items-center gap-3.5">
           <div
-            className="w-12 h-12 rounded-full border-2 border-amber-300 flex items-center justify-center font-serif text-xl font-bold text-white shadow-sm"
+            className="w-12 h-12 rounded-full flex items-center justify-center font-serif text-xl font-bold text-white shadow-sm"
             style={{ backgroundColor: profile.avatarStyle }}
           >
             {profile.pseudonym[0]}
           </div>
           <div>
-            <h3 className="font-serif text-lg font-bold text-gray-900 group-hover:text-rose-700 transition">
-              {profile.pseudonym}
+            <h3 className="font-serif text-lg font-bold text-gray-900 group-hover:text-rose-700 transition flex items-center gap-1.5">
+              <span>{profile.pseudonym}</span>
+              <span className="text-xs px-1.5 py-0.5 rounded-full bg-gray-150 text-gray-800 text-[10px] font-sans">
+                {profile.gender}
+              </span>
             </h3>
-            <p className="text-xs text-gray-500 font-typewriter">
-              {profile.gender ? `${profile.gender}, ` : ''}{profile.age} yaşında
+            <p className="text-xs text-gray-500 flex items-center gap-1 font-typewriter">
+              <MapPin className="w-3.5 h-3.5 text-gray-400" />
+              <span>{profile.distanceKm} km uzakta</span>
             </p>
           </div>
         </div>
 
-        {/* Title & Bio */}
-        <div className="mb-4">
-          <p className="text-xs font-bold text-amber-800 mb-1 italic font-serif">
-            "{profile.title}"
-          </p>
+        {/* Bio */}
+        <div>
           <p className="text-xs text-gray-600 leading-relaxed line-clamp-3 font-sans">
             {profile.bio}
           </p>
@@ -80,10 +81,15 @@ export const PenPalCard: React.FC<PenPalCardProps> = ({ profile }) => {
 
         <button
           onClick={() => openWriterModal(profile)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-700 hover:bg-rose-800 text-white font-bold text-xs transition active:scale-95 shadow-sm"
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-xs transition active:scale-95 shadow-sm cursor-pointer ${
+            hasReachedLetterLimit
+              ? 'bg-gray-400 hover:bg-gray-500 text-white'
+              : 'bg-rose-700 hover:bg-rose-800 text-white'
+          }`}
+          title={hasReachedLetterLimit ? 'Posta çantanız dolu! Aynı anda en fazla 2 mektubunuz yolda olabilir.' : undefined}
         >
           <PenTool className="w-3.5 h-3.5" />
-          <span>Mektup Yaz</span>
+          <span>{hasReachedLetterLimit ? 'Limit Doldu' : 'Mektup Yaz'}</span>
         </button>
       </div>
     </div>

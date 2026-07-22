@@ -52,6 +52,7 @@ interface DMAContextType {
   
   isProfileModalOpen: boolean;
   setIsProfileModalOpen: (open: boolean) => void;
+  hasReachedLetterLimit: boolean;
 
   // Actions
   sendLetter: (params: {
@@ -407,6 +408,8 @@ SessizLiman`,
   const toggleAudio = () => {
     setIsAudioPlaying(prev => !prev);
   };
+  const outgoingEnRouteCount = letters.filter(l => l.senderId === user.id && l.status === 'en_route').length;
+  const hasReachedLetterLimit = outgoingEnRouteCount >= 2;
 
   return (
     <DMAContext.Provider
@@ -415,6 +418,7 @@ SessizLiman`,
         setActiveTab,
         user,
         updateUser,
+        hasReachedLetterLimit,
         penpals,
         letters,
         stamps,
