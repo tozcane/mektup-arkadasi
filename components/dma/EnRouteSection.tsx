@@ -10,8 +10,10 @@ interface EnRouteSectionProps {
 }
 
 export const EnRouteSection: React.FC<EnRouteSectionProps> = ({ letters }) => {
-  const { openReaderModal } = useDMA();
-  const enRouteLetters = letters.filter(l => l.status === 'en_route');
+  const { openReaderModal, user } = useDMA();
+  const enRouteLetters = letters.filter(
+    l => l.status === 'en_route' && (l.senderId === user.id || l.recipientId === user.id)
+  );
 
   if (enRouteLetters.length === 0) {
     return (
@@ -53,6 +55,9 @@ export const EnRouteSection: React.FC<EnRouteSectionProps> = ({ letters }) => {
 };
 
 const EnRouteCard: React.FC<{ letter: Letter }> = ({ letter }) => {
+  const { user } = useDMA();
+  const isOutgoing = letter.senderId === user.id;
+
   const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number; progress: number }>({
     hours: 0,
     minutes: 0,
@@ -86,14 +91,31 @@ const EnRouteCard: React.FC<{ letter: Letter }> = ({ letter }) => {
 
   return (
     <div className="rounded-2xl bg-white border border-gray-200 p-6 shadow-md relative overflow-hidden space-y-4">
+      {/* Top Banner Tag Indicator */}
+      <div className="flex items-center justify-between pb-1 border-b border-gray-50">
+        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-typewriter shadow-sm border ${
+          isOutgoing
+            ? 'bg-amber-50 border-amber-250 text-amber-900'
+            : 'bg-rose-50 border-rose-250 text-rose-900 ring-2 ring-rose-100/50'
+        }`}>
+          {isOutgoing ? '📤 Giden Mektubun' : '📥 Gelen Mektubun'}
+        </span>
+        
+        <span className="text-[10px] text-gray-500 font-typewriter font-medium">
+          {isOutgoing 
+            ? `${letter.recipientName} alıcısına doğru gidiyor` 
+            : `${letter.senderName} sana gönderdi, geliyor`}
+        </span>
+      </div>
+
       {/* Flight / Pigeon Trail Background Effect */}
-      <div className="flex items-center justify-between text-xs sm:text-sm text-gray-600 font-typewriter font-bold">
+      <div className="flex items-center justify-between text-xs sm:text-sm text-gray-605 font-typewriter font-bold pt-1">
         <div className="flex items-center gap-1.5">
           <MapPin className="w-4 h-4 text-rose-700" />
-          <span>{letter.senderName} ({letter.senderFlag})</span>
+          <span>{letter.senderName} ({letter.senderFlag}) {letter.senderId === user.id ? '(Sen)' : ''}</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span>{letter.recipientName}</span>
+          <span>{letter.recipientName} {letter.recipientId === user.id ? '(Sen)' : ''}</span>
           <MapPin className="w-4 h-4 text-rose-700" />
         </div>
       </div>
@@ -110,7 +132,7 @@ const EnRouteCard: React.FC<{ letter: Letter }> = ({ letter }) => {
 
       {/* Progress Travel Bar */}
       <div className="relative py-2.5">
-        <div className="h-2.5 w-full rounded-full bg-gray-100 border border-gray-200 overflow-hidden">
+        <div className="h-2.5 w-full rounded-full bg-gray-105 border border-gray-200 overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-rose-700 via-rose-500 to-amber-500 transition-all duration-500"
             style={{ width: `${timeLeft.progress}%` }}
@@ -123,7 +145,7 @@ const EnRouteCard: React.FC<{ letter: Letter }> = ({ letter }) => {
           style={{ left: `${Math.max(5, Math.min(95, timeLeft.progress))}%` }}
         >
           <div className="w-7 h-7 rounded-full bg-rose-700 text-white flex items-center justify-center shadow-lg animate-bounce">
-            <Plane className="w-4 h-4 transform rotate-45" />
+            <Plane className={`w-4 h-4 transform ${isOutgoing ? 'rotate-45' : '-rotate-135 scale-y-[-1]'}`} />
           </div>
         </div>
       </div>

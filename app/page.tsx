@@ -97,7 +97,7 @@ function MainContent() {
   // Stats calculations for logged-in user dashboard
   const receivedCount = letters.filter(l => l.recipientId === user.id && l.status !== 'en_route').length;
   const sentCount = letters.filter(l => l.senderId === user.id).length;
-  const transitCount = letters.filter(l => l.status === 'en_route').length;
+  const transitCount = letters.filter(l => l.status === 'en_route' && (l.senderId === user.id || l.recipientId === user.id)).length;
 
   // Filter letters for the clicked/selected user in admin view
   const userLetters = selectedUserForLetters
